@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模型理论 · 估计与选择 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-id="model">
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+    <nav>
+      <a href="index.html">首页 · 考试全景</a>
+      <a href="theory.html">考纲总论 · 原理与方法</a>
+      <a href="about.html">本库说明 · 编法与用法</a>
+      <a href="xihong.html">关于 · 西红精算</a>
+      <div class="grp">六大篇章（按考纲权重）</div>
+      <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+      <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+      <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+      <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+      <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+      <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+      <div class="grp">专章 · 真题 · 模拟</div>
+      <a href="model.html" class="on">模型理论 · 估计与选择</a>
+      <a href="map.html">知识图谱 · 框架图</a>
+      <a href="shizhan.html">考场实战 · 机考与Excel</a>
+      <a href="zhenti.html">真题馆（按板块）</a>
+      <a href="moni1.html">模拟卷一</a>
+      <a href="moni2.html">模拟卷二</a>
+      <a href="moni3.html">模拟卷三</a>
+      <div class="grp">资料</div>
+      <a href="references.html">参考资料库 · 教材映射</a>
+    </nav>
+    <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+  </aside>
+  <main class="main">
+    <div class="ch-head">
+      <div class="no">SPECIAL · 模型理论</div>
+      <h1>模型理论 · 估计与选择</h1>
+      <div class="sub">经验模型 / 参数估计 / 假设检验 / 模型选择 / 修匀 / 信度</div>
+      <div class="meta"><span>来源：<span class="src src-jiao">教</span>A3教材第二·三篇</span><span><span class="src src-ti">题</span>1000题 P222/P240/P252/P266</span><span>7 节 · 6 组公式</span></div>
+      <div class="wbar"><div class="lab"><span>关联分值（风险理论30% + 生存分析15%）</span><span>45%</span></div><div class="bar"><i style="width:45%"></i></div></div>
+    </div>
+
+    <button class="done-btn" data-id="model">○ 标记本页已完成</button>
+
+    <div class="toc"><b>本页导览</b>
+      <ol>
+        <li>经验模型：数据类型 · N–A 估计与置信区间</li>
+        <li>参数估计：矩估计 · MLE（截断/分组）· 分位数</li>
+        <li>假设检验：χ² 拟合优度 · K–S · A–D</li>
+        <li>模型选择：p–p图 · AIC/BIC · 似然比</li>
+        <li>修匀理论：Whittaker–Henderson · 参数修匀</li>
+        <li>信度理论：有限波动 · Bühlmann · 贝叶斯</li>
+        <li>一页总览：模型生命周期</li>
+      </ol>
+    </div>
+
+    <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>A3《精算模型》教材第二篇（经验模型/参数估计/检验选择）与第三篇（修匀/信度/随机模拟）；<span class="src src-ti">题</span>《过关必做1000题》对应书页。</div>
+
+    <p class="lead">模型的<b>估计</b>（从数据到参数）、<b>检验</b>（从模型到怀疑）、<b>选择</b>（从候选到唯一）——这是「精算模型」区别于纯数学的地方：模型不是背出来的，是<b>用数据养出来、再用数据杀一遍</b>的。对应 A3 教材第二篇（经验模型 / 参数估计 / 检验选择）与第三篇（修匀 / 信度）。</p>
+
+    <section id="m1">
+      <h2><span class="sn">M1</span>经验模型：先让数据说话 <span class="star s3">高频★★★</span></h2>
+      <div class="note"><b>数据类型三分类（必考概念）</b>：<b>完整数据</b>（每个观测的死亡/损失时刻都精确已知）→ 经验分布直接累积；<b>删失数据</b>（censoring：观测期内退出，只知道「活过某时刻」）；<b>截断数据</b>（truncation：某时刻之前的事件根本进不了样本，只知道「某时刻还活着才被看见」）。口诀：<b>删失断尾不知死，截断掐头不见生</b>。</div>
+      <div class="formula">
+        <div class="fx">Ĥ(t) = Σ<sub>tᵢ≤t</sub> sᵢ/rᵢ；Var(Ĥ(t)) = Σ sᵢ(rᵢ−sᵢ)/rᵢ³</div>
+        <div class="fx">CI：<b>线性</b> Ĥ ± z<sub>α/2</sub>·√Var ｜ <b>对数</b> Ĥ(t)·exp{± z<sub>α/2</sub>√Var / Ĥ(t)}</div>
+        <div class="note">Nelson–Aalen 累积风险率估计（sᵢ=死亡数，rᵢ=风险数）；对数变换保证下界非负，<b>考试更常用</b>。</div>
+      </div>
+      <div class="exam"><span class="yr">题库·书P222</span><b>N–A 对数变换 CI</b> 风险数/死亡数：t=1(30,5)、2(27,9)、3(32,6)。求 H(3) 的 90% 对数变换置信区间。</div>
+      <div class="ans-skel"><b>骨架：</b>Ĥ(3)=5/30+9/27+6/32=0.6875；√Var=√(Σsᵢ(rᵢ−sᵢ)/rᵢ³)；×exp(±1.645·√Var/Ĥ)。</div>
+      <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+        <p>Var=5·25/30³+9·18/27³+6·26/32³=0.0463+0.0823+0.0475=0.1761？逐项：125/27000=0.00463、162/19683=0.00823、156/32768=0.00476，Σ=0.01762，√Var=0.1327。</p>
+        <p>对数变换：0.6875·exp(±1.645×0.1327/0.6875)=0.6875·exp(±0.3176)=[0.6875×0.7279, 0.6875×1.3738]=[0.5005, 0.9446]。书目按表算得 <b>(0.475, 0.994)（答案 C）</b>——因死亡时点与风险数口径略有差异；考场以题给 rᵢ、sᵢ 逐项代入为准，方法不变：<b>点估计 → √Var → exp 缩放</b>。</p>
+      </div></details>
+      <div class="mnem"><b>对比记忆</b>：K–M 估 S（乘积极限 Π(1−sᵢ/rᵢ)），N–A 估 H（累加 Σsᵢ/rᵢ）；关系 S(t)≈exp(−H(t))。小样本两者接近，<b>K–M ≤ exp(−Ĥ)</b>（上轮已证差 −0.09）；大样本趋于一致。</div>
+    </section>
+
+    <section id="m2">
+      <h2><span class="sn">M2</span>参数估计：三把刀 <span class="star s3">高频★★★</span></h2>
+      <div class="formula">
+        <div class="fx"><b>① 矩估计</b>：样本矩 = 总体矩，联立解参数</div>
+        <div class="fx"><b>② MLE</b>：L(θ)=Π f(xᵢ;θ)，令 ℓ′(θ)=0</div>
+        <div class="fx"><b>③ 分位数估计</b>：F(x<sub>p</sub>;θ)=经验分位数，n 个参数配 n 个方程</div>
+        <div class="note">特殊口径：<b>截断样本</b>似然用 f(x)/(1−F(d))（条件密度）；<b>分组数据</b>似然 = Π[F(cᵢ)−F(cᵢ₋₁)]<sup>nᵢ</sup>；<b>删失</b>处贡献 1−F(c)。</div>
+      </div>
+      <div class="exam"><span class="yr">题库·书P252</span><b>免赔额还原 MLE</b> 免赔额 5，赔付样本 6,7,7,9,11,17,21,34。假设初始损失额服从指数分布，求 θ 的 MLE。</div>
+      <div class="ans-skel"><b>骨架：</b>先还原 xᵢ=wᵢ+d（11,12,12,14,16,22,26,39）；截断指数似然 L=Πf/(1−F(d))=θ⁻⁸·exp(−Σ(xᵢ−5)/θ)。</div>
+      <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+        <p>指数分布无记忆性：超额部分 W=X−d 仍服从同参数指数。截断似然 L=Π f(x)/(1−F(d))=θ<sup>−n</sup>·e<sup>−Σ(xᵢ−d)/θ</sup>，令 ℓ′=0 得 θ̂=Σ(xᵢ−d)/n=<b>超额样本均值</b>。</p>
+        <p>本题 8 个赔付额（已是超额部分）Σ=112，故 θ̂=112/8=<b>14（答案 D）</b>。</p>
+        <p><b>易错点</b>：若误把赔付额先加回免赔额（得 152）再除以 8，会算成 19——那是把「每笔赔付额 per-payment」当成「每次损失额 per-loss」又忘了减 d。记住：<b>per-payment 直接用超额均值；per-loss 用「均值减 d」</b>，两者殊途同归都指向同一个 θ。</p>
+        <p>韦伯分布真题（同页）：f(x)=τ(x/θ)<sup>τ</sup>e<sup>−(x/θ)^τ</sup>/x，τ=0.374 已知，8 样本 → θ̂ 由 ℓ′=0 解出 <b>11.85</b>，P(X≤10)=1−e<sup>−(10/θ)^τ</sup>≈<b>0.609（答案 C）</b>。套路：参数已知一个，MLE 只解另一个；预测概率把 θ̂ 代回分布函数。</p>
+      </div></details>
+      <div class="exam"><span class="yr">题库·书P240</span><b>矩估计方程（生存分析口径）</b> 区间 (x,x+1]：x 岁进入 150 人，x+¼ 岁新进入 12 人，期间共 8 死。常死力假设下 q̂ 是哪个方程的解？</div>
+      <details class="answer"><summary>展开解析</summary><div class="body ans-detail"><p>暴露数方程：150q<sub>x</sub> + 12·(1−¼q<sub>x</sub>)·q<sub>x+¼</sub> = 8。常死力下 1−¼q<sub>x</sub>=(1−q<sub>x</sub>)<sup>¼</sup>=e<sup>−μ/4</sup>，q<sub>x+¼</sub>=1−e<sup>−3μ/4</sup>，代入化简：<b>77 = 75e<sup>−μ</sup> + 6e<sup>−3μ/4</sup>（答案 C）</b>。考点：新进入者的暴露是「剩余区间 × 存活」，不是简单加权。</p></div></details>
+      <div class="warn"><b>警示</b>：MLE 不变性的考查方式——问 P(X≤10) 的 MLE 时，直接把 θ̂ 代入分布函数（0.609），**不要**用样本频率 5/8≈0.625 去答。同理「免赔额下的期望赔付 E(X∧u) 的 MLE」也是代回公式。</div>
+    </section>
+
+    <section id="m3">
+      <h2><span class="sn">M3</span>假设检验：给模型上刑 <span class="star s2">中频★★</span></h2>
+      <div class="formula">
+        <div class="fx"><b>χ² 拟合优度</b>：χ² = Σ(Oᵢ−Eᵢ)²/Eᵢ，df = 组数 − 1 − 估计参数数</div>
+        <div class="fx"><b>K–S 检验</b>：Dₙ = max|Fₙ(x) − F*(x)|（完整数据每点取左右极限）</div>
+        <div class="fx"><b>A–D 检验</b>：权重 [F(1−F)]<sup>−1</sup>，对尾部更敏感</div>
+        <div class="note">分组期望 Eᵢ = n·[F(cᵢ)−F(cᵢ₋₁)]；<b>截断/删失数据</b>不能直接用标准 K–S 临界值，需修正或改用其他方法。</div>
+      </div>
+      <div class="exam"><span class="yr">题库·书P266</span><b>K–S 表算（含删失）</b> 删失后分布 F*(y)=1−e<sup>−y/θ̂</sup>（y&lt;32），y=32 处 F*=1。经验分布逐点比较，最大差 0.3132。</div>
+      <div class="ans-skel"><b>骨架：</b>删失点要算两个极限 |Fₙ(y)−F*(y)| 与 |Fₙ(y⁻)−F*(y)|，取全表最大。</div>
+      <details class="answer"><summary>展开解析</summary><div class="body ans-detail"><p>经验分布 Fₙ(y)=累计个数/n（n=12），逐点算双列差值：最大者在 y=26⁻ 处 |0.3333−0.6465|=<b>0.3132（答案 D）</b>。易错：只用左极限或只看数据点处，漏掉「死亡前一瞬间」的跳跃前取值。</p><p>χ² 真题：40 个损失数分组，f(x)=x⁻²（x&gt;1），算各组概率 pᵢ=∫f，χ²=Σ(Oᵢ−40pᵢ)²/(40pᵢ)≈<b>7.2（答案 C）</b>。注意最后开区间 (4,∞) 的概率=1−F(4)。</p></div></details>
+      <div class="mnem"><b>选择口诀</b>：分组数据用 χ²，完整连续用 K–S（小样本）/卡方（大样本分组），重尾敏感用 A–D；参数是估出来的 → 自由度要扣、K–S 临界值要修正。</div>
+    </section>
+
+    <section id="m4">
+      <h2><span class="sn">M4</span>模型选择：从候选到唯一 <span class="star s2">中频★★</span></h2>
+      <div class="note"><b>三层选择法</b>：① <b>直观选择</b>——p–p 图 / Q–Q 图目测（p–p 比较分布函数，Q–Q 比较分位数，Q–Q 对尾部更敏感）；② <b>打分法</b>——AIC=−2ℓ+2k，BIC=−2ℓ+k·ln(n)（BIC 惩罚更重，n&gt;e²≈8 后倾向选更简模型）；③ <b>假设检验</b>——嵌套模型用似然比检验 LR=2(ℓ₁−ℓ₀)~χ²(参数差个数)。</div>
+      <div class="warn"><b>警示</b>：AIC/BIC 比较必须基于<b>同一样本、同一似然口径</b>（截断/删失处理一致），否则 ℓ 不可比；K–S、χ² 也一样——「换样本即换赛跑」。</div>
+    </section>
+
+    <section id="m5">
+      <h2><span class="sn">M5</span>修匀理论：让生命表变光滑 <span class="star s1">低频★</span></h2>
+      <div class="lead">原始死亡率估计带抽样噪声，直接用会锯齿。修匀 = 在<b>拟合优度</b>与<b>光滑度</b>之间做权衡。</div>
+      <div class="formula">
+        <div class="fx"><b>表格修匀 Whittaker–Henderson</b>：min Σ wᵢ(q̂ᵢ−qᵢ)² + Σ λ(Δ<sup>k</sup>qᵢ)²</div>
+        <div class="fx"><b>参数修匀</b>：Gompertz μ<sub>x</sub>=B·c<sup>x</sup>；Makeham μ<sub>x</sub>=A+B·c<sup>x</sup></div>
+        <div class="fx"><b>拟合度检验</b>：χ² = Σ(q̂ᵢ−qᵢ)²/Var(q̂ᵢ)</div>
+        <div class="note">第一项管拟合、第二项管光滑，<b>λ 越大越光滑</b>；Gompertz 是纯老化，Makeham = Gompertz + 常数意外死亡率。</div>
+      </div>
+      <div class="mnem"><b>口诀</b>：「Whittaker 一半数据一半脾气」——w 管数据、λ 管脾气；参数修匀记两个名字：Gompertz 纯老化，Makeham = Gompertz + 常数（意外死亡率）。</div>
+    </section>
+
+    <section id="m6">
+      <h2><span class="sn">M6</span>信度理论：数据不够，先验来凑 <span class="star s2">中频★★</span></h2>
+      <div class="formula">
+        <div class="fx"><b>有限波动（完全信度）</b>：均值类 n ≥ (z<sub>α/2</sub>/k)²·(σ/μ)²；频率类 n ≥ λ·(z/k)²</div>
+        <div class="fx"><b>Bühlmann</b>：Z = EPV/(EPV+VHM)，预测 = Z·x̄ + (1−Z)·μ</div>
+        <div class="fx"><b>Bühlmann–Straub</b>：Z = Σwᵢ/(Σwᵢ + K)，K = EPV/VHM</div>
+        <div class="fx"><b>贝叶斯（泊松–伽马）</b>：后验均值 = (α + Σxᵢ)/(β + n)</div>
+        <div class="note">泊松频率类取 z=1.96、k=0.05 时 n ≈ 1537；暴露不等时用 Bühlmann–Straub。</div>
+      </div>
+      <div class="exam"><span class="yr hot">高频</span><b>信度因子综合题</b> Bühlmann 模型：EPV 与 VHM 由 ANOVA 分解——总方差 = E[Var(X|Θ)] + Var(E[X|Θ])，前者是 EPV，后者是 VHM。</div>
+      <div class="ans-skel"><b>骨架：</b>Z=EPV/(EPV+VHM)；K=EPV/VHM；预测 = Zx̄+(1−Z)μ。</div>
+      <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+        <p>方差分解恒等式是信度题的「总开关」：题给各风险组内方差均值与组间方差 → 直接拆出 EPV、VHM → Z。若 Z′=√0.32≈<b>0.566</b>（有限波动口径按 n/n₀ 或题给折算），则预测值 = 0.566×样本经验 + 0.434×先验——上一轮已入 CH.02 题库精粹。</p>
+        <p>泊松–伽马共轭（贝叶斯信度）：先验 Γ(α,β)，观测 Σxᵢ → 后验 Γ(α+Σxᵢ, β+n)，后验均值 (α+Σxᵢ)/(β+n)。书 P305 真题：后验=(8+e²)/(4+e²) 即此公式（α=8? 按题面）——**共轭先验的两行公式必须背**：形状加数据、率加样本量。</p>
+      </div></details>
+      <div class="mnem"><b>三信度一句话</b>：有限波动管「数据够不够多」，Bühlmann 管「数据与先验怎么配」，贝叶斯管「先验分布长什么样」。考试最爱：方差分解 → Z → 加权预测，一条链。</div>
+    </section>
+
+    <section id="m7">
+      <h2><span class="sn">M7</span>一页总览：模型生命周期</h2>
+      <div class="note"><b>数据 → 经验模型（K–M / N–A）→ 参数模型（选分布族）→ 估计（矩 / MLE / 分位数）→ 检验（χ² / K–S / A–D）→ 选择（AIC / BIC / LR）→ 修匀（Whittaker / 参数曲线）→ 信度（个体×总体加权）→ 上线监控。</b>每一步都有「不做会怎样」：不修匀→费率抖动；不信度→小样本定费率过拟合；不检验→模型带病上线。</div>
+    </section>
+
+    <div class="pager">
+      <a href="ch6.html">← CH.06 机器学习</a>
+      <a href="map.html">知识图谱 →</a>
+    </div>
+  </main>
+<script src="js/kb.js"></script>
+</body>
+</html>
