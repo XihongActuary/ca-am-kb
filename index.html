@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>精算模型与数据分析 · 科目四 知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- ============ 侧栏导航：按考纲权重分组 ============ -->
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html" class="on">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <!-- 首页 hero -->
+  <div class="ch-head">
+    <div class="no">CHINA ASSOCIATION OF ACTUARIES · SUBJECT 4</div>
+    <h1>精算模型与数据分析</h1>
+    <div class="sub">风险理论 · 生存分析 · 随机模拟 · 回归 · 时间序列 · 机器学习 —— 用数据给风险定价</div>
+    <div class="meta"><span>考纲权重 30/15/10/15/10/20</span><span>12 个学习页</span><span>机考：单选＋简答＋Excel 题</span><span>10 台演算器</span><span>真题双层答案</span></div>
+  </div>
+
+  <div class="toc"><b>本页导览</b>
+    <ol><li>考试定位与权重</li><li>考试形式（机考·Excel）</li><li>教材与资料地图</li><li>高频考点雷达</li><li>三条阅读路线</li></ol>
+  </div>
+
+  <section>
+    <h2><span class="sn">§01</span>考试定位与权重</h2>
+    <div class="lead">考纲（2023-07-18 发布）六大板块，权重即复习投入比。风险理论与机器学习合计一半分数，是主战场。</div>
+    <table>
+      <tr><th>篇章</th><th class="ctr">考纲权重</th><th>核心内容</th><th>主要教材来源</th></tr>
+      <tr><td>CH.01 风险理论</td><td class="ctr num">30%</td><td>随机过程、理赔额与理赔次数、个体/聚合风险模型、破产模型</td><td><span class="src src-jiao">教</span>肖争艳第2-5章；孟生旺《风险模型》第3-4章</td></tr>
+      <tr><td>CH.02 生存分析</td><td class="ctr num">15%</td><td>生存模型理论、生存函数估计、生命表</td><td><span class="src src-jiao">教</span>肖争艳第4版（老B4）第2章</td></tr>
+      <tr><td>CH.03 随机模拟</td><td class="ctr num">10%</td><td>随机数、样本容量、Bootstrap、MCMC</td><td><span class="src src-jiao">教</span>肖争艳第4版（老B4）第13章</td></tr>
+      <tr><td>CH.04 回归分析</td><td class="ctr num">15%</td><td>线性回归、广义线性模型、惩罚回归</td><td><span class="src src-jiao">教</span>线性回归导论第2-5章＋西瓜书</td></tr>
+      <tr><td>CH.05 时间序列</td><td class="ctr num">10%</td><td>平稳序列、ARMA、多维时间序列与协整</td><td><span class="src src-jiao">教</span>王燕《应用时间序列分析》第1-8章</td></tr>
+      <tr><td>CH.06 机器学习</td><td class="ctr num">20%</td><td>方法分类、评估与选择、决策树、聚类、降维</td><td><span class="src src-jiao">教</span>周志华《机器学习》</td></tr>
+    </table>
+    <div class="src-note">来源徽章体系：<span class="src src-jiao">教</span>指定教材（含页码/章节）· <span class="src src-gui">纲</span>考纲条目（2023版）· <span class="src src-ti">题</span>真题或冲刺课例题（标注年份/板块）。真题主要取自旧 A3《精算模型》卷（2011–2017，题型与新科目四风险理论部分一致）与过关必做1000题。</div>
+  </section>
+
+  <section>
+    <h2><span class="sn">§02</span>考试形式：机考 · 单选＋简答＋Excel</h2>
+    <div class="lead">这门课是机考，题型为单选＋简答（以计算题为主），外加一道 Excel 计算题。机考系统需要手点公式，操作反应慢、易崩溃，考前必须适应。</div>
+    <table>
+      <tr><th>题型</th><th class="ctr">占比特征</th><th>应对策略</th></tr>
+      <tr><td>单选题</td><td class="ctr num">主体</td><td>计算为主，先算后选；注意「以下错误的是」类否定题干</td></tr>
+      <tr><td>简答题</td><td class="ctr num">少量</td><td>写公式→代数→结论三段式；机器学习概念辨析常考（冲刺课提示：<b>重点是基本概念的辨析</b>）</td></tr>
+      <tr><td>Excel 题</td><td class="ctr num">1 道</td><td>题目不难，会用函数就算得快：NORM.S.DIST、NORM.S.INV、EXP、LN、SUMPRODUCT、POWER、IF 等</td></tr>
+    </table>
+    <div class="tip"><b>过来人经验（大纲分析）：</b>机考系统公式操作「特别反人类」，一不留心就会崩溃或不显示，有考生现场换机器。平时练习就在 Excel 里算，考场上才不慌。<a href="shizhan.html">→ 考场实战专章</a></div>
+  </section>
+
+  <section id="source-map">
+    <h2><span class="sn">§03</span>教材与资料地图</h2>
+    <div class="lead">官方列了 8 本参考书，但内容高度重合，<b>不必全读</b>。下表给出选择策略（综合大纲分析与冲刺课）。</div>
+    <table>
+      <tr><th>资料</th><th class="ctr">优先级</th><th>使用建议</th></tr>
+      <tr><td>《精算模型》肖争艳 第4版（2023）</td><td class="ctr"><b>主教材</b></td><td>第2-5章：理赔强度、理赔次数、个体/聚合风险模型——很多考题出自这里；书后题必刷</td></tr>
+      <tr><td>《精算模型》肖争艳/孙佳美 2010版（B4）</td><td class="ctr num">★★★</td><td>虽官方只建议第7、13章，但2-6章可做主教材补充，题也可当练习（同一主编）</td></tr>
+      <tr><td>《风险模型》孟生旺 2022版</td><td class="ctr num">★★</td><td>2-4章与主教材重复，<b>不必细看</b>，书后题可作练习</td></tr>
+      <tr><td>《风险模型：基于R的保险损失预测》</td><td class="ctr num">★</td><td>第6章广义极值/广义帕累托，考试基本没考，了解即可</td></tr>
+      <tr><td>《机器学习》周志华（西瓜书）</td><td class="ctr num">★★★</td><td>机器学习全部考点都在其中，但<b>对照目录看</b>而非官方建议章节（官方建议章节不准）</td></tr>
+      <tr><td>《应用时间序列分析》王燕 第6版</td><td class="ctr num">★★★</td><td>第1-8章；AR/MA/ARMA识别、平稳性、协整都在此</td></tr>
+      <tr><td>《线性回归分析导论》</td><td class="ctr num">★★</td><td>第2-5章；回归部分「参照科目一＋机器学习中岭回归和Lasso」（冲刺课）</td></tr>
+      <tr><td>《数学》肖宇谷 2010版</td><td class="ctr num">★★</td><td>第10章、11.1-11.3节：随机过程基础可参考老A1第10、11章</td></tr>
+      <tr><td>A3过关必做1000题（含历年真题）</td><td class="ctr num">★★★</td><td>14章约1000题，收录部分历年真题；按章刷对应题目</td></tr>
+    </table>
+    <div class="prac"><b>刷题建议（大纲分析原话）：</b>① 主教材第2、4、5章对应书后题；② B4教辅对应习题；③ 额外找时间序列和回归分析的题目（如老A1教材第九章及教辅题）。</div>
+  </section>
+
+  <section>
+    <h2><span class="sn">§04</span>高频考点雷达</h2>
+    <div class="lead">综合冲刺课考点笔记与旧 A3 真题分布，标三星者必须熟练到「见题就出公式」。</div>
+    <table>
+      <tr><th>板块</th><th>高频考点</th><th class="ctr">星级</th></tr>
+      <tr><td rowspan="4">风险理论</td><td>泊松过程 / 非齐次泊松（强度函数、均值函数 m(t)）</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>马尔可夫链（转移概率、C-K方程、极限分布、常态/瞬态）</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>复合随机变量矩与理赔额分布（免赔额、限额、通胀）</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>聚合风险模型（复合泊松）、正态近似、破产概率与调节系数</td><td class="ctr"><span class="star s2">★★</span></td></tr>
+      <tr><td rowspan="2">生存分析</td><td>生存函数/危险率/tP_x/剩余寿命基本公式体系</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>Kaplan-Meier、Nelson-Aalen 估计、生命表</td><td class="ctr"><span class="star s2">★★</span></td></tr>
+      <tr><td>随机模拟</td><td>反函数法、Box-Muller、样本容量、Bootstrap、MCMC 概念</td><td class="ctr"><span class="star s2">★★</span></td></tr>
+      <tr><td rowspan="2">回归分析</td><td>OLS 估计量性质、假设检验、可决系数</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>GLM（指数族、连接函数、泊松/伽马回归）、Ridge/Lasso 对比</td><td class="ctr"><span class="star s2">★★</span></td></tr>
+      <tr><td>时间序列</td><td>平稳性判定、AR/MA 模型、ACF/PACF 识别、协整</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+      <tr><td>机器学习</td><td>概念辨析（监督/无监督、偏差-方差、过拟合）、决策树、聚类、PCA</td><td class="ctr"><span class="star s3">★★★</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="sn">§05</span>三条阅读路线</h2>
+    <table>
+      <tr><th>路线</th><th>适用</th><th>建议顺序</th></tr>
+      <tr><td>筑基</td><td>零基础 / 首考</td><td>index → ch1→ch6 顺序精读（每章演算器动手算） → 考场实战 → 模拟卷一 → 真题馆</td></tr>
+      <tr><td>攻坚</td><td>有基础冲高分</td><td>ch1 风险理论（30%）+ ch6 机器学习（20%）优先 → 真题馆 → 模拟卷二/三</td></tr>
+      <tr><td>速通</td><td>临考 2 周复盘</td><td>各章「记忆口诀」+ 高频考点 → 考场实战（Excel函数表）→ 真题馆骨架答案 → 错题</td></tr>
+    </table>
+  </section>
+
+  <div class="pager">
+    <a href="about.html">← 本库说明</a>
+    <a href="ch1.html">CH.01 风险理论开始 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
