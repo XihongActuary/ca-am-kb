@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.01 风险理论 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html" class="on">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 01</div>
+    <h1>风险理论 · 从一笔理赔到破产概率</h1>
+    <div class="sub">随机过程 / 理赔额与理赔次数 / 个体·聚合风险模型 / 破产模型</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>肖争艳第4版第2–5章 · 孟生旺第3–4章</span><span>4 节 · 3 台演算器</span><span>冲刺例题 8 道</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>30%</span></div><div class="bar"><i style="width:30%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch1">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>随机过程：泊松 · 非齐次泊松 · 马尔可夫链</li><li>理赔额与理赔次数：(a,b,0)/(a,b,1) 族 · 复合变量 · 保单条款</li><li>个体 / 聚合风险模型与正态近似</li><li>破产模型：盈余过程 · 调节系数</li><li>真题链接（双层答案）</li></ol>
+  </div>
+
+  <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>肖争艳《精算模型》第4版（教材）；<span class="src src-ti">题</span>冲刺课例题或旧A3真题（标注年份·板块）。</div>
+
+  <!-- ============ 1.1 随机过程 ============ -->
+  <section>
+    <h2><span class="sn">1.1</span>随机过程 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">随机过程 = 「随时间演化的随机变量族」。考纲三件事：泊松过程、非齐次泊松、马尔可夫链。</div>
+
+    <h3>① 泊松过程</h3>
+    <p><b>计数过程</b> N(t) 表示 [0,t] 内事件发生次数。若强度参数 λ&gt;0 且满足独立增量、平稳增量、单跳性，则 N(t) 是<b>泊松过程</b>，核心公式：<span class="src src-jiao">教</span>肖第2章 / 老A1第10章</p>
+    <div class="formula">
+      <div class="fx">P{N(t+s) − N(s) = n} = e<sup>−λt</sup> · (λt)<sup>n</sup> / n!</div>
+      <div class="note">增量服从参数为 λt 的泊松分布；E[N(t)]=λt，Var[N(t)]=λt（均值=方差是泊松的指纹）。<b>注意</b>：区间长度是 t（增量），不是绝对时刻。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（十字路口车流）</b> 通过某十字路口的车流是泊松过程，1 min 内没有车辆通过的概率为 0.2，求 2 min 内有多于一辆车的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>① e<sup>−λ</sup>=0.2 ⇒ λ=ln5；② 2 min 增量 P(N=0)=e<sup>−2λ</sup>=0.2²=0.04；③ 多于一辆 = 1 − P(0) − P(1)。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>由 P{N(1)=0}=e<sup>−λ</sup>=0.2，得 λ=ln5≈1.609。</p>
+        <p>2 min 内增量 N(2)∼Poisson(2λ)：P(N(2)=0)=e<sup>−2λ</sup>=0.04；P(N(2)=1)=2λe<sup>−2λ</sup>≈2×1.609×0.04≈0.1287。</p>
+        <p>P(N(2)≥2)=1−0.04−0.1287≈<b>0.831</b>。</p>
+      </div>
+    </details>
+
+    <h3>② 非齐次泊松过程</h3>
+    <p>强度 λ(t) 随时间变化，引入<b>均值函数</b> m(t)=∫₀<sup>t</sup> λ(s)ds。增量服从参数为 m(t+s)−m(t) 的泊松分布：<span class="src src-jiao">教</span>肖第2章</p>
+    <div class="formula">
+      <div class="fx">P{N(t+s) − N(t) = n} = e<sup>−[m(t+s)−m(t)]</sup> · [m(t+s)−m(t)]<sup>n</sup> / n!</div>
+      <div class="note"><b>套路</b>：一切非齐次问题先算 m(t)。两段不同强度 → 分段积分相加。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（设备维修）</b> 设某设备使用期限 10 年，前 5 年平均 2.5 年需修一次，后 5 年平均 2 年修一次。求在使用期内只修 1 次的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>① λ₁=1/2.5=0.4，λ₂=1/2=0.5；② m=0.4×5+0.5×5=4.5；③ P(N=1)=4.5e<sup>−4.5</sup>≈0.050。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>前 5 年强度 λ₁=0.4（次/年），后 5 年 λ₂=0.5。均值函数增量 m(10)=∫₀⁵0.4ds+∫₅¹⁰0.5ds=2+2.5=4.5。</p>
+        <p>P{N(10)−N(0)=1}=e<sup>−4.5</sup>×4.5≈<b>0.050</b>。</p>
+        <p class="hl">点评：期望 4.5 次却问「恰好 1 次」，数值小是正常的——考这类题就是看你有没有老老实实算 m(t)。</p>
+      </div>
+    </details>
+
+    <h3>③ 马尔可夫链</h3>
+    <p><b>马尔可夫性</b>：未来只依赖现在，与过去无关。P{X<sub>n+1</sub>=j | X₀,…,X<sub>n</sub>} = P{X<sub>n+1</sub>=j | X<sub>n</sub>}。<span class="src src-jiao">教</span>肖第2章 / 老A1第11章</p>
+    <div class="formula">
+      <div class="fx">转移概率 P<sub>ij</sub> = P{X<sub>n+1</sub>=j | X<sub>n</sub>=i}（时齐）　　C–K 方程：P<sub>ij</sub><sup>(m+n)</sup> = Σ<sub>k</sub> P<sub>ik</sub><sup>(m)</sup> P<sub>kj</sub><sup>(n)</sup></div>
+      <div class="fx">极限分布：(π₁,…,π<sub>n</sub>) = (π₁,…,π<sub>n</sub>)·P<sub>n×n</sub>，且 Σπᵢ=1</div>
+      <div class="note">常态 / 瞬态：fᵢ = Σ<sub>n≥1</sub> P<sub>ii</sub><sup>(n)</sup>；fᵢ=1 为<b>常态</b>，fᵢ&lt;1 为<b>瞬态</b>。状态 i 可达 j ⇔ ∃n, P<sub>ij</sub><sup>(n)</sup>&gt;0；互达记 i↔j。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（计算机系统误差）</b> 0 表误差状态、1 表无误差状态，一步转移矩阵 P = [[0.75,0.25],[0.5,0.5]]，求最终（长期）有误差的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>解 πP=π + π₁+π₂=1 → π₁=2/3。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>π₁=0.75π₁+0.5π₂ ⇒ 0.25π₁=0.5π₂ ⇒ π₁=2π₂；配合 π₁+π₂=1，得 π₁=<b>2/3</b>，π₂=1/3。最终有误差的概率为 2/3≈0.667。</p>
+        <p class="hl">点评：两状态链极限分布必存在且与初值无关，直接解方程组即可，不必求高次转移矩阵。</p>
+      </div>
+    </details>
+
+    <div class="calc" id="calc-poisson">
+      <h4>① 演算器：泊松概率（齐次/非齐次通吃）</h4>
+      <div class="row"><label>强度增量 Λ=∫λdt</label><input class="calc-in" id="po-lam" value="4.5"></div>
+      <div class="row"><label>事件次数 n</label><input class="calc-in" id="po-n" value="1"></div>
+      <div class="row">P{N=n} <span class="out calc-out" id="po-out">—</span></div>
+      <div class="row">P{N≤n} <span class="out calc-out" id="po-cdf">—</span></div>
+      <div class="verdict">默认值即「设备维修」例题：Λ=4.5，P(N=1)=0.0500。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-poisson');
+      box.__run=function(){
+        var lam=parseFloat(document.getElementById('po-lam').value)||0;
+        var n=Math.max(0,Math.floor(parseFloat(document.getElementById('po-n').value)||0));
+        var pk=Math.exp(-lam)*Math.pow(lam,n);
+        for(var i=1;i<=n;i++) pk/=i; // n!
+        var cdf=0,term=Math.exp(-lam);
+        for(var k=0;k<=n;k++){ if(k>0)term*=lam/k; cdf+=term; }
+        document.getElementById('po-out').textContent=window.isFinite(pk)?pk.toFixed(5):'—';
+        document.getElementById('po-cdf').textContent=window.isFinite(cdf)?cdf.toFixed(5):'—';
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="calc" id="calc-mc">
+      <h4>② 演算器：2×2 马尔可夫链极限分布</h4>
+      <div class="row"><label>P₁₁（误差→误差）</label><input class="calc-in" id="mc-a" value="0.75"></div>
+      <div class="row"><label>P₂₁（无误差→误差）</label><input class="calc-in" id="mc-b" value="0.5"></div>
+      <div class="row">π₁（长期状态1）<span class="out calc-out" id="mc-out1">—</span></div>
+      <div class="row">π₂（长期状态2）<span class="out calc-out" id="mc-out2">—</span></div>
+      <div class="verdict">公式：π₁ = P₂₁/(1−P₁₁+P₂₁)（两状态链通解）。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-mc');
+      box.__run=function(){
+        var a=parseFloat(document.getElementById('mc-a').value);
+        var b=parseFloat(document.getElementById('mc-b').value);
+        var d=(1-a+b)||1e-9, p1=b/d;
+        document.getElementById('mc-out1').textContent=p1.toFixed(4);
+        document.getElementById('mc-out2').textContent=(1-p1).toFixed(4);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「齐次看 λ，非齐找 m(t)，马氏往后只看一步」</span>泊松增量均值=方差；非齐次一切归到均值函数；马尔可夫链极限分布解 πP=π。</div>
+  </section>
+
+  <!-- ============ 1.2 理赔额与理赔次数 ============ -->
+  <section>
+    <h2><span class="sn">1.2</span>理赔额与理赔次数 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">损失分布（理赔强度）＋ 次数分布（(a,b,0)/(a,b,1) 族）＋ 保单条款（免赔/限额/通胀）＝ 保费计算的原料。</div>
+
+    <h3>① 理赔次数分布族</h3>
+    <p>记 P<sub>k</sub>=P(N=k)，若满足递推 k·P<sub>k</sub>=(a+b(k−1))·P<sub>k−1</sub>（k≥1，P₀=e<sup>−λ</sup> 或参数决定），称 (a,b,0) 分布类；加「零点修改/截断」得 (a,b,1)。<span class="src src-jiao">教</span>肖第3章</p>
+    <table>
+      <tr><th>分布</th><th>P₀</th><th>a</th><th>b</th><th>E(N)</th><th>Var(N)</th></tr>
+      <tr><td>泊松 Poisson(λ)</td><td class="num">e<sup>−λ</sup></td><td class="num">0</td><td class="num">λ</td><td class="num">λ</td><td class="num">λ</td></tr>
+      <tr><td>二项 Bin(m,q)</td><td class="num">(1−q)<sup>m</sup></td><td class="num">−q/(1−q)</td><td class="num">(m+1)q/(1−q)</td><td class="num">mq</td><td class="num">mq(1−q)</td></tr>
+      <tr><td>负二项 NB(r,β)</td><td class="num">(1+β)<sup>−r</sup></td><td class="num">β/(1+β)</td><td class="num">(r−1)β/(1+β)</td><td class="num">rβ</td><td class="num">rβ(1+β)</td></tr>
+    </table>
+    <div class="warn"><b>易错：</b>负二项方差 &gt; 均值（过散布），泊松相等，二项方差 &lt; 均值。真题常给「均值与方差」让你反推分布类型——先比大小再定族。</div>
+
+    <h3>② 复合随机变量</h3>
+    <div class="formula">
+      <div class="fx">S = X₁ + X₂ + … + X<sub>N</sub>　　E(S) = E(N)·E(X)　　Var(S) = E(N)·Var(X) + Var(N)·E(X)²</div>
+      <div class="note"><span class="src src-jiao">教</span>肖第4章。<b>注意</b>：N 与 X 独立。复合泊松时 Var(S)=λE(X²)（因 Var(N)=λ）。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（掷硬币掷骰子）</b> X 是掷 5 次硬币正面向上的次数，再掷 X 次骰子，Y 为点数之和。求 E(Y)+√Var(Y)。</div>
+    <div class="ans-skel"><b>骨架：</b>① E(X)=2.5，Var(X)=1.25；② 骰子 E=3.5，Var=35/12；③ 代复合公式。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>X∼Bin(5,0.5)：E(X)=2.5，Var(X)=1.25。单颗骰子：μ=3.5，σ²=35/12≈2.9167。</p>
+        <p>E(Y)=2.5×3.5=8.75；Var(Y)=2.5×2.9167+1.25×3.5²=7.2917+15.3125=22.6042。</p>
+        <p>E(Y)+√Var(Y)=8.75+4.754≈<b>13.50</b>。</p>
+      </div>
+    </details>
+
+    <h3>③ 保单条款下的理赔额分布</h3>
+    <p>X 实际损失额，Y 理赔额；α 赔付比例、c 保单限额、d 免赔额。核心是<b>有限期望</b> E(X∧u)：<span class="src src-jiao">教</span>肖第2章2.2节；孟《风险模型》2.4–2.6</p>
+    <div class="formula">
+      <div class="fx">E(X∧u) = ∫₀<sup>u</sup> x·f(x)dx + u·[1−F(u)] = ∫₀<sup>u</sup> [1−F(y)]dy</div>
+      <div class="fx">E(Y) = α·[E(X∧c) − E(X∧d)] / [1−F(d)]</div>
+      <div class="note">分母 1−F(d)=P(X&gt;d) 把「只有超免赔额才赔」的条件化做对；分子用限额截断。通胀率 r：损失额乘 (1+r)，免赔额同步乘 (1+r) 则期望按比例放大。</div>
+    </div>
+
+    <h3>④ 单个保单的理赔：X = I·B</h3>
+    <div class="formula">
+      <div class="fx">I∼(0,q) 与 B 独立　⇒　E(X)=q·E(B)　　Var(X)=q·E(B²) − q²·E(B)²</div>
+      <div class="note"><span class="src src-ti">题</span>冲刺考点1。Var 公式用 Var(X)=E(X²)−(EX)² 一步推出：E(X²)=qE(B²)。<b>易错</b>：写成 q²E(B²) 或丢掉 −q²E(B)²。</div>
+    </div>
+
+    <div class="calc" id="calc-ib">
+      <h4>③ 演算器：单保单理赔 X=I·B 的矩</h4>
+      <div class="row"><label>出险概率 q</label><input class="calc-in" id="ib-q" value="0.1"></div>
+      <div class="row"><label>E(B)</label><input class="calc-in" id="ib-m" value="5000"></div>
+      <div class="row"><label>E(B²)</label><input class="calc-in" id="ib-m2" value="50000000"></div>
+      <div class="row">E(X) <span class="out calc-out" id="ib-e">—</span></div>
+      <div class="row">SD(X) <span class="out calc-out" id="ib-s">—</span></div>
+      <div class="verdict">E(X)=qE(B)；Var(X)=qE(B²)−q²E(B)²。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-ib');
+      box.__run=function(){
+        var q=parseFloat(document.getElementById('ib-q').value)||0;
+        var m=parseFloat(document.getElementById('ib-m').value)||0;
+        var m2=parseFloat(document.getElementById('ib-m2').value)||0;
+        var e=q*m, v=q*m2-q*q*m*m;
+        document.getElementById('ib-e').textContent=e.toLocaleString('zh-CN');
+        document.getElementById('ib-s').textContent=v>0?Math.sqrt(v).toLocaleString('zh-CN',{maximumFractionDigits:1}):'—';
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「次数均乘额均，方差两件套：次数均乘额方差 + 次数方差乘额均方」</span>复合变量矩公式不再现场推——考场上 10 秒写完。</div>
+  </section>
+
+  <!-- ============ 1.3 个体/聚合风险模型 ============ -->
+  <section>
+    <h2><span class="sn">1.3</span>个体 / 聚合风险模型 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">一个保单组合的总理赔 S：个体模型按保单逐个加（卷积/矩母函数），聚合模型按理赔次数一次性打包（复合分布）。</div>
+
+    <h3>① 个体风险模型</h3>
+    <p>S=ΣXⱼ，Xⱼ=IⱼBⱼ 相互独立。数字特征直接累加；求分布用<b>卷积</b>或<b>矩母函数</b> M<sub>S</sub>(t)=Π M<sub>Xⱼ</sub>(t)。<span class="src src-jiao">教</span>肖第4章</p>
+
+    <h3>② 聚合风险模型（复合泊松为主）</h3>
+    <div class="formula">
+      <div class="fx">S 复合泊松(λ, X)：E(S)=λE(X)，Var(S)=λE(X²)，M<sub>S</sub>(t)=e<sup>λ[M<sub>X</sub>(t)−1]</sup></div>
+      <div class="fx">Panjer 递推：f<sub>S</sub>(x) = Σ/(x) 形式见教材（泊松次数：f<sub>S</sub>(x)=λ/x · Σ y·f<sub>X</sub>(y)·f<sub>S</sub>(x−y)）</div>
+      <div class="note"><span class="src src-jiao">教</span>肖第5章。<b>复合泊松可分解/可叠加</b>：两类业务独立复合泊松之和仍是复合泊松，强度相加、单笔分布按比例混合——真题常考这个性质。</div>
+    </div>
+
+    <h3>③ 正态近似（三步法）</h3>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（三步法）</b> ① 用个体理赔额分布算 E(S)、Var(S)；② 标准化 Z=(S−E(S))/√Var(S)；③ 求 P{S&lt;(1+θ)E(S)} = Φ(θE(S)/√Var(S))。</div>
+    <div class="formula">
+      <div class="fx">P{S ≤ (1+θ)·E(S)} ≈ Φ( θ·E(S) / √Var(S) )</div>
+      <div class="note">θ 是相对安全附加。<b>反过来考</b>：给定目标概率，用 NORM.S.INV 反解 λ 或 θ——Excel 题最爱的形态。</div>
+    </div>
+
+    <div class="calc" id="calc-normapprox">
+      <h4>④ 演算器：复合泊松 + 正态近似（保费安全附加）</h4>
+      <div class="row"><label>泊松强度 λ</label><input class="calc-in" id="na-lam" value="100"></div>
+      <div class="row"><label>单笔均值 E(X)</label><input class="calc-in" id="na-m" value="2"></div>
+      <div class="row"><label>单笔二阶矩 E(X²)</label><input class="calc-in" id="na-m2" value="8"></div>
+      <div class="row"><label>相对附加 θ(%)</label><input class="calc-in" id="na-th" value="10"></div>
+      <div class="row">E(S) / SD(S) <span class="out calc-out" id="na-mv">—</span></div>
+      <div class="row">P{S≤(1+θ)E(S)} <span class="out calc-out" id="na-p">—</span></div>
+      <div class="verdict">Φ 值由 Zelen &amp; Severo 近式：Φ(z)≈1−φ(z)(b₁t+b₂t³+b₃t⁵+b₄t⁷)，t=1/(1+0.2316419z)。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-normapprox');
+      function phi(z){ // 标准正态CDF近似
+        var s=z<0?-1:1; z=Math.abs(z);
+        var t=1/(1+0.2316419*z);
+        var p=1-Math.exp(-z*z/2)*Math.pow(2*Math.PI,-0.5)*
+          (0.319381530*t-0.356563782*t*t*t+1.781477937*Math.pow(t,5)-1.821255978*Math.pow(t,7)+1.330274429*Math.pow(t,9));
+        return 0.5+(p-0.5)*s;
+      }
+      box.__run=function(){
+        var lam=parseFloat(document.getElementById('na-lam').value)||0;
+        var m=parseFloat(document.getElementById('na-m').value)||0;
+        var m2=parseFloat(document.getElementById('na-m2').value)||0;
+        var th=(parseFloat(document.getElementById('na-th').value)||0)/100;
+        var es=lam*m, vs=lam*m2, sd=Math.sqrt(vs);
+        document.getElementById('na-mv').textContent=es.toFixed(1)+' / '+sd.toFixed(2);
+        var z=th*es/sd;
+        document.getElementById('na-p').textContent=phi(z).toFixed(4)+'  (z='+z.toFixed(3)+')';
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="prac"><b>实务链接：</b>聚合模型就是偿二代「保险风险最低资本」与巨灾模型的最小原型——监管做的 200 年一遇情景，本质是把复合分布的右尾算清楚。</div>
+  </section>
+
+  <!-- ============ 1.4 破产模型 ============ -->
+  <section>
+    <h2><span class="sn">1.4</span>破产模型 <span class="star s2">中频★★</span></h2>
+    <div class="lead">盈余过程把「收保费 − 赔出去」的现金流写成随机过程，问：什么时候击穿初始盈余？</div>
+
+    <h3>① 盈余过程与破产时刻</h3>
+    <div class="formula">
+      <div class="fx">U(t) = u + ct − S(t)　（u 初始盈余，c 费率，S(t) 累计理赔）</div>
+      <div class="fx">破产时刻 T = inf{t ≥ 0 : U(t) &lt; 0}　　破产概率 ψ(u) = P(T &lt; ∞)</div>
+      <div class="note"><span class="src src-ti">题</span>冲刺考点。复合泊松盈余过程要求 c&gt;λE(X)（正安全负荷）。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（保单组合破产概率）</b> 一种保单组合最多发生一次理赔，概率 0.1；发生时刻 T∼U[0,50]；总理赔额 S：P(S=100)=0.8，P(S=5000)=0.2；盈余过程 U(t)=900+100t−S(t)。求破产概率。</div>
+    <div class="ans-skel"><b>骨架：</b>① 只有大额理赔 5000 可能击穿；② 900+100t&lt;5000 ⇒ t&gt;41；③ 三事件相乘：0.1×0.2×(9/50)=0.0036。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>理赔额 100 时 U(t)≥900+100t−100&gt;0 恒不破产；只有 S=5000 才可能破产，需 900+100t−5000&lt;0 ⇒ t&gt;41。</p>
+        <p>P(发生理赔)=0.1，P(S=5000 | 发生)=0.2，P(T&gt;41)=9/50=0.18（T 均匀分布）。</p>
+        <p>破产概率 = 0.1×0.2×0.18 = <b>0.0036</b>。</p>
+      </div>
+    </details>
+
+    <h3>② 调节系数与 Lundberg 上界</h3>
+    <div class="formula">
+      <div class="fx">调节系数 R 满足：λ[M<sub>X</sub>(−R)−1] + cR = 0　（指数理赔：R = (c−λμ) / (λE(X²))）</div>
+      <div class="fx">Lundberg 上界：ψ(u) ≤ e<sup>−Ru</sup></div>
+      <div class="note">R 越大越安全：增大 c、减小理赔波动都会抬高 R。<b>简答题</b>常问「调节系数的经济含义」——单位盈余的破产风险衰减速率。</div>
+    </div>
+
+    <div class="calc" id="calc-ruin">
+      <h4>⑤ 演算器：指数理赔的调节系数与 Lundberg 上界</h4>
+      <div class="row"><label>泊松强度 λ</label><input class="calc-in" id="ru-lam" value="2"></div>
+      <div class="row"><label>单笔均值 μ</label><input class="calc-in" id="ru-mu" value="100"></div>
+      <div class="row"><label>费率 c</label><input class="calc-in" id="ru-c" value="250"></div>
+      <div class="row"><label>初始盈余 u</label><input class="calc-in" id="ru-u" value="1000"></div>
+      <div class="row">调节系数 R <span class="out calc-out" id="ru-r">—</span></div>
+      <div class="row">ψ(u) ≤ e^(−Ru) <span class="out calc-out" id="ru-p">—</span></div>
+      <div class="verdict">R=(c−λμ)/(λ·2μ²)（指数分布 E(X²)=2μ²）。c≤λμ 时无正安全负荷，R=0。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-ruin');
+      box.__run=function(){
+        var lam=parseFloat(document.getElementById('ru-lam').value)||0;
+        var mu=parseFloat(document.getElementById('ru-mu').value)||0;
+        var c=parseFloat(document.getElementById('ru-c').value)||0;
+        var u=parseFloat(document.getElementById('ru-u').value)||0;
+        var R=(c-lam*mu)/(lam*2*mu*mu);
+        if(!isFinite(R)||R<=0){document.getElementById('ru-r').textContent='0（无安全负荷）';document.getElementById('ru-p').textContent='—';return;}
+        document.getElementById('ru-r').textContent=R.toFixed(5);
+        document.getElementById('ru-p').textContent=Math.exp(-R*u).toExponential(3);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「盈余等于初始加保费减赔款，破产就是穿零走」</span>——先把 U(t) 写对，破产题就成功了一半。</div>
+  </section>
+
+  <!-- ============ 1.5 真题链接 ============ -->
+  <section>
+    <h2><span class="sn">1.5</span>真题链接 <span class="src src-ti">题</span></h2>
+    <div class="lead">旧 A3 卷典型真题风格，先背骨架再钻详尽。更多题见<a href="zhenti.html">真题馆</a>。</div>
+
+    <div class="exam"><span class="yr">2013·A3</span><b>复合泊松的正态近似</b> 某组合理赔次数为泊松(λ=100)，单笔理赔服从均值 2、方差 4 的分布。用正态近似求 P{S ≤ 220}。</div>
+    <div class="ans-skel"><b>骨架：</b>① E(S)=λμ=200；② Var(S)=λE(X²)=100×(4+4)=800，SD=28.28；③ z=0.707，Φ≈0.76。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>复合泊松：E(S)=λμ=200；Var(S)=λE(X²)=100×(4+4)=800。</p>
+        <p>z=(220−200)/√800=20/28.284=0.7071；P≈Φ(0.71)≈<b>0.760</b>。</p>
+        <p class="hl">陷阱：Var(S) 用 E(X²)（=μ²+σ²=8），不是 σ²=4。这是复合泊松最高频的坑。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr">2015·A3</span><b>免赔额下的期望赔付</b> 损失 X 服从参数 θ=1000 的指数分布（F(x)=1−e<sup>−x/θ</sup>），免赔额 d=200。求每次理赔的期望赔付 E(X)−E(X∧d)。</div>
+    <div class="ans-skel"><b>骨架：</b>E(X)=1000；E(X∧d)=θ(1−e<sup>−d/θ</sup>)=1000(1−e<sup>−0.2</sup>)≈181.3；期望赔付≈818.7。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>指数分布有限期望 E(X∧d)=θ(1−e<sup>−d/θ</sup>)=1000×(1−e<sup>−0.2</sup>)=1000×0.18127=181.27。</p>
+        <p>期望赔付=E(X)−E(X∧d)=1000−181.27=<b>818.73</b>（=E(X)·e<sup>−d/θ</sup>，指数分布免赔额按比例缩减）。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr">2017·A3</span><b>C–K 方程与两步转移</b> 两状态链 P=[[0.9,0.1],[0.4,0.6]]，初始在状态1。求两步后仍在状态1的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>P¹¹⁽²⁾=P₁₁²+P₁₂P₂₁=0.81+0.04=0.85。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>由 C–K 方程，P<sub>11</sub><sup>(2)</sup>=P₁₁P₁₁+P₁₂P₂₁=0.9×0.9+0.1×0.4=0.81+0.04=<b>0.85</b>。</p>
+        <p class="hl">延伸：极限分布 π₁=0.4/(0.1+0.4)=0.8——两步概率 0.85 正在向 0.8 收敛，符合直觉。</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 1.6 题库精粹 ============ -->
+  <section>
+    <h2><span class="sn">1.6</span>题库精粹 <span class="src src-ti">题</span><span class="star s3">逐题吸收</span></h2>
+    <div class="lead">以下题目逐页取自《A3精算模型过关必做1000题（含历年真题）》（书页号已标注），全部带答案与详尽解析，是旧 A3 卷风险理论部分的原汁考法。</div>
+
+    <div class="exam"><span class="yr">2005·真题</span><b>MGF 反推分布</b> 随机变量 U 的矩母函数 M<sub>U</sub>(t)=(1−2t)<sup>−9</sup>（t&lt;0.5），求 Var(U)。</div>
+    <div class="ans-skel"><b>骨架：</b>认出 Γ(9,2)（形状9、尺度2）→ Var=9×2²=36。若硬求导：E(U)=18，E(U²)=360，Var=360−18²=36。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>解法①（识别）：Γ(shape α, scale β) 的 MGF 是 (1−βt)<sup>−α</sup>，对照得 α=9、β=2，E=αβ=18，Var=αβ²=<b>36</b>。</p>
+      <p>解法②（求导）：E(U)=M′(0)=9×2(1−2t)<sup>−10</sup>·(−1)…按链式算得 18；E(U²)=M″(0)=360；Var(U)=360−18²=36。</p>
+      <p class="hl">考场招式：见到 (1−βt)<sup>−α</sup> 直接写 Γ(α,β)，三秒出答案。答案 D。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P139 样题</span><b>几何—指数复合的 MGF</b> 理赔次数 N 服从几何分布 P(N=n)=pqⁿ（n≥0，p=2/3），单笔理赔 X~Exp(1)。求 M<sub>S</sub>(t) 与 F<sub>S</sub>(0)。</div>
+    <div class="ans-skel"><b>骨架：</b>M<sub>S</sub>(t)=p/(1−qM<sub>X</sub>(t))=(2/3)/(1−(1/3)/(1−t))=<b>2(1−t)/(2−3t)</b>；F<sub>S</sub>(0)=P(S=0)=P(N=0)=p=2/3。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>复合分布 MGF：M<sub>S</sub>(t)=M<sub>N</sub>(ln M<sub>X</sub>(t))=P/(1−qM<sub>X</sub>(t))。M<sub>X</sub>(t)=1/(1−t)，代入得 M<sub>S</sub>(t)=2(1−t)/(2−3t)。</p>
+      <p>S 在 0 点的概率：没有理赔才为 0，P(S=0)=P(N=0)=p=<b>2/3</b>。任何复合分布，S=0 ⇔ N=0，与单笔分布无关。</p>
+      <p class="hl">M<sub>S</sub>(t)=2(1−t)/(2−3t) 恰是第 13 题盈余过程最大损失 L 的 MGF——几何-指数复合在考试里反复换皮出现。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P139 样题</span><b>复合泊松递推求 f(3)</b> S 为 λ=0.8 的复合泊松，P(X=1)=0.25，P(X=2)=P(X=3)=0.375。求 P(S=3)。</div>
+    <div class="ans-skel"><b>骨架：</b>Panjer 递推 P(S=x)=(λ/x)Σy·P(X=y)·P(S=x−y)，从 f(0)=e<sup>−0.8</sup> 递推到 f(3)≈<b>0.1623</b>。答案 D。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>f(0)=e<sup>−0.8</sup>；f(1)=0.8×0.25×f(0)=0.2e<sup>−0.8</sup>；f(2)=(0.8/2)[0.25·f(1)+2×0.375·f(0)]；</p>
+      <p>f(3)=(0.8/3)[0.25·f(2)+2×0.375·f(1)+3×0.375·f(0)]=0.1623。</p>
+      <p class="hl">递推只对 (a,b,0) 族成立；每一步都从 f(0)=e<sup>−λ</sup> 起步，逐项乘 P(X=y) 累加。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P149</span><b>泊松细分（稀释）</b> 每月理赔事件数 ~ 泊松(10)，每次理赔额有 5% 的可能超过 20000 元。求半年内「至少 2 次理赔额超 20000」的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>细分的泊松仍是泊松：月超阈值次数~Poisson(10×0.05=0.5)，半年~Poisson(3)；P(N≥2)=1−e<sup>−3</sup>−3e<sup>−3</sup>=<b>1−4e<sup>−3</sup></b>。答案 B。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>每次理赔以概率 v=0.05「被选中」：N*=ΣIᵢ 是泊松-二项复合，MGF=exp{λ[(0.95+0.05e<sup>z</sup>)−1]}=exp{0.5(e<sup>z</sup>−1)}——仍是泊松，参数 10×0.05=0.5。</p>
+      <p>半年参数 0.5×6=3：P(N≥2)=1−P(0)−P(1)=1−e<sup>−3</sup>(1+3)=<b>1−4e<sup>−3</sup>≈0.8009</b>。</p>
+      <p class="hl">稀释定理：泊松按独立概率筛选后仍泊松，参数乘筛选概率。混合型计数（二项复合泊松）也照此办理。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P149</span><b>复合泊松退化为泊松</b> S 服从 λ=5 的复合泊松，P(X=0)=0.8，P(X=1)=0.2。写出 S 的分布。</div>
+    <div class="ans-skel"><b>骨架：</b>M<sub>S</sub>(t)=exp{5(0.8+0.2e<sup>t</sup>−1)}=exp(e<sup>t</sup>−1) → S~<b>Poisson(1)</b>。答案 C：P(S=x)=e<sup>−1</sup>/x!。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>M<sub>X</sub>(t)=0.8+0.2e<sup>t</sup>；M<sub>S</sub>(t)=exp{λ(M<sub>X</sub>(t)−1)}=exp{5(0.2e<sup>t</sup>−0.2)}=exp{e<sup>t</sup>−1}，正是 Poisson(1) 的 MGF。</p>
+      <p>直觉：平均每 5 次事件才有 1 次「真赔付」，真赔付次数=泊松(5×0.2=1)。</p>
+      <p class="hl">零膨胀/零理赔单：单笔分布带质量在 0 点时，λ 直接乘非零概率即可。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P76</span><b>通胀下的免赔额杠杆</b> P(X=1000k)=1/6（k=1,…,6），2010 年免赔额 1500 元；2011 年物价涨 5%、免赔额提为 1600 元。求 2011 年单次理赔额期望相对 2010 年的增长率。</div>
+    <div class="ans-skel"><b>骨架：</b>E(X)=3500；E(X∧1500)=1416.67 → 2010 年 E(Y)=2500；E(X∧1600/1.05)=1436.51 → 2011 年 E(Y)=2600；增长率 100/2500=<b>4%</b>。答案 B。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>E(X)=(1+…+6)/6×1000=3500；E(X∧1500)=(1000+5×1500)/6=1416.667，2010 年期望赔付=(3500−1416.667)/(1−1/6)=2500。</p>
+      <p>2011 年损失变 1.05X、免赔变 1600：等效于先算 E(1.05X∧1600)，除以 1.05 后与免赔比较，得期望赔付 2600。</p>
+      <p>增长率=(2600−2500)/2500=<b>4%</b>——通胀 5% 但赔付期望只涨 4%，免赔额「吃掉」了部分通胀。</p>
+      <p class="hl">免赔额的杠杆效应：通胀时期赔额涨得比通胀快、有免赔额时涨得比通胀慢，两个方向都要会推。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P162 样题</span><b>正态近似 vs 平移伽马</b> S 为 λ=12 的复合泊松，单笔 C~U[0,1]。分别用正态近似与平移伽马近似求 P(S&lt;10)，求两法之差。</div>
+    <div class="ans-skel"><b>骨架：</b>p₁=1/2,p₂=1/3,p₃=1/4 → E(S)=6,Var=4,偏度矩=3。正态：Φ(2)=0.97725；平移伽马：x₀=−14/3,α=256/9,β=8/3，得 0.9682；差≈<b>0.009</b>。答案 E。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>复合泊松矩：E(S)=λp₁=6，Var(S)=λp₂=4，E[(S−E(S))³]=λp₃=3。</p>
+      <p>正态近似：z=(10−6)/2=2，P=Φ(2)=0.97725。</p>
+      <p>平移伽马三参数（必背）：<b>x₀=μ−2σ⁴/γ³（此处 6−2×16/3=−14/3）、α=4σ⁶/γ⁶（=4×64/9=256/9）、β=2σ²/γ³（=8/3）</b>，其中 γ³ 为三阶中心矩。P(S&lt;10)=Gamma(10−x₀;α,β)=0.9682。</p>
+      <p>差=0.97725−0.9682≈<b>0.009</b>。正态近似忽略正偏度，右尾高估了累积概率。</p>
+      <p class="hl">偏度大时正态近似失真——平移伽马补上偏度信息，这是两法比较题的标准答案逻辑。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P179</span><b>破产概率三连判</b> U(t)=u+ct−S(t)，θ=2，X~Exp(1)（E=1），L=max{S(t)−ct}。判断：(1)ψ(0)=0.50；(2)P(L&gt;u)=(1/3)e<sup>−2u/3</sup>；(3)M<sub>L</sub>(t)=2(1−t)/(2−3t)。</div>
+    <div class="ans-skel"><b>骨架：</b>ψ(0)=1/(1+θ)=<b>1/3≠0.50</b>；(2)(3) 正确 → 选「只有(2)(3)正确」。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>初盈余为 0 时第一笔理赔即破产：ψ(0)=1/(1+θ)=1/3。</p>
+      <p>指数单笔：P(L&gt;u)=ψ(u)=(1/(1+θ))e<sup>−θu/((1+θ)p₁)</sup>=(1/3)e<sup>−2u/3</sup>（p₁=E(X)=1）。</p>
+      <p>最大损失 L 的 MGF：M<sub>L</sub>(t)=θtp₁/[1+(1+θ)tp₁−M<sub>X</sub>(t)]=2t/[1+3t−1/(1−t)]=2(1−t)/(2−3t)。</p>
+      <p class="hl">L 的分布=几何-指数复合（上一题的 MGF），破产理论在这一章是「换皮重复」——把 ψ(0)、ψ(u)、M_L(t) 三个公式焊死。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P179</span><b>最低记录点计数</b> ψ(u)=0.2e<sup>−u</sup>+0.2e<sup>−4u</sup>+0.3e<sup>−2u</sup>（u≥0），N 为盈余过程轨道上「最低记录点」的个数。求 P(N=1)+ψ(0)。</div>
+    <div class="ans-skel"><b>骨架：</b>ψ(0)=0.2+0.2+0.3=0.7；记录点个数~几何(p=0.7)；P(N=1)=0.7×0.3=0.21；合计 <b>0.91</b>。答案 D。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>ψ(0)=三项系数和=0.7。每次「创出新低并最终破产」相互独立，个数服从几何分布，成功概率 p=ψ(0)。</p>
+      <p>P(N=1)=ψ(0)[1−ψ(0)]=0.7×0.3=0.21；P(N=1)+ψ(0)=0.21+0.7=<b>0.91</b>。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P204</span><b>经验矩近似破产概率</b> 理赔额分布：10元/100次、30元/200次、50元/500次、70元/300次（共1100次），θ=0.5。用一、二阶原点矩近似求 ψ(200)。</div>
+    <div class="ans-skel"><b>骨架：</b>m₁=530/11，m₂=29100/11；ψ(200)=(1/1.5)·e<sup>−2×0.5×200×m₁/((1+0.5)×m₂)</sup>≈<b>0.05879</b>。答案 A。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>m₁=E(X)=(10×1+30×2+50×5+70×3)/11=530/11；m₂=E(X²)=(100×1+900×2+2500×5+4900×3)/11=29100/11。</p>
+      <p>近似公式：<b>ψ(u)≈(1/(1+θ))·e<sup>−2θum₁/((1+θ)m₂)</sup></b>——只用到前两阶矩，是 Lundberg 上界的「可计算版」。</p>
+      <p class="hl">对比记忆：Lundberg 上界 e<sup>−Ru</sup> 需要解调节系数方程；经验矩法直接代 m₁、m₂，适合「给出频数分布」的考题。</p>
+    </div></details>
+
+    <div class="warn"><b>⚠ 题库纠错（1000题·P84 第35题）：</b>混合帕累托 P(X&gt;18)=½[(2/11)²+(2/11)³]，书内解析算得 <b>0.020</b>（对应选项 C），但书标答案为 E(0.026)——<b>答案标注错误</b>，应以解析计算 0.020 为准。刷旧题库遇到答案与解析打架时，一律以能复现的计算为准。</div>
+  </section>
+
+  <!-- ============ 1.7 ============ -->
+  <section id="s17">
+    <h2><span class="sn">1.7</span>经营风险的定量分析：从损失分布到风险管理 <span class="star s2">总纲能力★★</span></h2>
+    <div class="lead">考纲总要求第一句：「能够对保险经营中的<b>损失风险</b>和<b>经营风险</b>进行定量分析」。损失风险（赔付端的随机性）前面六节已全覆盖；经营风险是把它放进<b>公司经营</b>里：保费够不够、准备金足不足、资本扛不扛得住。这一节是把知识「用起来」的总纲。</div>
+
+    <h3>两类风险的对照</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>维度</th><th>损失风险（承保风险）</th><th>经营风险</th></tr>
+      <tr><td>来源</td><td>赔付频率 × 强度的随机波动</td><td>定价不足、准备金评估偏差、费用超支、投资错配、巨灾累积</td></tr>
+      <tr><td>定量工具</td><td>复合分布、正态/平移伽马近似、破产理论</td><td>风险度量（VaR/TVaR）、情景与压力测试、偿付能力资本</td></tr>
+      <tr><td>典型问题</td><td>明年赔款超 1 亿的概率？</td><td>要多留多少资本，才能以 99.5% 概率扛住极端年份？</td></tr>
+    </table></div>
+
+    <h3>风险度量：VaR 与 TVaR</h3>
+    <div class="formula">在置信水平 p 下（S 为总损失）：<br>
+      <b>VaR</b><sub>p</sub>(S) = S 的 p 分位数：最小的 v 使 P(S ≤ v) ≥ p<br>
+      <b>TVaR</b><sub>p</sub>(S) = E[S | S &gt; VaR<sub>p</sub>(S)]：尾部条件期望，度量「一旦突破分位数，平均亏多少」<br>
+      关系：<b>TVaR ≥ VaR</b> 恒成立；TVaR 满足次可加性（一致性风险度量），VaR 不满足——两个业务合并后 VaR 可能大于各自之和，TVaR 不会。</div>
+
+    <div class="calc" id="calc-var">
+      <h4>演算器：正态总损失的 VaR 与 TVaR</h4>
+      <div class="row"><label>均值 μ</label><input class="calc-in" id="v17a" value="100"></div>
+      <div class="row"><label>标准差 σ</label><input class="calc-in" id="v17b" value="30"></div>
+      <div class="row"><label>置信水平 p</label><input class="calc-in" id="v17c" value="0.995"></div>
+      <div class="row">VaR<sub>p</sub> <span class="out calc-out" id="v17-var">—</span></div>
+      <div class="row">TVaR<sub>p</sub> <span class="out calc-out" id="v17-tvar">—</span></div>
+      <div class="verdict">正态：VaR=μ+z·σ，TVaR=μ+σ·φ(z)/(1−p)，其中 z=Φ⁻¹(p)。TVaR 恒大于 VaR。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-var');
+      function phi(z){var t=1/(1+0.2316419*Math.abs(z));var d=0.3989423*Math.exp(-z*z/2);var p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p;}
+      function zinv(p){var lo=-8,hi=8;for(var i=0;i<60;i++){var m=(lo+hi)/2;(phi(m)<p)?lo=m:hi=m;}return (lo+hi)/2;}
+      box.__run=function(){
+        var mu=parseFloat(document.getElementById('v17a').value)||0;
+        var sg=Math.abs(parseFloat(document.getElementById('v17b').value)||0);
+        var p=parseFloat(document.getElementById('v17c').value)||0.995;
+        p=Math.min(Math.max(p,0.0001),0.9999);
+        var z=zinv(p);
+        document.getElementById('v17-var').textContent=(mu+z*sg).toFixed(3);
+        document.getElementById('v17-tvar').textContent=(mu+sg* Math.exp(-z*z/2)/Math.sqrt(2*Math.PI)/(1-p)).toFixed(3);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="exam"><span class="yr">改编</span><b>偿付能力视角</b> 某业务明年总损失 S~N(100, 30²)（百万元），已收保费 130、持有资本 50。分别用 p=0.95 与 0.995 判断资本是否充足。</div>
+    <div class="ans-skel"><b>骨架：</b>VaR₀.₉₅=100+1.645×30≈149 &lt; 130+50=180 充足；VaR₀.₉₉₅=100+2.576×30≈177 &lt; 180 勉强充足——但只看 VaR 忽略了尾部平均损失。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>VaR₀.₉₅=149，VaR₀.₉₉₅=177；可用资源=保费 130+资本 50=180，两个水平下均「够」。但 TVaR₀.₉₉₅=E[S|S&gt;177]=100+30·φ(2.576)/0.005≈100+30×0.0145/0.005≈187 &gt; 180——按尾部平均损失衡量，资本<b>不足</b>。</p>
+        <p class="hl">考试要害：同一组数，VaR 说够、TVaR 说不够——这正是「TVaR 更保守、更一致」的活教材；简答题里主动写出这个对比就是加分项。</p>
+      </div>
+    </details>
+
+    <div class="tip"><b>经营风险定量化的三级火箭（简答模板）</b>：① <b>度量</b>——对损失分布算 VaR/TVaR，得到「需要多少资源」；② <b>对照</b>——与「实际拥有的资源」（保费+准备金+资本）比较，缺口即所需风险资本；③ <b>管理</b>——再保险（缩小尾部）、定价附加（扩大资源）、资产端错配调整（缩短久期缺口）。每级一步，逻辑闭环，这就是「定量分析经营风险」的完整答卷。</div>
+  </section>
+
+  <div class="pager">
+    <a href="index.html">← 首页</a>
+    <a href="ch2.html">CH.02 生存分析 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
