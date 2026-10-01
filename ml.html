@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>机器学习 · 西瓜书十七章笔记精要｜精算模型与数据分析 · 科目四</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="ml.html" class="on">机器学习笔记 · 十七章</a>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 16</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">专章 · ML</div>
+    <h1>机器学习 · 西瓜书十七章笔记精要</h1>
+    <div class="sub">周志华《机器学习》完整脉络 · 概念 ⇒ 公式 ⇒ 算法 ⇒ 考点</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>周志华《机器学习》（西瓜书）<span class="src src-note">记</span>Vay-keen 十七章开源笔记</span><span>关联分值 20%</span><span>17 节 · 3 图 · 2 台演算器</span></div>
+    <div class="wbar"><div class="lab"><span>对应考纲板块占比</span><span>20%</span></div><div class="bar"><i style="width:20%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ml">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本页导览</b>
+    <ol>
+      <li>基础：术语 · 评估方法 · 性能度量 · 比较检验</li>
+      <li>偏差-方差窘境（图一）</li>
+      <li>监督学习六大模型：线性 · 决策树 · 神经网络 · SVM · 贝叶斯 · EM</li>
+      <li>集成学习与无监督：Boosting/Bagging/RF · 聚类 · 降维 · 特征选择</li>
+      <li>理论与前沿：计算学习理论 · 半监督 · 概率图 · 强化学习</li>
+      <li>十七章一图流（图三）+ 算法速查总表</li>
+    </ol>
+  </div>
+
+  <div class="src-note">
+    <b>来源与改写说明。</b>本页内容来自周志华《机器学习》（西瓜书）及
+    <b>Vay-keen 的十七章开源学习笔记</b>（<span class="src src-note">记</span>），经本站按考纲重排：原笔记公式以图片呈现，此处<b>全部改为文字与自绘 SVG 重排</b>，不依赖任何外部图床，可离线阅读。
+    每节末尾附「<b>考点视角</b>」，标出科目四在这个知识点上会怎么考、考到什么深度。
+  </div>
+
+  <!-- ================= 第一部分 ================= -->
+  <section id="ml-part1">
+    <h2><span class="sn">第一部分</span>基础：术语、评估与度量</h2>
+    <div class="lead">西瓜书前两章。这一部分的<b>概念辨析</b>是科目四机器学习板块最直接的命题点——不考推导，考「分得清」。</div>
+
+    <h3><span class="sn">ML1</span>绪论：术语一网打尽 <span class="star s3">高频★★★</span></h3>
+    <div class="fx">Mitchell 形式化定义：设 <b>P</b> = 程序在任务类 <b>T</b> 上的性能，<b>E</b> = 经验（历史数据集）。若程序利用经验 E 在任务 T 上使性能 P 得到改善，则称该程序对 E 进行了<b>学习</b>。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th style="width:20%">术语</th><th style="width:40%">含义</th><th>易混点</th></tr>
+      <tr><td>数据集 / 样本</td><td>所有记录的集合 / 每一条记录（instance、example）</td><td>统计学家叫「观测/变量」，数据库叫「记录/字段」，机器学习叫「样本/属性」——同一件事三种叫法</td></tr>
+      <tr><td>特征向量 / 维数</td><td>一个样本在坐标轴上的点 / 特征个数</td><td>维数极大即「<b>维数灾难</b>」，是第 11 章降维的出发点</td></tr>
+      <tr><td>训练集 / 测试集</td><td>用于学习的样本集 / 用于检验的样本集</td><td>二者必须<b>互斥</b>，否则评估过于乐观</td></tr>
+      <tr><td>泛化能力</td><td>模型适用于新样本的能力，即从特殊到一般</td><td>学习的目标不是训练误差小，而是<b>泛化误差小</b></td></tr>
+      <tr><td>分类 / 回归</td><td>预测离散值 / 预测连续值</td><td>—</td></tr>
+      <tr><td>监督 / 无监督</td><td>训练数据有标记 / 无标记</td><td>聚类、关联规则属无监督；分类、回归属监督</td></tr>
+    </table></div>
+    <div class="note"><b>考点视角：</b>常以选择题形式给出一句话描述，让你判断属于哪个术语（尤其「泛化能力」「监督/无监督」「维数灾难」）。记住判定链条：<b>有没有标记 → 监督还是无监督；预测值离散还是连续 → 分类还是回归</b>。</div>
+
+    <h3><span class="sn">ML2</span>模型的评估方法：三种划分 <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>留出法</b>：D = S ∪ T，S ∩ T = ∅；常见 2/3 ~ 4/5 用于训练。要<b>分层抽样</b>保持分布一致；单次划分不稳定，应多次随机划分取平均。</div>
+    <div class="fx"><b>k 折交叉验证</b>：D 分为 k 个大小相同的互斥子集，每次取 k−1 个训练、余下 1 个测试，返回 k 次均值。常用 k=10；k=m（每折 1 个样本）即<b>留一法</b>——评估准确但计算量巨大。</div>
+    <div class="fx"><b>自助法（bootstrap）</b>：m 次有放回采样得 D′，样本始终不被采到的概率 → e<sup>−1</sup> ≈ <b>36.8%</b>，故 D′ 训练、(D−D′) 测试。适合小数据集；缺点是改变了初始分布、引入估计偏差。</div>
+    <div class="mnem"><b>口诀：</b>留出「一次分两半」、交叉「轮流当测试」、自助「有放回，三成六」。数据集够大用前两种，数据小才用自助。</div>
+    <div class="warn"><b>⚠ 易错：</b>自助法那个 36.8% 是 <b>极限值</b>（(1−1/m)<sup>m</sup> → e<sup>−1</sup>），不是精确等于；选择题里出现「约 36.8%」才是对的。另外<b>调参完成后，要用完整数据集 D 重新训练一次</b>——这点常被忽略。</div>
+    <div class="note"><b>考点视角：</b>命题形式多为「下列关于评估方法的说法，正确的是」——重点测：① 留出法需分层抽样；② k 折常用 10 折；③ 留一法准确但开销大；④ 自助法改变了数据分布。四个说法能分辨即可。</div>
+
+    <h3><span class="sn">ML3</span>性能度量：从准确率到 AUC <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>回归</b>：均方误差 MSE = (1/m)Σ(f(x<sub>i</sub>) − y<sub>i</sub>)<sup>2</sup>。</div>
+    <div class="fx"><b>分类</b>：错误率 E = 分错样本数 / 总数；精度 Acc = 1 − E。</div>
+    <div class="fx"><b>查准率 P</b> = TP/(TP+FP)（推出来的里面有多少是对的）；<b>查全率 R</b> = TP/(TP+FN)（该推出来的推出来了多少）。<br><b>F1</b> = 2PR/(P+R)（调和平均）；更一般地 F<sub>β</sub> = (1+β<sup>2</sup>)PR/(β<sup>2</sup>P + R)，β&gt;1 偏重查全、β&lt;1 偏重查准。</div>
+    <div class="warn"><b>⚠ FN 与 FP 别搞反：</b>FN 是「<b>真的为正、被判成负</b>」（漏报），FP 是「<b>真的为负、被判成正</b>」（误报）。按字面 False→Negative 去理解会正好反掉。<b>保险语境记忆</b>：欺诈识别里 FN 是「真欺诈没抓到」（赔钱），FP 是「好客户被误判」（伤体验）——前者代价通常更高，所以要看代价敏感。</div>
+    <div class="fx"><b>ROC</b>：横轴 FPR = FP/(FP+TN)，纵轴 TPR = R = TP/(TP+FN)。<b>AUC</b> = ROC 曲线下面积，衡量<b>排序质量</b>：AUC=1 表示所有正例排在负例之前，0.5 表示随机。<br><b>P-R 曲线</b>：查全率为横轴、查准率为纵轴；曲线被完全包住则对方更优，交叉时看<b>平衡点 BEP</b>（P=R 处取值）。</div>
+    <div class="fig">
+      <svg viewBox="0 0 690 250" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans SC,sans-serif">
+        <rect x="0" y="0" width="690" height="250" fill="#f7fafb"/>
+        <!-- P-R -->
+        <g>
+          <text x="60" y="24" text-anchor="middle" fill="#0C447C" font-size="13" font-weight="600">P-R 曲线</text>
+          <line x1="30" y1="200" x2="220" y2="200" stroke="#2b2a26" stroke-width="1.5"/>
+          <line x1="30" y1="200" x2="30" y2="45" stroke="#2b2a26" stroke-width="1.5"/>
+          <text x="125" y="222" text-anchor="middle" fill="#2b2a26" font-size="11">查全率 R</text>
+          <text x="18" y="125" text-anchor="middle" fill="#2b2a26" font-size="11" transform="rotate(-90 18 125)">查准率 P</text>
+          <path d="M30 60 C90 62 150 85 190 140 L210 190" fill="none" stroke="#185FA5" stroke-width="2.5"/>
+          <path d="M30 55 C85 58 140 72 175 105 L200 170" fill="none" stroke="#b53d2e" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <line x1="30" y1="205" x2="205" y2="50" stroke="#bb8a1f" stroke-width="1" stroke-dasharray="3 3"/>
+          <circle cx="118" cy="118" r="3.5" fill="#bb8a1f"/>
+          <text x="126" y="112" fill="#bb8a1f" font-size="10">平衡点 BEP（P=R）</text>
+          <text x="60" y="238" text-anchor="middle" fill="#6b8090" font-size="10">实线被虚线包住 → 虚线更优</text>
+        </g>
+        <!-- ROC -->
+        <g>
+          <text x="400" y="24" text-anchor="middle" fill="#0C447C" font-size="13" font-weight="600">ROC 曲线与 AUC</text>
+          <line x1="330" y1="200" x2="530" y2="200" stroke="#2b2a26" stroke-width="1.5"/>
+          <line x1="330" y1="200" x2="330" y2="45" stroke="#2b2a26" stroke-width="1.5"/>
+          <text x="430" y="222" text-anchor="middle" fill="#2b2a26" font-size="11">FPR = FP/(FP+TN)</text>
+          <text x="318" y="125" text-anchor="middle" fill="#2b2a26" font-size="11" transform="rotate(-90 318 125)">TPR = TP/(TP+FN)</text>
+          <path d="M330 200 C350 120 400 80 510 55 L525 52" fill="none" stroke="#185FA5" stroke-width="2.5" fill-opacity="0"/>
+          <path d="M330 200 C350 120 400 80 510 55 L530 200 Z" fill="#185FA5" fill-opacity="0.13"/>
+          <line x1="330" y1="200" x2="530" y2="45" stroke="#9dc4ce" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="470" y="175" fill="#185FA5" font-size="11" font-weight="600">AUC = 0.5 随机线以上即为有效</text>
+          <circle cx="330" cy="45" r="4" fill="#b53d2e"/>
+          <text x="336" y="52" fill="#b53d2e" font-size="10">理想点 (0,1)</text>
+          <text x="430" y="238" text-anchor="middle" fill="#6b8090" font-size="10">阴影面积 = AUC，AUC 越大排序质量越好</text>
+        </g>
+        <line x1="250" y1="35" x2="250" y2="215" stroke="#c8dde2" stroke-width="1"/>
+      </svg>
+      <div class="fig-cap">图一 · P-R 曲线与 ROC 曲线对照：P-R 关注「查得准/查得全」，ROC 关注「排序质量」；类别极不平衡时 P-R 更能暴露问题。</div>
+    </div>
+    <div class="fx"><b>代价敏感错误率</b>：cost<sub>01</sub>（正判成负）与 cost<sub>10</sub>（负判成正）不相等时，最小化<b>总体代价</b>而非错误率；对应「代价曲线」，横轴为正例概率代价、纵轴为归一化代价，ROC 上每点对应一条线段，取下界围成的面积即期望总体代价。</div>
+    <div class="note"><b>考点视角：</b>三件事必考——① P/R/F1 的定义与相互制约（P 高则 R 低）；② AUC 的含义（排序质量、0.5 为随机）；③ 类别不平衡时准确率失效（正例 99% 时全猜正也有 99% 准确率）。保险应用：理赔欺诈识别正例极少，必须看 P-R 而不是准确率。</div>
+
+    <h3><span class="sn">ML4</span>比较检验与偏差-方差 <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>假设检验</b>：用测试错误率推测泛化错误率的分布（二项检验 / t 检验）。<br><b>交叉验证 t 检验</b>：两学习器在相同折上成对比较差值。<br><b>McNemar 检验</b>：二分类专用，若性能相同则 e<sub>01</sub> = e<sub>10</sub>，统计量 (|e<sub>01</sub>−e<sub>10</sub>|−1)<sup>2</sup>/(e<sub>01</sub>+e<sub>10</sub>) ~ χ<sup>2</sup>(1)。<br><b>Friedman 检验</b>：多数据集多算法排序（赋序值 1,2,…），超出临界值则拒绝「性能相同」，再用 <b>Nemenyi 后续检验</b>两两比较（看平均序值差是否超过临界值域 CD）。</div>
+    <div class="fx"><b>偏差-方差分解</b>：期望泛化误差 = <b>偏差</b><sup>2</sup> + <b>方差</b> + 噪声。<br>偏差 = 预测期望与真实值的偏离，刻画<b>拟合能力</b>；方差 = 每次预测相对预测期望的离散，刻画<b>稳定性</b>。</div>
+    <div class="fig">
+      <svg viewBox="0 0 690 240" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans SC,sans-serif">
+        <rect x="0" y="0" width="690" height="240" fill="#f7fafb"/>
+        <line x1="70" y1="195" x2="640" y2="195" stroke="#2b2a26" stroke-width="1.5"/>
+        <line x1="70" y1="195" x2="70" y2="35" stroke="#2b2a26" stroke-width="1.5"/>
+        <text x="355" y="224" text-anchor="middle" fill="#2b2a26" font-size="12">模型复杂度 / 训练程度 →</text>
+        <text x="44" y="115" text-anchor="middle" fill="#2b2a26" font-size="12" transform="rotate(-90 44 115)">误差</text>
+        <!-- 训练误差 -->
+        <path d="M90 170 C220 150 400 90 620 48" fill="none" stroke="#2f6b5a" stroke-width="2.5"/>
+        <text x="612" y="42" text-anchor="end" fill="#2f6b5a" font-size="11" font-weight="600">训练误差（单调下降）</text>
+        <!-- 泛化误差 U -->
+        <path d="M90 178 C210 128 300 118 380 130 C470 146 560 172 620 190" fill="none" stroke="#b53d2e" stroke-width="2.8"/>
+        <text x="360" y="112" text-anchor="middle" fill="#b53d2e" font-size="11" font-weight="600">泛化误差（U 型，存在最优点）</text>
+        <!-- 偏差 -->
+        <path d="M90 172 C240 155 420 105 620 72" fill="none" stroke="#185FA5" stroke-width="2" stroke-dasharray="6 3"/>
+        <text x="560" y="66" text-anchor="end" fill="#185FA5" font-size="11">偏差（拟合能力，随复杂度下降）</text>
+        <!-- 方差 -->
+        <path d="M90 182 C240 172 420 130 620 88" fill="none" stroke="#bb8a1f" stroke-width="2" stroke-dasharray="2 3"/>
+        <text x="614" y="112" text-anchor="end" fill="#bb8a1f" font-size="11">方差（稳定性，随复杂度上升）</text>
+        <!-- 标记 -->
+        <line x1="380" y1="130" x2="380" y2="195" stroke="#b53d2e" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="380" cy="130" r="4.5" fill="#b53d2e"/>
+        <text x="388" y="150" fill="#b53d2e" font-size="11" font-weight="600">最佳复杂度</text>
+        <text x="120" y="212" fill="#6b8090" font-size="11">欠拟合区：偏差主导</text>
+        <text x="540" y="212" fill="#6b8090" font-size="11">过拟合区：方差主导</text>
+      </svg>
+      <div class="fig-cap">图二 · 偏差-方差窘境：训练不足时偏差主导（欠拟合），训练过度时方差主导（过拟合）。集成学习中 Boosting 主要降偏差、Bagging 主要降方差，正对应这张图的两端。</div>
+    </div>
+    <div class="mnem"><b>口诀：</b>欠拟合——训练误差和测试误差<b>都大</b>，偏差主导；过拟合——训练误差<b>极小</b>而测试误差<b>变大</b>，方差主导。过拟合是机器学习的关键障碍，没有彻底的解决方案，只能缓解（正则化、剪枝、早停、增数据）。</div>
+    <div class="note"><b>考点视角：</b>简答题常问「什么是过拟合，如何缓解」，按四招作答：<b>正则化 / 早停 / 剪枝 / 增加数据或数据增强</b>，再补一句「过拟合无法彻底避免」。</div>
+  </section>
+
+  <!-- ================= 第二部分 ================= -->
+  <section id="ml-part2">
+    <h2><span class="sn">第二部分</span>监督学习：六大模型</h2>
+    <div class="lead">从最简单的线性回归，到曾经取代过神经网络的 SVM。这一部分是「原理 + 方法」的主战场。</div>
+
+    <h3><span class="sn">ML5</span>线性模型：回归 · 对数几率 · LDA <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>一元线性回归</b>：最小化均方误差，对 w、b 求偏导置零 → 最小二乘解。<br><b>多元</b>：ŷ = <b>w</b><sup>T</sup><b>x</b> + b，矩阵形式 ŵ* = (X<sup>T</sup>X)<sup>−1</sup>X<sup>T</sup>y（仅当 X<sup>T</sup>X 满秩可逆；否则需正则化）。<br><b>广义线性模型</b>：y = g<sup>−1</sup>(<b>w</b><sup>T</sup><b>x</b> + b)，g(·) 为<b>联系函数</b>；取 g = ln 即得对数线性回归。</div>
+    <div class="fx"><b>对数几率回归（Logistic）</b>：y = 1/(1 + e<sup>−(w<sup>T</sup>x+b)</sup>)，把线性回归的预测值压到 (0,1)；等价于用线性模型逼近<b>真实标记的对数几率</b> ln[y/(1−y)]。参数由<b>极大似然</b>估计（不是最小二乘）。</div>
+    <div class="fx"><b>LDA 线性判别分析</b>：把样本投影到一条直线，使<b>同类投影尽可能近、异类投影尽可能远</b>；最大化「广义瑞利商」= 类间散度 / 类内散度。LDA 用到类别标记，因此也是一种<b>监督降维</b>技术（可降到 N−1 维，N 为类别数）。</div>
+    <div class="fx"><b>多分类拆分</b>：OvO（N(N−1)/2 个二分类器，投票）、OvR（N 个，一对其余）、MvM（若干正类 vs 若干反类，常用 ECOC 编码，按海明/欧氏距离解码）。</div>
+    <div class="fx"><b>类别不平衡</b>三招：<b>欠采样</b>（EasyEnsemble）、<b>过采样</b>（SMOTE 插值）、<b>再缩放</b>（阈值移动，也是代价敏感学习的基础）。</div>
+    <div class="note"><b>考点视角：</b>① Logistic 与线性回归的区别（前者分类 + 极大似然，后者回归 + 最小二乘；前者输出经 Sigmoid 压缩到 (0,1)）；② LDA 与 PCA 的区别（LDA 用标记、监督降维、最多 N−1 维；PCA 不用标记、无监督、维数自选）。这两组对比是高频辨析题。</div>
+
+    <h3><span class="sn">ML6</span>决策树：ID3 / C4.5 / CART <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>信息熵</b>：Ent(D) = −Σ<sub>k</sub> p<sub>k</sub> log<sub>2</sub> p<sub>k</sub>（值越小越纯）。<br><b>信息增益（ID3）</b>：Gain(D, a) = Ent(D) − Σ<sub>v</sub> |D<sup>v</sup>|/|D| · Ent(D<sup>v</sup>)，取最大者划分。<br><b>增益率（C4.5）</b>：Gain_ratio = Gain(D,a) / IV(a)，其中 IV(a) = −Σ<sub>v</sub> |D<sup>v</sup>|/|D| · log<sub>2</sub>(|D<sup>v</sup>|/|D|)（属性 a 的固有值，取值越多越大）。C4.5 先筛出<b>高于平均</b>的候选，再从中选增益率最大的。<br><b>基尼指数（CART）</b>：Gini(D) = 1 − Σ<sub>k</sub> p<sub>k</sub><sup>2</sup>，反映「随机抽两个样本类别不一致的概率」，越小越纯。</div>
+    <div class="warn"><b>⚠ ID3 的坑：</b>信息增益<b>偏向取值数目多的属性</b>——极端情况「编号」属性会把每个样本单独分一支，熵为 0 却毫无用处。这正是 C4.5 引入增益率的原因。</div>
+    <div class="fx"><b>连续值</b>：二分法——排序后取相邻均值作为候选切点（n−1 个），选信息增益最大的切点。<br><b>缺失值</b>：① 仅在<b>无缺失的子集</b>上算信息增益，再乘以该子集占比；② 缺失样本按<b>各分支样本比例作为权重</b>同时划入所有分支。</div>
+    <div class="fx"><b>剪枝</b>：<b>预剪枝</b>（生成时评估，不提升就不分支——省时间但有欠拟合风险）、<b>后剪枝</b>（生成完整树后自底向上考察——开销大但泛化通常更好）。</div>
+    <div class="mnem"><b>口诀：</b>ID3 看<b>增益</b>、C4.5 看<b>增益率</b>、CART 看<b>基尼</b>；连续值用二分、缺失值用权重；预剪枝贪心、后剪枝更准。</div>
+    <div class="note"><b>考点视角：</b>必考三选一式的对应（算法 ↔ 划分准则），以及剪枝的两种策略对比。可能会给一个小数据集让你算熵或信息增益——本站 CH.06 有「熵与基尼指数」演算器可练手。</div>
+
+    <h3><span class="sn">ML7</span>神经网络：从 M-P 到 BP <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>M-P 神经元</b>：接收 n 个带权输入 → 求加权和 → 减去阈值 → 经<b>激活函数</b>输出。理想激活是阶跃函数，但不连续不光滑，实际常用 <b>Sigmoid</b>（把输入挤到 (0,1)，又称挤压函数）。</div>
+    <div class="fx"><b>感知机</b>：两层神经元，仅输出层是功能神经元；权重更新 Δw<sub>i</sub> = η(y − ŷ)x<sub>i</sub>（η∈(0,1) 为学习率）。只有一层功能神经元 ⇒ <b>只能处理线性可分</b>（异或问题解不了）。</div>
+    <div class="fx"><b>多层前馈网络</b>：每层与下一层全互连、无同层连接、无跨层连接；「前馈」指<b>拓扑上无环</b>，不等于不能反向传播。<br><b>BP 算法</b>：误差逆传播 + 梯度下降，以单个样本的均方误差之负梯度调节连接权与阈值；标准 BP 每次针对单个样本更新，累积 BP 读完全部数据才更新一轮（数据量大时标准 BP 往往更好）。</div>
+    <div class="fx"><b>缓解过拟合</b>：<b>早停</b>（训练集误差降而验证集误差升时停止）+ <b>正则化</b>（误差函数中加入权值平方和项，λ 折中拟合与复杂度）。<br><b>局部最小 vs 全局最小</b>：梯度为 0 即局部极小；跳出手段——多组不同初值初始化取最优、模拟退火、随机梯度下降。</div>
+    <div class="fx"><b>深度学习</b>：增加隐层数比增加每层神经元更有效；多隐层难训的两条路——<b>无监督逐层预训练 + 微调</b>（如 DBN）、<b>权共享</b>（如 CNN）。本质上是<b>表示学习/特征学习</b>，把人工特征工程自动化。</div>
+    <div class="note"><b>考点视角：</b>① 感知机只能解线性可分、XOR 需多层；② 激活函数为何不用阶跃（不连续、不可导）；③ 早停与正则化的作用；④ 深度学习 = 自动特征工程。以概念题为主，不考反向传播的矩阵推导。</div>
+
+    <h3><span class="sn">ML8</span>支持向量机：间隔、对偶与核 <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>函数间隔</b> = ŷ(w<sup>T</sup>x + b) = |w<sup>T</sup>x + b|（会随 w、b 同比例缩放而变，故<b>不能</b>用来最大化）；<b>几何间隔</b> = ŷ(w<sup>T</sup>x + b)/‖w‖，即点到超平面的<b>真实距离</b>。</div>
+    <div class="fx"><b>基本型</b>：令几何间隔为 1，则最大化间隔 ⇔ 最小化 ½‖w‖<sup>2</sup>，约束 y<sub>i</sub>(w<sup>T</sup>x<sub>i</sub> + b) ≥ 1 —— 一个<b>凸二次规划</b>问题。<br>满足 y(w<sup>T</sup>x+b) = 1 的样本即<b>支持向量</b>；非支持向量对应的拉格朗日乘子 α<sub>i</sub> = 0，因此预测时<b>只需与支持向量求内积</b>。</div>
+    <div class="fx"><b>为何转对偶</b>：① 更易求解；② 自然出现<b>内积形式</b>，从而引出核函数。对偶问题：max Σα<sub>i</sub> − ½ΣΣα<sub>i</sub>α<sub>j</sub>y<sub>i</sub>y<sub>j</sub>x<sub>i</sub><sup>T</sup>x<sub>j</sub>，s.t. Σα<sub>i</sub>y<sub>i</sub> = 0，α<sub>i</sub> ≥ 0；由 <b>SMO</b> 求解。</div>
+    <div class="fx"><b>核函数</b>：κ(x<sub>i</sub>, x<sub>j</sub>) = ⟨φ(x<sub>i</sub>), φ(x<sub>j</sub>)⟩，直接算出高维空间中的内积而<b>不必显式写出映射</b>——「<b>低维计算，高维表现</b>」。常用：线性核、多项式核、高斯（RBF）核、Sigmoid 核。核函数选择是 SVM 最大的变数。</div>
+    <div class="fx"><b>软间隔</b>：允许少量样本不满足约束，引入松弛变量 ξ<sub>i</sub> 与 <b>hinge 损失</b>；目标 ½‖w‖<sup>2</sup> + C·Σξ<sub>i</sub>。对偶形式与硬间隔<b>完全相同，只是 α 多了上限 C</b>。C 越大越不容忍犯错（趋向硬间隔、易过拟合），C 越小越宽容。</div>
+    <div class="mnem"><b>口诀：</b>函数间隔会缩放、几何间隔才是真距离；支持向量定边界、非支持向量 α 全为零；核函数低维算高维；C 大不容错、C 小更宽容。</div>
+    <div class="note"><b>考点视角：</b>常考三点——① 支持向量的定义与「只与支持向量有关」；② 核函数的作用（避免显式高维映射、解决线性不可分）；③ 软间隔与 C 的含义。公式推导一般不要求。</div>
+
+    <h3><span class="sn">ML9</span>贝叶斯分类器与 EM 算法 <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>贝叶斯判定准则</b>：最小化条件风险 R(c|x) = Σ λ<sub>ij</sub> P(c<sub>j</sub>|x)；取 0-1 损失时退化为「<b>选后验概率最大的类</b>」。<br><b>生成式 vs 判别式</b>：生成式先对联合分布 P(x,c) 建模再求 P(c|x)（贝叶斯、高斯混合）；判别式直接对 P(c|x) 建模（决策树、神经网络、SVM）。</div>
+    <div class="fx"><b>朴素贝叶斯</b>：假设属性条件独立，P(c|x) ∝ P(c)·Π<sub>i</sub> P(x<sub>i</sub>|c)。MLE 四步：写似然 → 取对数 → 求偏导置零 → 解似然方程组。<br><b>拉普拉斯修正</b>：P̂(c) = (|D<sub>c</sub>|+1)/(|D|+N)，P̂(x<sub>i</sub>|c) = (|D<sub>c,x<sub>i</sub></sub>|+1)/(|D<sub>c</sub>|+N<sub>i</sub>)，避免某个属性值未出现导致概率被抹成 0。</div>
+    <div class="fx"><b>EM 算法</b>：存在<b>隐变量</b>时的参数估计利器。E 步——固定 θ，求隐变量 Z 的期望（实为后验概率，建立对数似然的下界）；M 步——固定 Q，最大化下界更新 θ。用 <b>Jensen 不等式</b>把「和的对数」变成「对数的和」。<br>可视为一种<b>坐标下降</b>：一次固定一个变量、对另一个求极值，交替直到收敛。</div>
+    <div class="note"><b>与本站 CH.03 随机模拟的联系：</b>EM 的思路与 Gibbs 采样、MCMC 同属「隐变量/高维积分难求时的迭代策略」，只是 EM 求的是<b>点估计（极大似然）</b>，MCMC 求的是<b>分布</b>。K-Means 其实也是 EM：类别=隐变量、类中心=参数。</div>
+    <div class="note"><b>考点视角：</b>① 先验概率 vs 后验概率；② 为何要拉普拉斯修正；③ EM 两步各做什么（E 步求期望/下界，M 步极大化）。「K-Means 是 EM 的特例」是很好的简答加分句。</div>
+  </section>
+
+  <!-- ================= 第三部分 ================= -->
+  <section id="ml-part3">
+    <h2><span class="sn">第三部分</span>集成学习与无监督学习</h2>
+    <div class="lead">「三个臭皮匠」的数学（集成），以及没有标准答案时怎么找结构（聚类、降维）。</div>
+
+    <h3><span class="sn">ML10</span>集成学习：好而不同 <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>核心矛盾</b>：集成要有效，个体学习器必须「<b>好而不同</b>」——准确性与多样性不可兼得。<br>若基分类器独立且错误率均为 ε，集成错误率 = Σ<sub>k&gt;T/2</sub> C(T,k) ε<sup>k</sup>(1−ε)<sup>T−k</sup>，随 T 指数下降；但现实中独立性不可能成立，故只能尽量制造差异。</div>
+    <div class="fx"><b>Boosting / AdaBoost</b>：<b>串行</b>生成，不断加大<b>上一轮分错样本的权重</b>，最后按误差率加权组合（误差率小的权重大）。使用<b>指数损失函数</b>；只适用于二分类（标准版）。<b>主要降低偏差</b>。<br><b>Bagging</b>：<b>并行</b>生成，用自助采样（约 36.8% 样本未被采到）造出 T 个不同训练集。<b>主要降低方差</b>，适合<b>不稳定</b>学习器（决策树、神经网络）。<br><b>随机森林</b>：Bagging + <b>属性扰动</b>（每个节点从随机 K 个属性中选最优划分，推荐 K = log<sub>2</sub>d）。多样性来自样本扰动 + 属性扰动。</div>
+    <div class="fx"><b>结合策略</b>：平均法（回归；性能相近用简单平均，相差大用加权平均）、投票法（分类；绝对多数/相对多数/加权，绝对多数提供<b>拒绝</b>选项）、学习法（<b>Stacking</b>：用基学习器输出训练一个次级学习器，输入用类概率、次级用 MLR 效果较好）。</div>
+    <div class="fx"><b>增强多样性的四种扰动</b>：数据样本扰动、输入属性扰动、输出表示扰动、算法参数扰动。</div>
+    <div class="mnem"><b>口诀：</b>AdaBoost 串行降<b>偏差</b>、Bagging 并行降<b>方差</b>、随机森林在 Bagging 之上再加<b>属性扰动</b>。看到「降低方差」选 Bagging/随机森林，看到「降低偏差」选 Boosting。</div>
+    <div class="note"><b>考点视角：</b>这是机器学习板块<b>最常考的对比题</b>：Boosting vs Bagging（串行/并行、样本权重/自助采样、降偏差/降方差）。再记一句：随机森林基学习器固定为决策树，且训练效率高于 Bagging 版决策树（因为只在属性子集中选划分）。</div>
+
+    <h3><span class="sn">ML11</span>聚类：距离、原型、密度、层次 <span class="star s3">高频★★★</span></h3>
+    <div class="fx"><b>距离度量</b>：闵可夫斯基距离 dist = (Σ|x<sub>i</sub>−x<sub>j</sub>|<sup>p</sup>)<sup>1/p</sup>；p=1 曼哈顿、p=2 欧氏、p→∞ 切比雪夫。<b>有序属性</b>（连续 + 有序离散）可直接算；<b>无序属性</b>用 <b>VDM</b>：VDM<sub>p</sub>(a,b) = Σ<sub>k</sub> |m<sub>k,a</sub>/m<sub>a</sub> − m<sub>k,b</sub>/m<sub>b</sub>|<sup>p</sup>。</div>
+    <div class="fx"><b>性能度量</b>：<b>外部指标</b>（与参考模型比：Jaccard、FM、Rand 指数，基于 a/b/c/d 四量）、<b>内部指标</b>（不看外部：DB 指数——越小越好，Dunn 指数——越大越好）。直观标准：<b>簇内高内聚、簇间低耦合</b>。</div>
+    <div class="fx"><b>K-Means</b>：随机定类中心 → 按距离划簇 → 重算类中心 → 迭代至收敛；最小化平方误差 E = Σ<sub>i</sub> ‖x<sub>i</sub> − μ<sub>λi</sub>‖<sup>2</sup>。本质是 <b>EM</b>（类别=隐变量）。<br><b>LVQ</b>：用<b>真实类标</b>辅助聚类——分对了原型向量<b>靠近</b>样本，分错了<b>远离</b>。<br><b>高斯混合聚类</b>：每个簇是一个多维高斯分布，用 EM 估计 α、μ、Σ，按后验 γ<sub>ji</sub> 划分（<b>软聚类</b>）。</div>
+    <div class="fx"><b>DBSCAN（密度聚类）</b>：核心对象 / 密度直达 / 密度可达 / 密度相连；找出核心对象所有密度可达的样本成簇。<b>不需要预先指定 k</b>，能发现任意形状簇、能识别噪声点；对参数（邻域半径 ε、MinPts）敏感。<br><b>AGNES（层次聚类）</b>：自底向上，每次合并最近的两类；类间距离有三种——<b>单链接</b>（最小距离，包容）、<b>全链接</b>（最大距离，严格）、<b>均链接</b>（平均距离，折中）。</div>
+    <div class="calc" id="calc-dist">
+      <h4>① 演算器：闵可夫斯基距离族</h4>
+      <div class="row"><label>样本 x（逗号分隔）</label><input class="calc-in" id="ds-x" value="1,3,5"></div>
+      <div class="row"><label>样本 y（逗号分隔）</label><input class="calc-in" id="ds-y" value="4,1,2"></div>
+      <div class="row"><label>幂次 p（可填 inf）</label><input class="calc-in" id="ds-p" value="2"></div>
+      <div class="row">曼哈顿 p=1 <span class="out calc-out" id="ds-d1">—</span></div>
+      <div class="row">欧氏 p=2 <span class="out calc-out" id="ds-d2">—</span></div>
+      <div class="row">切比雪夫 p=∞ <span class="out calc-out" id="ds-di">—</span></div>
+      <div class="row">当前 p 的距离 <span class="out calc-out" id="ds-dp">—</span></div>
+      <div class="verdict">p 越大，最大分量差越主导结果：p=1 各维度等权累加，p=∞ 只看差得最大的那一维。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-dist');
+      function vec(id){ return (document.getElementById(id).value||'').split(/[,，\s]+/).filter(function(s){return s!==''}).map(Number); }
+      function dist(a,b,p){
+        var n=Math.min(a.length,b.length), s=0, mx=0;
+        for(var i=0;i<n;i++){ var d=Math.abs(a[i]-b[i]); if(d>mx) mx=d; s+=Math.pow(d,p); }
+        return Math.pow(s,1/p);
+      }
+      box.__run=function(){
+        var x=vec('ds-x'), y=vec('ds-y');
+        var raw=(document.getElementById('ds-p').value||'2').trim().toLowerCase();
+        if(x.length!==y.length||!x.length){ ['ds-d1','ds-d2','ds-di','ds-dp'].forEach(function(i){document.getElementById(i).textContent='维数不一致'}); return; }
+        var d1=0,d2=0,di=0;
+        for(var i=0;i<x.length;i++){ var d=Math.abs(x[i]-y[i]); d1+=d; d2+=d*d; if(d>di) di=d; }
+        document.getElementById('ds-d1').textContent=d1.toFixed(4);
+        document.getElementById('ds-d2').textContent=Math.sqrt(d2).toFixed(4);
+        document.getElementById('ds-di').textContent=di.toFixed(4);
+        if(raw==='inf'||raw==='∞'||raw==='infinity'){ document.getElementById('ds-dp').textContent=di.toFixed(4)+'（p=∞）'; }
+        else { var p=parseFloat(raw)||2; document.getElementById('ds-dp').textContent=dist(x,y,p).toFixed(4); }
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+    <div class="mnem"><b>口诀：</b>K-Means 要指定 k、球状簇、对初值敏感；DBSCAN 不需 k、任意形状、能去噪；层次聚类产出树状图（可事后切）。「<b>k 未知或形状不规则 → DBSCAN</b>」。</div>
+    <div class="note"><b>考点视角：</b>① K-Means 流程与「需预先指定 k」这一前提；② DBSCAN 的四个概念与「不需指定簇数、能识别噪声」；③ 单/全/均链接的区别。选择题常给场景让你选算法。</div>
+
+    <h3><span class="sn">ML12</span>降维与度量学习 <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>维数灾难</b>：高维下样本稀疏、密采样所需样本数为天文数字、距离计算困难（这正是 SVM 要用核函数的原因）。降维即把高维空间嵌入合适的<b>低维子空间（低维嵌入）</b>。</div>
+    <div class="fx"><b>kNN</b>：无显式训练过程的<b>惰性学习</b>（训练开销为零，预测时才计算）；k 太小受噪声干扰（k=1 最极端），k 太大预测能力退化（k=m 时全猜一类），通常用交叉验证选 k。它常被用来为降维算法<b>挑选低维维数</b>。</div>
+    <div class="fx"><b>MDS 多维缩放</b>：要求降维前后<b>样本间距离保持不变</b>；由距离矩阵 D 求内积矩阵 B（中心化后 B = Z<sup>T</sup>Z），再做特征值分解得到低维坐标 Z。</div>
+    <div class="fx"><b>PCA 主成分分析</b>：线性变换投影到超平面，要求<b>最近重构性</b>（点到超平面距离近）与<b>最大可分性</b>（投影点尽量分散）——两条思路导出的优化问题<b>完全相同</b>；对协方差矩阵做特征值分解，取前 d′ 个大特征值对应的特征向量。</div>
+    <div class="fx"><b>KPCA</b>：先映射到高维再线性降维；利用「空间中任一向量可由所有样本线性表出」，最终只需对<b>核矩阵 K</b> 做特征分解。<br><b>流形学习</b>：Isomap（保持邻域内<b>距离</b>，用测地线距离 + MDS）、LLE（保持邻域内<b>线性关系</b>）。近邻图构建的两难：邻域过大「<b>短路</b>」、过小「<b>断路</b>」。</div>
+    <div class="fx"><b>马氏距离</b>：dist<sup>2</sup> = (x<sub>i</sub>−x<sub>j</sub>)<sup>T</sup> <b>M</b> (x<sub>i</sub>−x<sub>j</sub>)；标准马氏距离中 M = Σ<sup>−1</sup>（协方差矩阵的逆），<b>考虑属性相关性且尺度无关</b>。<b>度量学习</b>就是学习这个度量矩阵 M（须为半正定对称）。</div>
+    <div class="calc" id="calc-pca">
+      <h4>② 演算器：PCA 累计方差解释率</h4>
+      <div class="row"><label>特征值（从大到小，逗号分隔）</label><input class="calc-in" id="pc-v" value="4.2,2.1,1.3,0.6,0.3"></div>
+      <div class="row"><label>目标累计解释率 %</label><input class="calc-in" id="pc-t" value="90"></div>
+      <div class="row">各主成分解释率 <span class="out calc-out" id="pc-r">—</span></div>
+      <div class="row">累计解释率 <span class="out calc-out" id="pc-c">—</span></div>
+      <div class="row">建议保留维数 <span class="out calc-out" id="pc-k">—</span></div>
+      <div class="verdict">工程上常取累计解释率达到 85%~95% 的最小维数；本例 5 个特征值总和 8.5。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-pca');
+      box.__run=function(){
+        var v=(document.getElementById('pc-v').value||'').split(/[,，\s]+/).filter(function(s){return s!==''}).map(Number).filter(function(n){return !isNaN(n)});
+        var t=parseFloat(document.getElementById('pc-t').value)||90;
+        if(!v.length){ document.getElementById('pc-r').textContent='—'; return; }
+        var s=v.reduce(function(a,b){return a+b},0)||1e-9;
+        var rate=v.map(function(x){return x/s*100});
+        var cum=[],acc=0,k=v.length;
+        for(var i=0;i<v.length;i++){ acc+=rate[i]; cum.push(acc); if(acc>=t && k===v.length) k=i+1; }
+        document.getElementById('pc-r').textContent=rate.map(function(x){return x.toFixed(1)+'%'}).join(' / ');
+        document.getElementById('pc-c').textContent=cum.map(function(x){return x.toFixed(1)+'%'}).join(' / ');
+        document.getElementById('pc-k').textContent=k+' 维（累计 '+cum[k-1].toFixed(1)+'%）';
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+    <div class="note"><b>考点视角：</b>① 维数灾难的表现（稀疏 + 距离难算）；② PCA 的两个等价性质（最近重构 = 最大可分）；③ PCA 与 LDA 的区别（无监督/有监督）；④ kNN 是惰性学习。解释方差、累计贡献率是常见计算题。</div>
+
+    <h3><span class="sn">ML13</span>特征选择与稀疏学习 <span class="star s1">低频★</span></h3>
+    <div class="fx"><b>三种范式</b>：<b>过滤式</b>（先选特征再训练；Relief 用「相关统计量」——猜中近邻 near-hit 越近越好、猜错近邻 near-miss 越远越好，多分类用 Relief-F）、<b>包裹式</b>（把学习器当评价准则，LVW 随机搜索 + 停止参数 T，开销大）、<b>嵌入式</b>（选择与训练融合，靠 <b>L1 正则</b>）。</div>
+    <div class="fx"><b>L1 vs L2</b>：L1（Lasso）使部分权重<b>精确为 0</b> ⇒ 特征选择；L2（Ridge）使权重<b>趋于 0 但不为 0</b> ⇒ 控过拟合。原因：L1 在 0 附近下降速度快（绝对值 vs 二次函数），且约束区域是菱形、更容易在顶点处与等高线相切得到稀疏解。</div>
+    <div class="fx"><b>子集搜索</b>：前向（逐步加）、后向（逐步减）、双向（加减并行）；评价可用信息增益。</div>
+    <div class="mnem"><b>口诀：</b>过滤式快而粗、包裹式准而慢、嵌入式靠 L1。要「把没用的特征踢掉」用 L1，要「把权重压小防过拟合」用 L2。</div>
+    <div class="note"><b>考点视角：</b>L1 与 L2 的区别是唯一高频点，务必说清「<b>L1 稀疏、可做特征选择；L2 平滑、防过拟合</b>」。与本站 CH.04 回归分析的 Ridge/Lasso 部分是同一知识的两个视角，可对照着看。</div>
+  </section>
+
+  <!-- ================= 第四部分 ================= -->
+  <section id="ml-part4">
+    <h2><span class="sn">第四部分</span>理论与前沿：可学习性、半监督、图模型、强化学习</h2>
+    <div class="lead">这部分回答「机器学习凭什么有效」以及「标记不够、序列数据、序贯决策怎么办」。考纲要求「了解基本原理」，以概念为主。</div>
+
+    <h3><span class="sn">ML14</span>计算学习理论：PAC 与 VC 维 <span class="star s1">低频★</span></h3>
+    <div class="fx"><b>基本概念</b>：<b>目标概念</b> c（理想映射）、<b>假设空间</b>（算法所有可能映射的集合）、<b>可分/一致</b>（假设空间包含目标概念）。<br><b>PAC（概率近似正确）</b>：以置信度 1−δ 学得泛化误差 ≤ ε 的假设。加上样本数要求 → <b>PAC 可学习</b>；再加上多项式时间 → <b>PAC 学习算法</b>。</div>
+    <div class="fx"><b>有限假设空间</b>：可分情形下，剔除经验误差不为 0 的假设，所需样本数 m ≥ (1/ε)(ln|H| + ln(1/δ))；不可分（<b>不可知学习</b>）时用 <b>Hoeffding 不等式</b>给出泛化误差界。</div>
+    <div class="fx"><b>增长函数</b>：假设空间对 m 个样本能打出的最多标记结果数；<b>打散</b>：能实现全部 2<sup>m</sup> 种对分。<br><b>VC 维</b>：假设空间能打散的<b>最大数据集大小</b> d（存在大小为 d 的可打散集，但不存在 d+1 的）。结论：<b>任何 VC 维有限的假设空间都是（不可知）PAC 可学习的</b>。</div>
+    <div class="fx"><b>稳定性</b>：输入变动一个样本，输出损失变化不超过 β ⇒ <b>β-均匀稳定性</b>；满足 ERM 且 β-均匀稳定的假设空间可学习。</div>
+    <div class="note"><b>考点视角：</b>只需掌握三条定性结论：① PAC = 「大概率学得误差有界的假设」；② VC 维衡量假设空间复杂度（能打散的最大样本数）；③ VC 维有限 ⇒ 可学习。数值计算不考。</div>
+
+    <h3><span class="sn">ML15</span>半监督学习 <span class="star s1">低频★</span></h3>
+    <div class="fx"><b>主动学习 vs 半监督</b>：主动学习挑<b>不确定性高/置信度低</b>的样本去问专家（仍需交互，本质还是监督）；半监督<b>不与外界交互</b>，直接利用未标记样本蕴含的分布信息（它们与有标记样本同分布）。<br><b>纯半监督</b>：未标记数据不是待预测数据；<b>直推学习</b>：未标记数据就是待预测数据。</div>
+    <div class="fx"><b>四类方法</b>：① <b>生成式方法</b>（假设高斯混合分布，EM 求解；强依赖分布假设）；② <b>半监督 SVM（TSVM/S3VM）</b>（让超平面穿过<b>低密度区域</b>，给未标记样本伪标记并局部搜索调整）；③ <b>基于分歧</b>（协同训练：多视图<b>相容互补</b>，各自挑置信度最高的样本给对方学）；④ <b>半监督聚类</b>（必连/勿连约束，或少量带标记样本指定类中心）。</div>
+    <div class="note"><b>考点视角：</b>命题点很集中——主动学习 vs 半监督的区别（是否需交互/查询）、纯半监督 vs 直推学习的区别（未标记样本是不是待预测样本）。</div>
+
+    <h3><span class="sn">ML16</span>概率图模型：HMM / MRF / CRF <span class="star s2">中频★★</span></h3>
+    <div class="fx"><b>两类图</b>：用<b>有向边</b>表依赖关系 → <b>贝叶斯网</b>（如 HMM）；用<b>无向边</b> → <b>马尔可夫网</b>（如 MRF）。</div>
+    <div class="fx"><b>HMM 隐马尔可夫模型</b>：状态变量（隐）与观测变量（显）。两条依赖：① 观测只依赖当前状态；② 下一状态只依赖当前状态（<b>马尔可夫性：现在决定未来，未来与过去无关</b>）。三组参数：初始状态概率 π、状态转移概率 A、观测概率 B。<br><b>三个问题</b>：<b>评估</b>（给定模型和观测序列，求序列概率 → 前向算法）、<b>解码</b>（求最可能的状态序列 → <b>Viterbi 算法</b>）、<b>学习</b>（只给观测序列调参 → <b>EM 算法/Baum-Welch</b>）。</div>
+    <div class="fx"><b>MRF 马尔可夫随机场</b>：<b>团</b>（两两有边相连的子集）、<b>极大团</b>；联合概率按极大团上的<b>势函数</b>分解：P(x) = (1/Z) Π<sub>Q∈C</sub> ψ<sub>Q</sub>(x<sub>Q</sub>)（Z 为规范化因子）。三条马尔可夫性：全局 / 局部 / 成对。<br><b>CRF 条件随机场</b>：对<b>条件分布</b> P(y|x) 建模（判别式），与 HMM（生成式）相对；链式 CRF 用两类特征函数——<b>转移特征</b>（相邻标注是否合理）、<b>状态特征</b>（观测与标注是否匹配）。</div>
+    <div class="fx"><b>精确推断</b>：<b>变量消去</b>（用乘法分配律把求和控制在局部）、<b>信念传播</b>（叶→根、根→叶两轮消息传递，节点边际正比于所收消息之积）。</div>
+    <div class="note"><b>与本站 CH.01 的呼应：</b>马氏链在风险理论里是「状态转移 + 稳态分布」（本站统一用「常态/瞬态」表述），在 HMM 里是「隐状态序列的依赖结构」——同一个数学对象，两种用法。</div>
+    <div class="note"><b>考点视角：</b>① 有向=贝叶斯网、无向=马尔可夫网；② HMM 三参数三问题（评估/解码/学习对应前向/Viterbi/EM）；③ HMM 是生成式、CRF 是判别式。</div>
+
+    <h3><span class="sn">ML17</span>强化学习 <span class="star s1">低频★</span></h3>
+    <div class="fx"><b>MDP 四要素</b>：<b>状态 X</b>（对环境的感知）、<b>动作 A</b>、<b>转移概率 P</b>、<b>奖赏函数 R</b>。目标是学出策略 π（确定性 π(x)=a 或随机性 π(x,a)），使<b>长期累积奖赏</b>最大（T 步累积奖赏 / γ 折扣累积奖赏）。</div>
+    <div class="fx"><b>探索-利用困境</b>（K-摇臂赌博机）：<b>仅探索</b>（均分机会，估得准但不利用）、<b>仅利用</b>（只试当前最优，易陷局部）。折中：<b>ε-贪心</b>（以 ε 概率随机探索、1−ε 概率利用）、<b>Softmax</b>（按当前平均奖赏的 softmax 概率分配）。</div>
+    <div class="fx"><b>有模型学习</b>：四要素已知 → 策略评估（状态值函数 V、状态-动作值函数 Q，用 Bellman 等式递归）+ 策略改进（选当前最优动作）。<b>策略迭代</b>（评估与改进交替）与<b>值迭代</b>（先迭代出最优值函数）。<br><b>免模型学习</b>：转移与奖赏未知 → 蒙特卡罗强化学习，靠采样轨迹估计 Q，用 ε-贪心保证多样性；同策略 vs 异策略。</div>
+    <div class="note"><b>AlphaGo 三模块</b>：深度学习（拟合估值函数）+ 蒙特卡罗搜索树（采样）+ 强化学习（按反馈调整估值函数）。这是「三大件如何配合」最好的例子。</div>
+    <div class="note"><b>考点视角：</b>考纲对强化学习只要求了解。掌握：四要素、探索-利用困境与 ε-贪心、V/Q 值函数的含义即可。</div>
+  </section>
+
+  <!-- ================= 第五部分 ================= -->
+  <section id="ml-part5">
+    <h2><span class="sn">第五部分</span>十七章一图流与算法速查</h2>
+
+    <h3><span class="sn">图三</span>十七章知识地图</h3>
+    <div class="fig">
+      <svg viewBox="0 0 690 420" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans SC,sans-serif">
+        <rect x="0" y="0" width="690" height="420" fill="#f7fafb"/>
+        <!-- 根 -->
+        <rect x="270" y="14" width="150" height="34" rx="6" fill="#0C447C"/>
+        <text x="345" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">机器学习（西瓜书）</text>
+
+        <!-- 三分支 -->
+        <line x1="345" y1="48" x2="130" y2="80" stroke="#9dc4ce" stroke-width="1.5"/>
+        <line x1="345" y1="48" x2="345" y2="80" stroke="#9dc4ce" stroke-width="1.5"/>
+        <line x1="345" y1="48" x2="560" y2="80" stroke="#9dc4ce" stroke-width="1.5"/>
+
+        <rect x="60" y="80" width="140" height="28" rx="5" fill="#185FA5"/>
+        <text x="130" y="99" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">① 基础与评估</text>
+        <rect x="275" y="80" width="140" height="28" rx="5" fill="#185FA5"/>
+        <text x="345" y="99" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">② 监督学习</text>
+        <rect x="490" y="80" width="150" height="28" rx="5" fill="#185FA5"/>
+        <text x="565" y="99" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">③ 无监督与前沿</text>
+
+        <!-- ① 节点 -->
+        <g font-size="11">
+          <rect x="35" y="124" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="45" y="140" fill="#12233b">ML1 绪论 · 术语 · 维数灾难</text>
+          <rect x="35" y="152" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="45" y="168" fill="#12233b">ML2 留出 / k折 / 自助法</text>
+          <rect x="35" y="180" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="45" y="196" fill="#12233b">ML3 性能度量 P/R/F1/AUC</text>
+          <rect x="35" y="208" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="45" y="224" fill="#12233b">ML4 比较检验 · 偏差方差</text>
+          <rect x="35" y="236" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="45" y="252" fill="#12233b">ML14 PAC · VC 维 · 稳定性</text>
+        </g>
+        <line x1="130" y1="108" x2="130" y2="124" stroke="#9dc4ce" stroke-width="1.2"/>
+
+        <!-- ② 节点 -->
+        <g font-size="11">
+          <rect x="250" y="124" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="260" y="140" fill="#12233b">ML5 线性模型 · Logistic · LDA</text>
+          <rect x="250" y="152" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="260" y="168" fill="#12233b">ML6 决策树 ID3/C4.5/CART</text>
+          <rect x="250" y="180" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="260" y="196" fill="#12233b">ML7 神经网络 · BP · 深度学习</text>
+          <rect x="250" y="208" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="260" y="224" fill="#12233b">ML8 SVM · 对偶 · 核 · 软间隔</text>
+          <rect x="250" y="236" width="190" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="260" y="252" fill="#12233b">ML9 贝叶斯 · 朴素贝叶斯 · EM</text>
+          <rect x="250" y="264" width="190" height="24" rx="4" fill="#fdf3e3" stroke="#bb8a1f"/>
+          <text x="260" y="280" fill="#12233b">ML10 集成：Boosting/Bagging/RF</text>
+          <rect x="250" y="292" width="190" height="24" rx="4" fill="#fdf3e3" stroke="#bb8a1f"/>
+          <text x="260" y="308" fill="#12233b">ML15 半监督：协同训练 · TSVM</text>
+        </g>
+        <line x1="345" y1="108" x2="345" y2="124" stroke="#9dc4ce" stroke-width="1.2"/>
+
+        <!-- ③ 节点 -->
+        <g font-size="11">
+          <rect x="465" y="124" width="200" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="475" y="140" fill="#12233b">ML11 聚类：K-Means/DBSCAN/层次</text>
+          <rect x="465" y="152" width="200" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="475" y="168" fill="#12233b">ML12 降维：PCA/KPCA/流形/马氏</text>
+          <rect x="465" y="180" width="200" height="24" rx="4" fill="#E6F1FB" stroke="#9dc4ce"/>
+          <text x="475" y="196" fill="#12233b">ML13 特征选择：L1/L2 · Relief</text>
+          <rect x="465" y="208" width="200" height="24" rx="4" fill="#fdf3e3" stroke="#bb8a1f"/>
+          <text x="475" y="224" fill="#12233b">ML16 概率图：HMM/MRF/CRF</text>
+          <rect x="465" y="236" width="200" height="24" rx="4" fill="#fdf3e3" stroke="#bb8a1f"/>
+          <text x="475" y="252" fill="#12233b">ML17 强化学习：MDP/Q 学习</text>
+        </g>
+        <line x1="565" y1="108" x2="565" y2="124" stroke="#9dc4ce" stroke-width="1.2"/>
+
+        <!-- 保险应用条 -->
+        <rect x="35" y="330" width="630" height="72" rx="6" fill="#fff" stroke="#c8dde2"/>
+        <text x="50" y="352" fill="#b53d2e" font-size="12.5" font-weight="600">保险语境怎么挂</text>
+        <text x="50" y="372" fill="#2b2a26" font-size="11">定价：GLM / 决策树 / 集成（频率-强度两层建模）　　核保：Logistic、评分卡、异常检测</text>
+        <text x="50" y="388" fill="#2b2a26" font-size="11">理赔：欺诈识别（看 P-R 不看准确率）　　客户：K-Means 分群、RFM + 生存分析的续保预测</text>
+        <text x="50" y="404" fill="#6b8090" font-size="10.5">准备金与预测：HMM / 多状态模型可用于理赔进展与伤残状态转移建模</text>
+      </svg>
+      <div class="fig-cap">图三 · 十七章知识地图：蓝色为基础与主模型，橙色为进阶与前沿。底部一行是保险语境下的对应场景。</div>
+    </div>
+    <h3><span class="sn">速查</span>算法速查总表 <span class="star s3">高频★★★</span></h3>
+    <div class="tbl-wrap"><table>
+      <tr><th style="width:14%">算法</th><th style="width:12%">任务</th><th style="width:26%">核心思想（一句话）</th><th style="width:24%">关键参数 / 准则</th><th>最典型考点</th></tr>
+      <tr><td>线性回归</td><td>回归</td><td>最小化均方误差拟合超平面</td><td>最小二乘、X<sup>T</sup>X 需可逆</td><td>与 Logistic 的区别</td></tr>
+      <tr><td>Logistic</td><td>二分类</td><td>用 Sigmoid 把线性输出压成概率</td><td>极大似然估计</td><td>输出 (0,1)、对数几率</td></tr>
+      <tr><td>LDA</td><td>分类/降维</td><td>投影后类内紧、类间远</td><td>广义瑞利商；最多 N−1 维</td><td>监督降维 vs PCA</td></tr>
+      <tr><td>决策树</td><td>分类/回归</td><td>递归选最优划分属性</td><td>ID3 增益 / C4.5 增益率 / CART 基尼</td><td>算法↔准则对应；剪枝</td></tr>
+      <tr><td>神经网络</td><td>通用</td><td>多层非线性嵌套 + 误差逆传播</td><td>学习率 η、隐层数、早停、正则</td><td>感知机只解线性可分</td></tr>
+      <tr><td>SVM</td><td>二分类</td><td>最大化几何间隔 → 凸二次规划</td><td>核函数、软间隔 C、SMO</td><td>支持向量；核「低维算高维」</td></tr>
+      <tr><td>朴素贝叶斯</td><td>分类</td><td>属性条件独立下的后验最大化</td><td>MLE + 拉普拉斯修正</td><td>先验/后验；为何要平滑</td></tr>
+      <tr><td>EM</td><td>含隐变量</td><td>E 步建下界、M 步极大化，交替上升</td><td>Jensen 不等式；坐标下降视角</td><td>K-Means 是 EM 特例</td></tr>
+      <tr><td>AdaBoost</td><td>分类</td><td>串行加权，盯住上一轮分错的样本</td><td>指数损失；样本权重与学习器权重</td><td>降偏差；串行</td></tr>
+      <tr><td>Bagging / RF</td><td>通用</td><td>自助采样造差异，并行训练后结合</td><td>36.8% 袋外；RF 额外加属性扰动 K=log<sub>2</sub>d</td><td>降方差；并行</td></tr>
+      <tr><td>K-Means</td><td>聚类</td><td>交替更新簇隶属与簇中心</td><td>需指定 k；平方误差；EM 本质</td><td>需预先指定 k、对初值敏感</td></tr>
+      <tr><td>DBSCAN</td><td>聚类</td><td>沿密度可达扩张簇</td><td>ε 邻域、MinPts</td><td>不需 k、能识别噪声</td></tr>
+      <tr><td>PCA</td><td>降维</td><td>投影到方差最大的方向</td><td>协方差矩阵特征分解；累计解释率</td><td>最近重构 = 最大可分</td></tr>
+      <tr><td>Lasso / Ridge</td><td>回归/选择</td><td>损失 + L1 / L2 惩罚</td><td>λ 越大越简单</td><td>L1 稀疏可筛选特征</td></tr>
+      <tr><td>HMM</td><td>序列</td><td>隐状态 + 观测，马尔可夫性</td><td>π、A、B 三参数</td><td>三问题对应三算法</td></tr>
+      <tr><td>强化学习</td><td>序贯决策</td><td>试错获得奖赏，学最优策略</td><td>ε-贪心、γ 折扣、V/Q 值</td><td>探索-利用困境</td></tr>
+    </table></div>
+
+    <div class="note"><b>怎么用这一页。</b>第一轮按 ML1 → ML17 顺序通读（建立全景）；第二轮只刷标 ★★★ 的节（ML1/2/3/5/6/10/11 与速查表）；第三轮拿每节末尾的「考点视角」当自查清单——能不看正文答出来，这一节就过了。</div>
+  </section>
+
+  <div class="pager">
+    <a href="ch6.html">← CH.06 机器学习</a>
+    <a href="model.html">模型理论 · 估计与选择 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
