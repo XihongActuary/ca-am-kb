@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.04 回归分析 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html" class="on">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 04</div>
+    <h1>回归分析 · 从数据到保费假设</h1>
+    <div class="sub">线性回归 / 广义线性模型 GLM / 惩罚回归（Ridge 与 Lasso）</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>《线性回归分析导论》第2–5章 · 西瓜书相关章节</span><span>3 节 · 2 台演算器</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>15%</span></div><div class="bar"><i style="width:15%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch4">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>线性回归：OLS 估计与推断</li><li>广义线性模型：指数族与连接函数</li><li>惩罚回归：Ridge 与 Lasso 对比</li><li>真题链接（双层答案）</li></ol>
+  </div>
+
+  <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>《线性回归分析导论》、西瓜书；<span class="src src-ti">题</span>冲刺课或旧A3真题。冲刺课提示：回归部分「参照科目一＋机器学习中岭回归和Lasso回归」。</div>
+
+  <!-- ============ 4.1 ============ -->
+  <section>
+    <h2><span class="sn">4.1</span>线性回归 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">一切从 y=β₀+β₁x+ε 出发：OLS 给系数，R² 给解释力，t/F 检验给显著性。</div>
+
+    <h3>① OLS 估计</h3>
+    <div class="formula">
+      <div class="fx">β̂₁ = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)² = (nΣxᵢyᵢ − ΣxᵢΣyᵢ) / (nΣxᵢ² − (Σxᵢ)²)</div>
+      <div class="fx">β̂₀ = ȳ − β̂₁·x̄</div>
+      <div class="note">思想：最小化残差平方和 RSS=Σ(yᵢ−β̂₀−β̂₁xᵢ)²。回归线必过 (x̄, ȳ)。</div>
+    </div>
+
+    <h3>② 经典假设与推断</h3>
+    <table>
+      <tr><th>假设</th><th>内容</th><th>违反后果</th></tr>
+      <tr><td>线性</td><td>E(y|x) 与 x 线性相关</td><td>偏误、R² 无意义</td></tr>
+      <tr><td>独立</td><td>误差项相互独立</td><td>标准误失真（时间序列常见）</td></tr>
+      <tr><td>同方差</td><td>Var(εᵢ)=σ² 恒定</td><td>t/F 检验失效（异方差）</td></tr>
+      <tr><td>正态</td><td>ε∼N(0,σ²)</td><td>小样本推断失效</td></tr>
+    </table>
+    <div class="formula">
+      <div class="fx">R² = 1 − SSE/SST = (SSR/SST)，F = (SSR/1)/(SSE/(n−2)) = (R²/1)/((1−R²)/(n−2))</div>
+      <div class="note">一元回归中 t² = F；R² 就是 x 与 y 样本相关系数 r 的平方。<b>易错</b>：R² 高不代表因果，也不代表模型合适（非线性数据 R² 也可能不低）。</div>
+    </div>
+
+    <div class="calc" id="calc-ols">
+      <h4>① 演算器：一元 OLS（输入五个统计量）</h4>
+      <div class="row"><label>n</label><input class="calc-in" id="ol-n" value="10"></div>
+      <div class="row"><label>Σx</label><input class="calc-in" id="ol-sx" value="100"></div>
+      <div class="row"><label>Σy</label><input class="calc-in" id="ol-sy" value="400"></div>
+      <div class="row"><label>Σxy</label><input class="calc-in" id="ol-sxy" value="4300"></div>
+      <div class="row"><label>Σx²</label><input class="calc-in" id="ol-sx2" value="1100"></div>
+      <div class="row">β̂₁ <span class="out calc-out" id="ol-b1">—</span></div>
+      <div class="row">β̂₀ <span class="out calc-out" id="ol-b0">—</span></div>
+      <div class="row">r（相关系数）<span class="out calc-out" id="ol-r">—</span></div>
+      <div class="verdict">r 需 Σy²：默认样例 Σy²=16400，可在下方补充栏修改。</div>
+      <div class="row"><label>Σy²（可选）</label><input class="calc-in" id="ol-sy2" value="16400"></div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-ols');
+      box.__run=function(){
+        var g=function(id){return parseFloat(document.getElementById(id).value)||0};
+        var n=g('ol-n'),sx=g('ol-sx'),sy=g('ol-sy'),sxy=g('ol-sxy'),sx2=g('ol-sx2'),sy2=g('ol-sy2');
+        var b1=(n*sxy-sx*sy)/(n*sx2-sx*sx||1e-9);
+        var b0=(sy-b1*sx)/(n||1);
+        var r=document.getElementById('ol-r');
+        var den=Math.sqrt((n*sx2-sx*sx)*(n*sy2-sy*sy));
+        r.textContent=den>0?((n*sxy-sx*sy)/den).toFixed(4):'—';
+        document.getElementById('ol-b1').textContent=b1.toFixed(4);
+        document.getElementById('ol-b0').textContent=b0.toFixed(4);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 4.2 ============ -->
+  <section>
+    <h2><span class="sn">4.2</span>广义线性模型 GLM <span class="star s3">高频★★★</span></h2>
+    <div class="lead">GLM = 线性回归的三处松绑：<b>响应变量不必正态</b>（指数族）、<b>均值经连接函数挂钩性预测</b>、<b>方差可以随均值变</b>。它是费率厘定的行业标准工具。</div>
+
+    <h3>① 指数族与连接函数</h3>
+    <div class="formula">
+      <div class="fx">f(y;θ,φ) = exp{ [yθ − b(θ)] / a(φ) + c(y,φ) }</div>
+      <div class="fx">g(E[Y]) = η = β₀ + β₁x₁ + … + β<sub>p</sub>x<sub>p</sub></div>
+      <div class="note">g 为连接函数；典型搭配：<b>正态—恒等</b>、<b>泊松—log</b>（乘法模型）、<b>二项—logit</b>、<b>伽马—log 或倒数</b>。方差结构由指数族自动决定：Var(Y)=φ·V(μ)。</div>
+    </div>
+    <table>
+      <tr><th>响应变量</th><th>分布</th><th>常用连接</th><th>精算场景</th></tr>
+      <tr><td>出险次数（计数）</td><td>泊松 / 负二项</td><td>log</td><td>频数模型：车险件数</td></tr>
+      <tr><td>案均赔款（正连续）</td><td>伽马</td><td>log / 倒数</td><td>强度模型：件均赔款</td></tr>
+      <tr><td>是否出险（0/1）</td><td>二项</td><td>logit</td><td>投保/出险概率</td></tr>
+      <tr><td>总赔款（ Tweedie）</td><td>复合泊松-伽马</td><td>log</td><td>纯保费直接建模（0点堆积+连续）</td></tr>
+    </table>
+
+    <h3>② 模型比较</h3>
+    <div class="formula">
+      <div class="fx">偏差 Deviance = 2φ·[ℓ(饱和) − ℓ(模型)]　　AIC = −2ℓ + 2p，　BIC = −2ℓ + p·ln(n)</div>
+      <div class="note"><b>选模型</b>：AIC/BIC 越小越好；BIC 对参数个数惩罚更重。偏差除以自由度 ≈ 1 表示离散拟合良好；泊松数据 &gt;&gt;1 提示过散布（换负二项）。</div>
+    </div>
+    <div class="prac"><b>实务链接：</b>GLM 是车险费率因子的标准工具——「从频率 × 强度到纯保费」两步走，正是《风险模型：基于R》第6章前后各章的实战主线。</div>
+  </section>
+
+  <!-- ============ 4.3 ============ -->
+  <section>
+    <div class="note"><b>GLM 诊断与选择（补强）</b>：残差用 <b>deviance 残差 / Pearson 残差</b>（不是普通残差）；离差 D=2(ℓ_sat−ℓ_model)，嵌套模型差 ∼ χ²(Δdf)——与线性回归的 F 检验对应；过离散（Var&gt;均值，泊松失灵）→ 负二项或 quasi-Poisson；零膨胀过多 → hurdle/ZIP。交互项与共线性用 VIF&gt;10 预警。</div>
+
+    <div class="note"><b>OLS 的原理基石：高斯–马尔可夫定理</b>——在<b>线性、无完全共线、误差零均值、同方差、无自相关</b>五条经典假设下，OLS 估计量是<b>最优线性无偏估计（BLUE）</b>：在所有线性无偏估计中方差最小。注意两点：① 定理<b>不需要正态假设</b>——正态只在做小样本 t/F 检验时才需要；② 同方差或无自相关被破坏时，OLS 仍无偏但不再「最优」，标准误失真 → 用稳健标准误（White/Newey–West）。简答题考「写出五条假设并说明定理结论」。</div>
+    <h2><span class="sn">4.3</span>惩罚线性回归 <span class="star s2">中频★★</span></h2>
+    <div class="lead">变量多、样本少、共线性重？给 OLS 上「惩罚项」，用一点偏差换大幅方差下降。</div>
+    <div class="formula">
+      <div class="fx">Ridge：β̂ = argmin{ Σ(yᵢ−β₀−xᵢᵀβ)² + λ·Σβ<sub>j</sub>² }　解析解 (XᵀX+λI)<sup>−1</sup>Xᵀy</div>
+      <div class="fx">Lasso：β̂ = argmin{ Σ(yᵢ−β₀−xᵢᵀβ)² + λ·Σ|β<sub>j</sub>| }　无解析解（数值优化）</div>
+      <div class="note">λ=0 退化为 OLS；λ→∞ 系数全部压向 0。</div>
+    </div>
+    <table>
+      <tr><th>对比维度</th><th>Ridge（L2）</th><th>Lasso（L1）</th></tr>
+      <tr><td>惩罚形式</td><td>系数平方和</td><td>系数绝对值之和</td></tr>
+      <tr><td>系数收缩</td><td>整体缩小，<b>不为零</b></td><td>可精确压到零 → <b>自动变量选择/稀疏解</b></td></tr>
+      <tr><td>共线性</td><td>非常有效（稳定估计）</td><td>组内强共线时倾向保留其一</td></tr>
+      <tr><td>解的形式</td><td>闭式解</td><td>无闭式解</td></tr>
+    </table>
+    <div class="tip"><b>共同点：</b>都需对变量<b>标准化</b>后施加惩罚；λ 都用<b>交叉验证</b>选择；都属于<b>收缩方法</b>——牺牲少量偏差，换取方差显著下降，预测误差更小。</div>
+  </section>
+
+  <!-- ============ 4.4 真题链接 ============ -->
+  <section>
+    <h2><span class="sn">4.4</span>真题链接 <span class="src src-ti">题</span></h2>
+
+    <div class="exam"><span class="yr">2014·A3</span><b>OLS 基本计算</b> n=10，Σx=100，Σy=400，Σxy=4300，Σx²=1100。求回归方程。</div>
+    <div class="ans-skel"><b>骨架：</b>β̂₁=(10×4300−100×400)/(10×1100−100²)=3000/1000=3；β̂₀=40−3×10=10；ŷ=10+3x。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>β̂₁=(nΣxy−ΣxΣy)/(nΣx²−(Σx)²)=(43000−40000)/(11000−10000)=3000/1000=<b>3</b>。</p>
+        <p>x̄=10，ȳ=40，β̂₀=40−3×10=<b>10</b>。回归方程 ŷ=10+3x。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>Ridge 与 Lasso 辨析（简答模板）</b>：为什么 Lasso 能做变量选择而 Ridge 不能？</div>
+    <div class="ans-skel"><b>骨架：</b>① L1 惩罚在系数处不可导；② 等值线是菱形/尖点在坐标轴上；③ 最优解常落在顶点=系数恰为 0；④ L2 圆滑无尖点，只收缩不归零。</div>
+    <details class="answer"><summary>展开详尽答案</summary>
+      <div class="body ans-detail">
+        <p>几何解释：损失函数的等值线（椭圆）与惩罚区域相切。L1 惩罚区域是菱形，顶点落在坐标轴上——最优解若在顶点处，对应系数恰为零，即该变量被剔除；多个变量可同时归零，形成<b>稀疏解</b>。L2 惩罚区域是圆盘，处处光滑无尖点，切点一般不在坐标轴上，系数只会整体收缩而不会精确为零，因此 Ridge 保留全部变量、不做选择。</p>
+        <p class="hl">加分点：两者都可由「贝叶斯先验」解释——Ridge 对应正态先验，Lasso 对应 Laplace 先验；λ 用 K 折交叉验证选取。</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="pager">
+    <a href="ch3.html">← CH.03 随机模拟</a>
+    <a href="ch5.html">CH.05 时间序列 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
