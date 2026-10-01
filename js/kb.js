@@ -8,7 +8,7 @@
   'use strict';
   /* ====== 配置：每套库改这两处 ====== */
   var KEY  = 'AM-DA-SHIFENXI-KB-PROGRESS';   // localStorage 键名（唯一）
-  var TOTAL = 15;                      // 计入进度的学习页总数（品牌页/导读页不计入）
+  var TOTAL = 16;                      // 计入进度的学习页总数（品牌页/导读页不计入）
 
   function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
   function save(o){localStorage.setItem(KEY,JSON.stringify(o))}
