@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.05 时间序列基础 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html" class="on">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 05</div>
+    <h1>时间序列基础 · 给波动的现在定价未来</h1>
+    <div class="sub">平稳时间序列 / ARMA 模型 / 多维时间序列与协整</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>王燕《应用时间序列分析》第1–8章</span><span>3 节 · 2 台演算器</span><span>冲刺例题 2 道</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>10%</span></div><div class="bar"><i style="width:10%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch5">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>平稳时间序列：三条件判定</li><li>AR 模型：均值、稳定性、特征根</li><li>MA 模型与可逆性</li><li>AR / MA 识别：ACF 与 PACF</li><li>多维时间序列与协整</li><li>真题链接</li></ol>
+  </div>
+
+  <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>王燕《应用时间序列分析》（第6版）；<span class="src src-ti">题</span>冲刺课例题。</div>
+
+  <!-- ============ 5.1 ============ -->
+  <section>
+    <h2><span class="sn">5.1</span>平稳时间序列 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">平稳是时间序列建模的入场券：<b>统计规律不随时间漂移</b>。</div>
+
+    <h3>① 宽平稳三条件</h3>
+    <div class="formula">
+      <div class="fx">① ∀t，E(X<sub>t</sub>) = μ（常数）　② ∀t，E(X<sub>t</sub>²) &lt; ∞（方差存在）　③ ∀t,s,k，γ(t,s) = γ(k, k+s−t)（自协方差只依赖时间间隔）</div>
+      <div class="note">γ(t,s)=E[(X<sub>t</sub>−μ<sub>t</sub>)(X<sub>s</sub>−μ<sub>s</sub>)] 为自协方差函数；ρ(k)=γ(k)/γ(0) 为自相关系数 ACF。严平稳＋二阶矩存在 ⇒ 宽平稳；正态序列两者等价。</div>
+    </div>
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（随机余弦）</b> 设 X<sub>t</sub>=δ·cos(θt)+η·sin(θt)（0≤t≤1），δ、η 相互独立服从标准正态，θ 是常数。证明 {X<sub>t</sub>} 是平稳时间序列。</div>
+    <div class="ans-skel"><b>骨架：</b>① E(X<sub>t</sub>)=0 常数；② Var(X<sub>t</sub>)=cos²+sin²=1；③ γ(t,s)=cos(θ(t−s)) 只依赖间隔 ⇒ 平稳。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>E(X<sub>t</sub>)=E(δ)cosθt+E(η)sinθt=0，满足条件①；E(X<sub>t</sub>²)=cos²θt·1+sin²θt·1=1&lt;∞，满足②。</p>
+        <p>γ(t,s)=E(X<sub>t</sub>X<sub>s</sub>)=cosθt·cosθs·Var(δ)+sinθt·sinθs·Var(η)=cosθt·cosθs+sinθt·sinθs=cos(θ(t−s))，只依赖 t−s，满足③。故 {X<sub>t</sub>} 宽平稳。∎</p>
+        <p class="hl">点评：这是「验证型证明题」的满分模板——三条件逐一核对，一分钟写完。</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 5.2 ============ -->
+  <section>
+    <h2><span class="sn">5.2</span>ARMA 模型 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">AR 用「过去值」解释现在，MA 用「过去扰动」解释现在，ARMA 两者并用。</div>
+
+    <h3>① AR(p) 模型</h3>
+    <div class="formula">
+      <div class="fx">X<sub>t</sub> = φ₀ + φ₁X<sub>t−1</sub> + φ₂X<sub>t−2</sub> + … + φ<sub>p</sub>X<sub>t−p</sub> + ε<sub>t</sub>　（φ<sub>p</sub>≠0）</div>
+      <div class="fx">均值（两边取期望）：E(X<sub>t</sub>) = φ₀ / (1 − φ₁ − φ₂ − … − φ<sub>p</sub>)</div>
+      <div class="note">白噪声条件：E(ε<sub>t</sub>)=0，Var(ε<sub>t</sub>)=σ²，E(ε<sub>t</sub>ε<sub>s</sub>)=0(t≠s)，且 E(X<sub>s</sub>ε<sub>t</sub>)=0(t&gt;s)。</div>
+    </div>
+    <div class="formula">
+      <div class="fx">稳定性：特征方程 λ<sup>p</sup> − φ₁λ<sup>p−1</sup> − … − φ<sub>p</sub> = 0 的根全部在<b>单位圆内</b></div>
+      <div class="fx">AR(1)：|φ₁|&lt;1　　AR(2)：|φ₂|&lt;1 且 φ₂±φ₁&lt;1</div>
+      <div class="note">AR(1) 的 ACF：ρ<sub>k</sub>=φ₁<sup>k</sup>（指数衰减=拖尾）；PACF p 阶截尾。</div>
+    </div>
+
+    <h3>② MA(q) 模型</h3>
+    <div class="formula">
+      <div class="fx">X<sub>t</sub> = μ + ε<sub>t</sub> − θ₁ε<sub>t−1</sub> − … − θ<sub>q</sub>ε<sub>t−q</sub>　（MA 的方差就是 ε 之间关系的转化）</div>
+      <div class="fx">可逆性：MA(1)：|θ₁|&lt;1　　MA(2)：−1&lt;θ₂&lt;1 且 θ₂±θ₁&lt;1</div>
+      <div class="note">MA(q) 的 ACF q 阶截尾（ρ<sub>k</sub>=0, k&gt;q），PACF 拖尾。可逆性保证 MA 与 AR 可以互相表出。</div>
+    </div>
+
+    <h3>③ 模型识别速查</h3>
+    <table>
+      <tr><th>模型</th><th>ACF（自相关）</th><th>PACF（偏自相关）</th></tr>
+      <tr><td>AR(p)</td><td>拖尾（指数/振荡衰减）</td><td class="ctr"><b>p 阶截尾</b></td></tr>
+      <tr><td>MA(q)</td><td class="ctr"><b>q 阶截尾</b></td><td>拖尾</td></tr>
+      <tr><td>ARMA(p,q)</td><td>拖尾</td><td>拖尾</td></tr>
+    </table>
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「AR 自相关拖、偏相关截；MA 自相关截、偏相关拖；两个都拖是 ARMA」</span>——「谁截尾，阶数就定在谁头上对应的模型」。</div>
+
+    <div class="calc" id="calc-ar2">
+      <h4>① 演算器：AR(2) / MA(2) 平稳·可逆性检验</h4>
+      <div class="row"><label>φ₁ 或 −θ₁</label><input class="calc-in" id="a2-p1" value="0.6"></div>
+      <div class="row"><label>φ₂ 或 −θ₂</label><input class="calc-in" id="a2-p2" value="0.2"></div>
+      <div class="row">AR(2) 稳定？<span class="out calc-out" id="a2-ar">—</span></div>
+      <div class="row">MA(2) 可逆？<span class="out calc-out" id="a2-ma">—</span></div>
+      <div class="row">特征根（模长）<span class="out calc-out" id="a2-root">—</span></div>
+      <div class="verdict">条件：|φ₂|&lt;1 且 φ₂±φ₁&lt;1（MA 把 φ 换成 −θ）。特征方程 λ²−φ₁λ−φ₂=0。</div>
+      <button class="calc-run">检验</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-ar2');
+      box.__run=function(){
+        var p1=parseFloat(document.getElementById('a2-p1').value)||0;
+        var p2=parseFloat(document.getElementById('a2-p2').value)||0;
+        var ok=(Math.abs(p2)<1)&&(p2+p1<1)&&(p2-p1<1);
+        document.getElementById('a2-ar').textContent=ok?'✔ 稳定':'✘ 不稳定';
+        var okm=(Math.abs(p2)<1)&&((p2+p1)<1)&&((p2-p1)<1);
+        document.getElementById('a2-ma').textContent=okm?'✔ 可逆':'✘ 不可逆';
+        var disc=p1*p1+4*p2;
+        var mags;
+        if(disc>=0){var r1=(p1+Math.sqrt(disc))/2,r2=(p1-Math.sqrt(disc))/2;mags='|λ₁|='+Math.abs(r1).toFixed(3)+', |λ₂|='+Math.abs(r2).toFixed(3);}
+        else{var re=p1/2,im=Math.sqrt(-disc)/2;mags='|λ|='+Math.sqrt(re*re+im*im).toFixed(3)+'（共轭复根）';}
+        document.getElementById('a2-root').textContent=mags;
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 5.3 ============ -->
+  <section>
+    <div class="note"><b>Box–Jenkins 建模流程（简答模板）</b>：① 可视化与 ADF/单位根检验定平稳性（非平稳先差分，记下差分阶 d）→ ② 看 ACF/PACF 拖尾截尾初选 p、q → ③估计 MLE/条件最小二乘 → ④ 残差白噪声检验（Ljung–Box，Q=n(n+2)Σρₖ²/(n−k)~χ²(m−p−q)）→ ⑤ AIC/BIC 在多个候选中定阶 → ⑥ 预测与回测。简答题按这六步写，每步一句，满分结构。</div>
+
+    <div class="note"><b>平稳性的原理基石：Wold 分解定理</b>——任何协方差平稳、非纯确定性的序列都可以唯一分解为「常数 μ + 若干确定性分量 + 无限个白噪声的线性组合（新息表示）」。这就是为什么<b>平稳序列总能被足够高阶的 MA(∞) 刻画</b>，也是 ARMA 家族「普适性」的理论根据。ARMA 的两条路：<b>AR(∞)</b> 与 <b>MA(∞)</b> 互为对偶——AR 平稳要求特征根在单位圆外，MA 可逆要求 MA 多项式根在单位圆外（可逆才能把 AR↔MA 互写、才能用递推算预测）。</div>
+    <h2><span class="sn">5.3</span>多维时间序列与协整 <span class="star s2">中频★★</span></h2>
+    <div class="lead">两条各自「漂移」的序列（如股价与分红、利率与通胀），差分后都平稳，但它们的<b>线性组合</b>可能平稳——这就是协整。</div>
+    <div class="formula">
+      <div class="fx">单整：X<sub>t</sub> 经 d 次差分平稳 ⇒ X<sub>t</sub> ∼ I(d)　　协整：X<sub>t</sub>,Y<sub>t</sub> ∼ I(1)，∃β 使 Y<sub>t</sub> − βX<sub>t</sub> ∼ I(0)</div>
+      <div class="note"><b>协整的意义</b>：均值意义上不存在，长期均衡关系上存在——「两列火车各自晃动，但间距稳定」。检验：Engle-Granger 两步法（先回归取残差再单位根检验）、Johansen 方法。协整 ⇒ 可建<b>误差修正模型 ECM</b>：短期波动由长期均衡的偏离修正。</div>
+    </div>
+    <div class="warn"><b>易错辨析：</b>两个 I(1) 序列直接回归可能出现<b>伪回归</b>（R² 虚高、t 统计量失真）；先做协整检验再建模。相关 ≠ 协整：相关是同期统计关联，协整是长期均衡关系。</div>
+  </section>
+
+  <!-- ============ 5.4 真题链接 ============ -->
+  <section>
+    <h2><span class="sn">5.4</span>真题链接 <span class="src src-ti">题</span></h2>
+
+    <div class="exam"><span class="yr">2013·A3</span><b>AR(1) 平稳性与 ACF</b> X<sub>t</sub>=3+0.5X<sub>t−1</sub>+ε<sub>t</sub>。判断平稳性并求 ρ₃。</div>
+    <div class="ans-skel"><b>骨架：</b>|φ|=0.5&lt;1 稳定；E=3/(1−0.5)=6；ρ₃=0.5³=0.125。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>AR(1) 稳定 ⇔ |φ₁|&lt;1，0.5 满足。均值 E(X<sub>t</sub>)=φ₀/(1−φ₁)=3/0.5=6。</p>
+        <p>AR(1) 的 ACF 为 ρ<sub>k</sub>=φ₁<sup>k</sup>=0.5<sup>k</sup>，ρ₃=0.125。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr">2016·A3</span><b>平稳性判定</b> 下列哪个序列宽平稳：A) X<sub>t</sub>=t+ε<sub>t</sub>；B) X<sub>t</sub>=X<sub>t−1</sub>+ε<sub>t</sub>；C) X<sub>t</sub>=0.8X<sub>t−1</sub>+ε<sub>t</sub>；D) X<sub>t</sub>=sin(2πt/12)+ε<sub>t</sub>（ε 白噪声）。</div>
+    <div class="ans-skel"><b>骨架：</b>A 均值随 t 变化；B 随机游走方差发散；C 稳定 AR(1) ✔；D 均值随 t 周期变化非平稳。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>A：E(X<sub>t</sub>)=t 非常数，不平稳。B：随机游走 Var(X<sub>t</sub>)=tσ² 发散，不平稳（一阶差分后平稳，I(1)）。</p>
+        <p>C：|0.8|&lt;1，稳定 AR(1)，宽平稳 ✔。D：均值 sin(2πt/12) 随 t 变化，条件①不满足，不平稳（这是周期均值非平稳的典型例）。</p>
+        <p class="hl">点评：判平稳先看均值是否常数，再看方差是否存在，最后核自协方差是否只依赖间隔。</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="pager">
+    <a href="ch4.html">← CH.04 回归分析</a>
+    <a href="ch6.html">CH.06 机器学习 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
