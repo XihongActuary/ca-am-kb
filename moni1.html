@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模拟卷一 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html" class="on">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">MOCK EXAM 1</div>
+    <h1>模拟卷一 · 基础计算卷</h1>
+    <div class="sub">单选 15 题 + 简答 2 题 + Excel 题 1 道 —— 建议限时 150 分钟</div>
+    <div class="meta"><span>定位：首轮自测</span><span>难度 ★★</span><span>全卷双层解析</span></div>
+  </div>
+
+  <button class="done-btn" data-id="moni1">○ 标记本页已完成</button>
+  <button class="js-toggle-answers">展开全部答案</button>
+
+  <section>
+    <h2><span class="sn">Ⅰ</span>单项选择（每题 4 分）</h2>
+
+    <div class="exam"><b>1.</b> N(t) 是强度 λ=1.5 的泊松过程，P{N(2)=3} = ？<br>A) 0.125　B) 0.224　C) 0.168　D) 0.251</div>
+    <div class="ans-skel"><b>答案：B</b>　Poisson(3)：e<sup>−3</sup>·27/6。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">增量长 2 → Poisson(3)，P=e<sup>−3</sup>3³/3!=0.0498×4.5≈<b>0.224</b>。</div></details>
+
+    <div class="exam"><b>2.</b> 非齐次泊松 λ(t)=2t，P{N(2)=0} = ？<br>A) e<sup>−2</sup>　B) e<sup>−4</sup>　C) e<sup>−8</sup>　D) e<sup>−1</sup></div>
+    <div class="ans-skel"><b>答案：B</b>　m(2)=∫₀²2t dt=4。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">m(2)=t²|=4，P=e<sup>−4</sup>≈0.0183。</div></details>
+
+    <div class="exam"><b>3.</b> 两状态链 P=[[0.6,0.4],[0.3,0.7]] 的极限分布 π₁ = ？<br>A) 0.3　B) 0.429　C) 0.5　D) 0.6</div>
+    <div class="ans-skel"><b>答案：B</b>　π₁=P₂₁/(1−P₁₁+P₂₁)=0.3/0.7。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">π₁=0.6π₁+0.3π₂ ⇒ 0.4π₁=0.3(1−π₁) ⇒ π₁=3/7≈<b>0.4286</b>。</div></details>
+
+    <div class="exam"><b>4.</b> 理赔次数满足 E(N)=1.5，Var(N)=3。该分布最可能是？<br>A) 泊松　B) 二项　C) 负二项　D) 几何（参数另议）</div>
+    <div class="ans-skel"><b>答案：C</b>　方差&gt;均值 → 负二项。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">rβ=1.5、rβ(1+β)=3 ⇒ β=1、r=1.5。负二项（几何为其 r=1 特例）。</div></details>
+
+    <div class="exam"><b>5.</b> S=ΣX<sub>i</sub>，N 泊松(λ=4)，X 均值 3、二阶矩 15。Var(S) = ？<br>A) 48　B) 60　C) 72　D) 12</div>
+    <div class="ans-skel"><b>答案：B</b>　Var(S)=λE(X²)=4×15。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">复合泊松：Var(S)=λE(X²)=4×15=<b>60</b>（E(S)=12）。选 B。错选 A 者误用 σ²=E(X²)−μ²=6。</div></details>
+
+    <div class="exam"><b>6.</b> X 服从指数分布（θ=500），免赔额 d=100。条件期望赔付 E(X)−E(X∧d) = ？<br>A) 409.4　B) 450　C) 500　D) 90.6</div>
+    <div class="ans-skel"><b>答案：A</b>　=E(X)e<sup>−d/θ</sup>=500e<sup>−0.2</sup>。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">E(X∧d)=500(1−e<sup>−0.2</sup>)=90.6，期望赔付=500−90.6=<b>409.4</b>。</div></details>
+
+    <div class="exam"><b>7.</b> 单保单 X=I·B，q=0.2，E(B)=1000，E(B²)=2×10⁶。Var(X) = ？<br>A) 400000−40000=360000　B) 400000　C) 40000　D) 200000</div>
+    <div class="ans-skel"><b>答案：A</b>　Var=qE(B²)−q²E(B)²。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">Var=0.2×2×10⁶−0.04×10⁶=400000−40000=<b>360000</b>，SD≈600。</div></details>
+
+    <div class="exam"><b>8.</b> 复合泊松：λ=100，E(X)=2，Var(X)=4。P{S≤220} 的正态近似 = ？<br>A) Φ(0.35)　B) Φ(0.71)　C) Φ(1.41)　D) Φ(0.50)</div>
+    <div class="ans-skel"><b>答案：B</b>　z=(220−200)/28.28=0.707。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">E(S)=200，Var(S)=λE(X²)=800，z=20/28.284=0.707 → <b>Φ(0.71)≈0.760</b>。</div></details>
+
+    <div class="exam"><b>9.</b> S(x)=e<sup>−0.02x</sup>。μ<sub>x</sub> = ？<br>A) 0.02　B) 0.02x　C) −0.02e<sup>−0.02x</sup>　D) 50</div>
+    <div class="ans-skel"><b>答案：A</b>　μ=−(lnS)′=0.02（常数）。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">指数分布（Gompertz 的反面）危险率恒为 λ=0.02。</div></details>
+
+    <div class="exam"><b>10.</b> K-M 估计中，某时点死亡 2 人、风险集 10 人，该点因子 = ？<br>A) 0.8　B) 0.2　C) 0.98　D) 0.9</div>
+    <div class="ans-skel"><b>答案：A</b>　1−d/n=1−2/10。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">因子=8/10=0.8。</div></details>
+
+    <div class="exam"><b>11.</b> Box-Muller 中 U₁,U₂ 独立 U(0,1)，则 X₁=(−2lnU₁)<sup>½</sup>cos(2πU₂) 服从？<br>A) U(0,1)　B) N(0,1)　C) 指数　D) N(0,2)</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">标准正态；X₂ 同分布且与 X₁ 独立。</div></details>
+
+    <div class="exam"><b>12.</b> 稳定 AR(1) X<sub>t</sub>=0.4X<sub>t−1</sub>+ε<sub>t</sub> 的 ρ₂ = ？<br>A) 0.4　B) 0.16　C) 0.064　D) 0.8</div>
+    <div class="ans-skel"><b>答案：B</b>　ρ<sub>k</sub>=φ<sup>k</sup>。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">ρ₂=0.4²=<b>0.16</b>。</div></details>
+
+    <div class="exam"><b>13.</b> 二类样本比例 3:1 的信息熵（bit）≈ ？<br>A) 1.0　B) 0.811　C) 0.5　D) 0.375</div>
+    <div class="ans-skel"><b>答案：B</b>　−0.75log₂0.75−0.25log₂0.25。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">H=0.75×0.415+0.25×2=<b>0.811</b> bit。</div></details>
+
+    <div class="exam"><b>14.</b> 模型在训练集误差 1%、测试集误差 15%，属于？<br>A) 欠拟合　B) 过拟合　C) 恰当拟合　D) 噪声过大</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">训练/测试差距大 = 方差主导 = 过拟合；对策：正则化、剪枝、更多数据、交叉验证。</div></details>
+
+    <div class="exam"><b>15.</b> 关于 Lasso，错误的是？<br>A) L1 惩罚　B) 可产生稀疏解　C) 有闭式解　D) λ=0 时退化为 OLS</div>
+    <div class="ans-skel"><b>答案：C</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">L1 不可导，无闭式解（Ridge 有闭式解 (XᵀX+λI)<sup>−1</sup>Xᵀy）。</div></details>
+  </section>
+
+  <section>
+    <h2><span class="sn">Ⅱ</span>简答题（每题 10 分）</h2>
+    <div class="exam"><b>16.</b> 叙述泊松过程的三条基本性质，并证明 E[N(t)]=Var[N(t)]=λt。</div>
+    <div class="ans-skel"><b>骨架：</b>① 独立增量 ② 平稳增量（增量只依赖长度）③ 单跳性与 N(0)=0；由增量 Poisson(λt) 直接得均值=方差=λt。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail"><p>性质：①N(0)=0；②独立增量：不相交区间上的增量相互独立；③平稳增量且 P{N(t+s)−N(s)=n}=e<sup>−λt</sup>(λt)ⁿ/n!；④普通性（单跳）。于是 N(t)∼Poisson(λt)：E=Var=λt，一步到位——泊松分布均值=方差的性质是「指纹」，也是辨析次数分布类型的依据。</p></div></details>
+
+    <div class="exam"><b>17.</b> 简述 Ridge 回归与 Lasso 回归的异同，并说明各自适用场景。</div>
+    <div class="ans-skel"><b>骨架：</b>同：都加惩罚、都需标准化、λ 交叉验证、都收缩系数降方差。异：L2 不归零/闭式解/治共线；L1 可归零选变量/无闭式解/高维稀疏。场景：共线性重→Ridge；变量筛选→Lasso。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail"><p>相同点：①目标函数=OLS 损失+惩罚项；②引入偏差换方差下降、缓解过拟合；③变量需标准化（惩罚对各系数一视同仁）；④λ 用 K 折交叉验证选。不同点：Ridge 用 L2 平方惩罚，系数整体缩小但不为零，有闭式解 (XᵀX+λI)<sup>−1</sup>Xᵀy，对多重共线性特别有效；Lasso 用 L1 绝对值惩罚，解稀疏、可自动变量选择，无闭式解，适合高维「变量多样本少」场景。贝叶斯解释：L2≈正态先验、L1≈Laplace 先验。</p></div></details>
+  </section>
+
+  <section>
+    <h2><span class="sn">Ⅲ</span>Excel 计算题（15 分）</h2>
+    <div class="exam"><b>18.</b> 复合泊松组合：λ=200，单笔理赔服从均值 1、标准差 2 的分布。用 Excel 计算 P{S ≤ 240} 的正态近似值（给出所用函数）。</div>
+    <div class="ans-skel"><b>骨架：</b>E(S)=200；Var(S)=λE(X²)=200×(1+4)=1000；z=40/31.62=1.265；=NORM.S.DIST(1.265,TRUE)≈0.897。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail">
+      <p>Excel 步骤：</p>
+      <ul>
+        <li>E(S)：<code>=200*1</code> → 200</li>
+        <li>E(X²)：<code>=1+2^2</code> → 5；Var(S)：<code>=200*5</code> → 1000</li>
+        <li>z 值：<code>=(240-200)/SQRT(1000)</code> → 1.2649</li>
+        <li>概率：<code>=NORM.S.DIST(1.2649,TRUE)</code> → <b>0.8971</b></li>
+      </ul>
+      <p>反向考法：给概率 0.95 反解预算 → <code>=200+1.9600*SQRT(1000)</code>≈261.98。</p>
+    </div></details>
+  </section>
+
+  <div class="pager">
+    <a href="zhenti.html">← 真题馆</a>
+    <a href="moni2.html">模拟卷二 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
