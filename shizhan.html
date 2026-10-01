@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>考场实战 · 机考与Excel · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="shizhan.html" class="on">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">FIELD GUIDE</div>
+    <h1>考场实战 · 机考系统与 Excel 题</h1>
+    <div class="sub">考试形式 / Excel 函数武器库 / 简答答题模板 / 时间与心态管理</div>
+    <div class="meta"><span>来源：<span class="src src-gui">纲</span>大纲分析考生经验</span><span>Excel 函数 20+</span><span>答题模板 3 套</span></div>
+  </div>
+
+  <button class="done-btn" data-id="shizhan">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本页导览</b>
+    <ol><li>考试形式与机考坑位</li><li>Excel 函数武器库</li><li>简答答题模板</li><li>时间分配与心态</li></ol>
+  </div>
+
+  <!-- ============ 1 ============ -->
+  <section>
+    <h2><span class="sn">§01</span>考试形式与机考「坑位」</h2>
+    <div class="lead">来自考生的第一手经验（大纲分析）：机考 = 单选＋简答（计算为主）＋ 一道 Excel 计算题。</div>
+    <div class="warn">
+      <b>机考系统三大坑：</b>
+      <ul>
+        <li><b>公式输入反人类</b>：上标/分式/积分号要点选面板，慢且易错——平时就用 Excel 和手写练，别用 Word 公式编辑器模拟。</li>
+        <li><b>系统可能崩溃或不显示</b>：有考生现场换机器。遇到渲染异常立即举手示意监考，别自己反复刷新浪费时间。</li>
+        <li><b>Excel 题会用函数就算得快</b>：题目本身不难，比拼的是函数熟练度——把 §02 的表过三遍。</li>
+      </ul>
+    </div>
+    <div class="tip"><b>备考策略（大纲分析）：</b>官方 8 本参考书高度重合，以肖争艳《精算模型》第4版为主线，西瓜书对照目录看，时间序列/回归额外刷题。复习以「效率优先」，但学到的能力是长期资产——时间序列在 MIT 有公开课，量化投资也用得上。</div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section>
+    <h2><span class="sn">§02</span>Excel 函数武器库</h2>
+    <div class="lead">按六大板块对号入座。格式：<code>函数(参数)</code>——考场直接照敲。</div>
+    <table>
+      <tr><th>板块</th><th>函数</th><th>用途</th></tr>
+      <tr><td rowspan="4">通用分布</td><td class="num">EXP(x) / LN(x) / POWER(x,n)</td><td>泊松 e<sup>−λ</sup>、对数正态变换、指数危险率</td></tr>
+      <tr><td class="num">FACT(n) / COMBIN(n,k)</td><td>阶乘与组合数（泊松/二项手算复核）</td></tr>
+      <tr><td class="num">RAND() / RANDBETWEEN(a,b)</td><td>均匀随机数——反函数法、Box-Muller 演示</td></tr>
+      <tr><td class="num">SUMPRODUCT(range1,range2)</td><td>加权矩计算：E(X²)、协方差</td></tr>
+      <tr><td rowspan="3">风险理论</td><td class="num">POISSON.DIST(n, λ, TRUE/FALSE)</td><td>泊松概率与累计概率（复合/非齐次直接用）</td></tr>
+      <tr><td class="num">BINOM.DIST / NEGBINOM.DIST</td><td>二项 / 负二项次数分布</td></tr>
+      <tr><td class="num">NORM.S.DIST(z,TRUE) / NORM.S.INV(p)</td><td>正态近似求概率 / 反解分位数（安全附加、调节系数配套）</td></tr>
+      <tr><td>生存分析</td><td class="num">连乘 Π(1−d/n)：手敲因子×SUMIF/COUNTIF</td><td>K-M 估计：COUNTIF 算风险集，逐因子相乘</td></tr>
+      <tr><td rowspan="2">回归分析</td><td class="num">SLOPE / INTERCEPT / RSQ / CORREL</td><td>一元回归四件套</td></tr>
+      <tr><td class="num">LINEST(y, x, TRUE, TRUE)</td><td>多元回归系数＋统计量（Ctrl+Shift+Enter 老版本）</td></tr>
+      <tr><td rowspan="2">时间序列</td><td class="num">AVERAGE / VAR.S / STDEV.S</td><td>均值、样本方差（平稳性初判）</td></tr>
+      <tr><td class="num">CORREL(滞后列, 原列)</td><td>自相关系数 ACF：先做滞后列再 CORREL</td></tr>
+      <tr><td rowspan="2">机器学习</td><td class="num">MMULT / MINVERSE / TRANSPOSE</td><td>矩阵运算：马氏链极限分布、回归正规方程</td></tr>
+      <tr><td class="num">IF / COUNTIFS / LOG(x,2)</td><td>混淆矩阵统计、熵计算</td></tr>
+    </table>
+    <div class="formula">
+      <div class="fx">Box-Muller 一行版：=SQRT(-2*LN(RAND()))*COS(2*PI()*RAND())　→ 标准正态随机数</div>
+      <div class="note">逆变换指数分布：=−LN(1−RAND())/λ。这两条写进「考场快捷卡」，Excel 题秒出。</div>
+    </div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section>
+    <h2><span class="sn">§03</span>简答题三套模板</h2>
+    <table>
+      <tr><th>题型</th><th>模板</th></tr>
+      <tr><td>计算型简答</td><td>① 写出所用公式（符号定义）② 代入数据 ③ 给出结果并回答题干问句（单位别丢）</td></tr>
+      <tr><td>概念辨析型</td><td>① 一句话定义 A 与 B ② 列 2–3 条差异（机制/假设/用途）③ 各给一个例子</td></tr>
+      <tr><td>证明/推导型</td><td>① 写目标（证什么）② 关键中间步骤（C–K、全期望、积分可加等）③ 结论加「证毕/故成立」</td></tr>
+    </table>
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「公式先行，代入跟进，落笔回题」</span>——简答题按步给分，写对公式就有一半分。</div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section>
+    <h2><span class="sn">§04</span>时间分配与心态</h2>
+    <ul>
+      <li><b>先易后难，单选保底</b>：单选是得分主体，卡住 2 分钟先标记跳过。</li>
+      <li><b>Excel 题放中段做</b>：题目不难、得分稳定，别留到最后手忙脚乱。</li>
+      <li><b>计算器/草稿</b>：按当次考试规定携带；机考自带虚拟计算器的先摸熟位置。</li>
+      <li><b>崩溃预案</b>：系统异常立即报告监考要求处理/换机，同时记下进度时间点。</li>
+    </ul>
+    <div class="prac"><b>考前一周动作清单：</b>① 本库 12 页过一遍骨架答案；② 模拟卷三套限时完成；③ Excel 函数表逐条在空表里敲一遍；④ 把每章「记忆口诀」抄成一页 A4。</div>
+  </section>
+
+  <div class="pager">
+    <a href="ch6.html">← CH.06 机器学习</a>
+    <a href="zhenti.html">真题馆 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
