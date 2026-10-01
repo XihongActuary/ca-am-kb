@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模拟卷二 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html" class="on">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">MOCK EXAM 2</div>
+    <h1>模拟卷二 · 综合概念卷</h1>
+    <div class="sub">单选 15 题 + 简答 2 题 + Excel 题 1 道 —— 建议限时 150 分钟</div>
+    <div class="meta"><span>定位：二轮巩固</span><span>难度 ★★★</span><span>概念辨析加重</span></div>
+  </div>
+
+  <button class="done-btn" data-id="moni2">○ 标记本页已完成</button>
+  <button class="js-toggle-answers">展开全部答案</button>
+
+  <section>
+    <h2><span class="sn">Ⅰ</span>单项选择（每题 4 分）</h2>
+
+    <div class="exam"><b>1.</b> 下列关于泊松过程的说法，错误的是？<br>A) 增量独立　B) 增量平稳　C) N(t) 均值随 t 线性增　D) 相邻事件间隔服从均匀分布</div>
+    <div class="ans-skel"><b>答案：D</b>　间隔服从指数分布。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">泊松过程的事件间隔 T₁,T₂,… iid Exp(λ)；第 n 个事件时刻服从 Gamma(n,λ)。D 错。</div></details>
+
+    <div class="exam"><b>2.</b> 马尔可夫链状态 i 的 fᵢ=0.7，则状态 i 是？<br>A) 吸收态　B) 常态　C) 瞬态　D) 无法判断</div>
+    <div class="ans-skel"><b>答案：C</b>　fᵢ&lt;1 为瞬态。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">fᵢ=ΣP<sub>ii</sub><sup>(n)</sup>（最终回到 i 的概率）；fᵢ=1 常态，fᵢ=0.7&lt;1 → 瞬态。</div></details>
+
+    <div class="exam"><b>3.</b> 限额 c=10，损失 X 均匀分布于 [0,20]。E(X∧10) = ？<br>A) 5　B) 7.5　C) 10　D) 2.5</div>
+    <div class="ans-skel"><b>答案：B</b>　均匀分布有限期望=u²/(2θ)。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">E(X∧u)=∫₀<sup>u</sup>(1−y/20)dy=u−u²/40=10−2.5=<b>7.5</b>。</div></details>
+
+    <div class="exam"><b>4.</b> 复合泊松可分解性：S₁,S₂ 独立、分别为复合泊松(λ₁,X₁)、(λ₂,X₂)，则 S₁+S₂ 是？<br>A) 复合泊松(λ₁+λ₂)，单笔分布为按 λ 加权的混合　B) 复合二项　C) 不一定是复合泊松　D) 正态</div>
+    <div class="ans-skel"><b>答案：A</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">矩母函数相乘：e^{λ₁(M₁−1)}e^{λ₂(M₂−1)}=e^{(λ₁+λ₂)(M̄−1)}，M̄ 为加权混合的 MGF。</div></details>
+
+    <div class="exam"><b>5.</b> 下列哪项不是生命表函数 l<sub>x</sub>, d<sub>x</sub>, q<sub>x</sub> 之间的正确关系？<br>A) d<sub>x</sub>=l<sub>x</sub>−l<sub>x+1</sub>　B) q<sub>x</sub>=d<sub>x</sub>/l<sub>x</sub>　C) p<sub>x</sub>=l<sub>x+1</sub>/l<sub>x</sub>　D) d<sub>x</sub>=l<sub>x</sub>·q<sub>x+1</sub></div>
+    <div class="ans-skel"><b>答案：D</b>　正确为 d<sub>x</sub>=l<sub>x</sub>·q<sub>x</sub>。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">A、B、C 均为定义式；D 的年龄错位。</div></details>
+
+    <div class="exam"><b>6.</b> Nelson-Aalen 估计的对象是？<br>A) 生存函数　B) 累积危险率函数　C) 密度函数　D) 中位寿命</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">Ĥ(t)=Σdᵢ/nᵢ 估计 H(t)=∫₀ᵗμ(s)ds；Ŝ(t)≈e<sup>−Ĥ(t)</sup>。</div></details>
+
+    <div class="exam"><b>7.</b> 产生泊松(λ)随机数最直接的两步法是？<br>A) 先产生 n∼P(λ)，再产生 n 个 X　B) 先产生 X，再产生 n　C) 反函数法直接解　D) Box-Muller</div>
+    <div class="ans-skel"><b>答案：A</b>　复合变量模拟次序。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">S=ΣX<sub>i</sub>：先抽次数，再抽单笔，或直接法（Panjer/递推）。</div></details>
+
+    <div class="exam"><b>8.</b> Bootstrap 的核心操作是？<br>A) 从总体重复抽样　B) 从原始样本有放回重抽样　C) 增大样本量　D) 参数估计</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">对样本有放回抽等容量新样本 B 次，用统计量的经验分布估计其波动。</div></details>
+
+    <div class="exam"><b>9.</b> GLM 中「泊松回归 + log 连接」下，系数 β₁=0.2 表示 x 每增加 1 单位，均值？<br>A) 增加 0.2　B) 增加 20%　C) 乘以 e<sup>0.2</sup>≈1.22　D) 乘以 0.2</div>
+    <div class="ans-skel"><b>答案：C</b>　乘法模型。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">log μ 线性 ⇒ μ 按因子 e^β 乘法变化；"增加 20%"（B）只在 β 小时近似成立，精确表述是乘 e<sup>0.2</sup>。</div></details>
+
+    <div class="exam"><b>10.</b> 时间序列 X<sub>t</sub>∼I(1) 的含义是？<br>A) 平稳　B) 一阶差分后平稳　C) 一阶自相关　D) 一阶移动平均</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">d 次差分后平稳称 I(d)；随机游走是 I(1) 的典型。</div></details>
+
+    <div class="exam"><b>11.</b> 某序列 ACF 拖尾、PACF 在 2 阶后截尾，选？<br>A) AR(2)　B) MA(2)　C) ARMA(1,1)　D) 白噪声</div>
+    <div class="ans-skel"><b>答案：A</b>　PACF 截尾阶=p。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">PACF p 阶截尾 → AR(p)；此处 AR(2)。</div></details>
+
+    <div class="exam"><b>12.</b> 协整关系成立时，适合建立的模型是？<br>A) 伪回归　B) 误差修正模型 ECM　C) K-means　D) 决策树</div>
+    <div class="ans-skel"><b>答案：B</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">协整刻画长期均衡，短期偏离由 ECM 的修正项拉回。</div></details>
+
+    <div class="exam"><b>13.</b> 决策树 CART 用于回归时，划分准则用？<br>A) 信息增益　B) 增益率　C) 平方误差最小化　D) 基尼指数</div>
+    <div class="ans-skel"><b>答案：C</b>　分类用基尼，回归用平方误差。</div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">回归树选切分使两子集内平方误差和最小，叶输出均值。</div></details>
+
+    <div class="exam"><b>14.</b> K-means 的目标函数是？<br>A) 最小化簇内平方误差　B) 最大化簇间距离　C) 最小化熵　D) 最大化轮廓系数</div>
+    <div class="ans-skel"><b>答案：A</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">SSE=ΣΣ‖x−μᵢ‖²；B 是 K-means 的间接效果而非目标函数。</div></details>
+
+    <div class="exam"><b>15.</b> PCA 中第 k 主成分的方差等于？<br>A) 第 k 大特征值　B) 第 k 小特征值　C) 1 恒定　D) 特征向量模长</div>
+    <div class="ans-skel"><b>答案：A</b></div>
+    <details class="answer"><summary>展开解析</summary><div class="body ans-detail">协方差矩阵特征值 λ₁≥λ₂≥…，第 k 成分方差=λ<sub>k</sub>，贡献率 λ<sub>k</sub>/Σλ。</div></details>
+  </section>
+
+  <section>
+    <h2><span class="sn">Ⅱ</span>简答题（每题 10 分）</h2>
+    <div class="exam"><b>16.</b> 什么是共线性？多重共线性对 OLS 有何影响？Ridge 如何缓解？</div>
+    <div class="ans-skel"><b>骨架：</b>①定义 ②XᵀX 接近不可逆→方差膨胀、估计不稳、t 失真 ③Ridge 加 λI 让矩阵满秩、收缩系数。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail"><p>共线性指解释变量之间高度相关；多重共线性使 XᵀX 接近奇异，OLS 估计 Var(β̂)=σ²(XᵀX)<sup>−1</sup> 爆炸，系数符号紊乱、检验失真。Ridge 在 XᵀX 上加 λI（对角加载），保证可逆且特征值被抬升，系数被收缩、方差大幅下降——用少量偏差换稳定。</p></div></details>
+
+    <div class="exam"><b>17.</b> 解释 Kaplan-Meier 估计的思想，并说明删失个体如何进入风险集。</div>
+    <div class="ans-skel"><b>骨架：</b>①生存概率=各时点条件生存概率连乘 ②因子(1−d/n) ③删失者在删失时点前计入风险集、之后移出。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail"><p>KM（乘积限估计）把生存函数写成 Ŝ(t)=Π<sub>tᵢ≤t</sub>(1−dᵢ/nᵢ)：每个「死亡时点」贡献一个条件生存概率因子。风险集 nᵢ=在 tᵢ 之前仍处于观察的个体数——删失个体计入其删失时刻之前的所有风险集，从删失时点起移出；与死亡同刻删失的个体习惯上仍计入当期。KM 只用死亡信息、自动处理右删失，是生存分析的核心非参数方法。</p></div></details>
+  </section>
+
+  <section>
+    <h2><span class="sn">Ⅲ</span>Excel 计算题（15 分）</h2>
+    <div class="exam"><b>18.</b> 10 名投保人观察 5 年：第 2 年死亡 1 人、第 3 年删失 1 人、第 4 年死亡 1 人、其余期满存活。用 Excel 完成 K-M 估计 Ŝ(5)（写出公式）。</div>
+    <div class="ans-skel"><b>骨架：</b>t=2 风险 10 → 0.9；t=4 风险 8 → 0.875；Ŝ(5)=0.7875。函数：COUNTIF + 连乘。</div>
+    <details class="answer"><summary>展开详尽答案</summary><div class="body ans-detail">
+      <p>建表：A 列时刻，B 列死亡数 d，C 列删失数 c。风险集 D2：<code>=10-B1-C1</code> 逐行递推（或 SUMIF 汇总）。因子列 E：<code>=1-B2/D2</code>。Ŝ：<code>=PRODUCT(E2:E3)</code> → 0.9×0.875=<b>0.7875</b>。</p>
+    </div></details>
+  </section>
+
+  <div class="pager">
+    <a href="moni1.html">← 模拟卷一</a>
+    <a href="moni3.html">模拟卷三 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
