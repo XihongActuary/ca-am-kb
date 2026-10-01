@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.03 随机模拟 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html" class="on">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 03</div>
+    <h1>随机模拟 · 给随机性造一台发动机</h1>
+    <div class="sub">随机数生成 / 模拟样本容量 / Bootstrap / MCMC</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>《精算模型》肖争艳（2010版B4）第13章</span><span>4 节 · 2 台演算器</span><span>冲刺例题 1 道</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>10%</span></div><div class="bar"><i style="width:10%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch3">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>随机数：同余法与反函数法</li><li>Box-Muller 变换</li><li>模拟样本容量与误差</li><li>Bootstrap 与 MCMC（概念辨析）</li></ol>
+  </div>
+
+  <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>《精算模型》肖争艳/孙佳美（B4）第13章；<span class="src src-ti">题</span>冲刺课例题。<span class="src src-gui">纲</span>提示：大纲强调「不能光背公式，要理解，会给你例子让你算」。</div>
+
+  <!-- ============ 3.1 ============ -->
+  <section>
+    <h2><span class="sn">3.1</span>随机数 <span class="star s2">中频★★</span></h2>
+    <div class="lead">模拟的原料是 U(0,1) 均匀随机数。产生方法三选一：查表法、物理法、数学方法（考试核心）。</div>
+
+    <h3>① 线性同余法</h3>
+    <div class="formula">
+      <div class="fx">一阶：W<sub>n</sub> = (k·W<sub>n−1</sub> + I) mod m，　U<sub>n</sub> = W<sub>n</sub>/m　（k, m 取定）</div>
+      <div class="fx">二阶：W<sub>n</sub> = (k₁W<sub>n−1</sub> + k₂W<sub>n−2</sub> + I) mod m，依次类推高阶</div>
+      <div class="note"><span class="src src-jiao">教</span>B4第13章。同余法产生的是<b>伪随机数</b>：周期有限、可复现。<b>易错</b>：mod 运算先于除法；U 落在 [0,1)。</div>
+
+      <div class="note"><b>随机模拟的原理基石（简答「基本原理」就用这三句）</b>：① <b>逆变换定理</b>——若 U~U(0,1) 且 F 连续严格增，则 X=F⁻¹(U) 的分布恰为 F（证明：P(X≤x)=P(F⁻¹(U)≤x)=P(U≤F(x))=F(x)）；② <b>大数定律</b>——独立重复模拟的样本均值依概率收敛到期望，所以「模拟 → 求平均」就是对期望的合法估计；③ <b>中心极限定理</b>——估计误差 √Var(X)/n 量级，蒙特卡洛误差按 <b>O(1/√n)</b> 收缩：精度提高一位小数要 100 倍样本，所以先想<b>方差缩减</b>（对偶变量、控制变量、分层抽样、重要性抽样），再想加机器。</div>
+    </div>
+
+    <h3>② 反函数法（逆变换法）</h3>
+    <div class="formula">
+      <div class="fx">连续型：① 求 F(x)=u 的反解 x=F<sup>−1</sup>(u)；② 抽 u∼U(0,1)，令 x=F<sup>−1</sup>(u)</div>
+      <div class="fx">离散型：P(X=a<sub>i</sub>)=p<sub>i</sub>，若 Σ<sub>j=0</sub><sup>i−1</sup>p<sub>j</sub> ≤ u &lt; Σ<sub>j=0</sub><sup>i</sup>p<sub>j</sub>，则 X=a<sub>i</sub></div>
+      <div class="note">原理：U=F(X) 服从 U(0,1)。<b>指数分布</b>：X=−(1/λ)ln(1−u) 或 −(1/λ)ln(u)。</div>
+    </div>
+
+    <h3>③ 复合型随机变量模拟</h3>
+    <p>S=ΣX<sub>i</sub>，N∼P(λ)：先产生泊松随机数 n₁，再生成 n₁ 个 X 的随机数相加；或用 Panjer/直接法生成。<span class="src src-ti">题</span>冲刺考点</p>
+
+    <h3>④ Box-Muller 变换</h3>
+    <div class="formula">
+      <div class="fx">X₁ = (−2ln U₁)<sup>½</sup>·cos(2πU₂)，　X₂ = (−2ln U₁)<sup>½</sup>·sin(2πU₂)</div>
+      <div class="note">U₁,U₂ 独立同 U(0,1) ⇒ X₁,X₂ 独立且服从<b>标准正态</b> N(0,1)。一次消耗两个均匀数、产出两个正态数。<b>反向考法</b>：给 X₁ 反解所需 U₂。</div>
+    </div>
+
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（对数正态变换）</b> 已用 Box-Muller 方法产生标准正态随机数 0.8082。现需随机数 Y=√X，其中 X 服从对数正态分布 μ=5、σ²=4。求得到的随机数。</div>
+    <div class="ans-skel"><b>骨架：</b>① lnY = lnX/2 ∼ N(2.5, 1)；② Y=e<sup>2.5+Z</sup>，Z=0.8082；③ Y=e<sup>3.3082</sup>≈27.34。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>X∼LN(5,4) ⇒ lnX∼N(5,4) ⇒ lnY=½lnX∼N(2.5, 1)。</p>
+        <p>标准正态随机数 Z=0.8082 对应 lnY=2.5+0.8082=3.3082，故 Y=e<sup>3.3082</sup>≈<b>27.34</b>。</p>
+        <p class="hl">点评：对数正态链条「取对数变正态、平方根折半参数」是随机模拟与分布变换的双料高频点。</p>
+      </div>
+    </details>
+
+    <div class="calc" id="calc-bm">
+      <h4>① 演算器：Box-Muller 双向变换</h4>
+      <div class="row"><label>U₁</label><input class="calc-in" id="bm-u1" value="0.5"></div>
+      <div class="row"><label>U₂</label><input class="calc-in" id="bm-u2" value="0.3725"></div>
+      <div class="row">X₁=√(−2lnU₁)·cos(2πU₂) <span class="out calc-out" id="bm-x1">—</span></div>
+      <div class="row">X₂=√(−2lnU₁)·sin(2πU₂) <span class="out calc-out" id="bm-x2">—</span></div>
+      <div class="verdict">正解算例：U₂=0.3725 时 X₁=0.8082（冲刺例题的逆过程）。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-bm');
+      box.__run=function(){
+        var u1=parseFloat(document.getElementById('bm-u1').value)||1e-9;
+        var u2=parseFloat(document.getElementById('bm-u2').value)||0;
+        var r=Math.sqrt(-2*Math.log(Math.max(u1,1e-12)));
+        document.getElementById('bm-x1').textContent=(r*Math.cos(2*Math.PI*u2)).toFixed(4);
+        document.getElementById('bm-x2').textContent=(r*Math.sin(2*Math.PI*u2)).toFixed(4);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 3.2 ============ -->
+  <section>
+    <h2><span class="sn">3.2</span>模拟样本的容量 <span class="star s1">低频★</span></h2>
+    <div class="lead">模拟精度靠大数定律与中心极限定理兜底：样本均值的标准误按 1/√n 收缩。</div>
+    <div class="formula">
+      <div class="fx">P(|X̄<sub>n</sub> − μ| &lt; ε) ≥ 1 − α　⇒　n ≥ ( z<sub>α/2</sub>·σ / ε )²</div>
+      <div class="note">σ 未知时用样本标准差 s 替代。误差减半，样本量翻四倍——「√n 代价」是简答题的标准答案点。</div>
+    </div>
+
+    <div class="calc" id="calc-nsize">
+      <h4>② 演算器：所需模拟次数</h4>
+      <div class="row"><label>σ（总体/样本标准差）</label><input class="calc-in" id="ns-s" value="100"></div>
+      <div class="row"><label>误差容忍 ε</label><input class="calc-in" id="ns-e" value="5"></div>
+      <div class="row"><label>置信水平 1−α(%)</label><input class="calc-in" id="ns-c" value="95"></div>
+      <div class="row">所需 n <span class="out calc-out" id="ns-out">—</span></div>
+      <div class="verdict">z 值近似：90%→1.645，95%→1.960，99%→2.576（内置分段线性插值）。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-nsize');
+      function z(p){ // 双侧分位数近似
+        if(p<=0.9)return 1.28+(1.645-1.28)*(p-0.8)/0.1;
+        if(p<=0.95)return 1.645+(1.96-1.645)*(p-0.9)/0.05;
+        if(p<=0.99)return 1.96+(2.576-1.96)*(p-0.95)/0.04;
+        return 2.576+(3.29-2.576)*(p-0.99)/0.01;
+      }
+      box.__run=function(){
+        var s=parseFloat(document.getElementById('ns-s').value)||0;
+        var e=parseFloat(document.getElementById('ns-e').value)||1e-9;
+        var c=(parseFloat(document.getElementById('ns-c').value)||95)/100;
+        var n=Math.pow(z(c)*s/e,2);
+        document.getElementById('ns-out').textContent=Math.ceil(n).toLocaleString('zh-CN');
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 3.3 ============ -->
+  <section>
+    <h2><span class="sn">3.3</span>Bootstrap 模拟 <span class="star s2">中频★★</span></h2>
+    <div class="lead">手头只有一份样本，想知道估计量的波动？——<b>对样本本身反复重抽样</b>。</div>
+    <ul>
+      <li><b>非参数 Bootstrap</b>：从原始样本<b>有放回</b>抽取等容量新样本，重复 B 次，每次计算统计量 θ̂*，用 θ̂* 的经验分布估计 θ̂ 的标准误与置信区间。</li>
+      <li><b>参数 Bootstrap</b>：先拟合参数分布，再从拟合分布抽样，步骤相同。</li>
+      <li>典型用途：估计统计量的标准误、构造置信区间（百分位法）、评估模型稳定性。</li>
+    </ul>
+    <div class="warn"><b>概念辨析</b>（简答题常客）：Bootstrap 的对象是<b>样本</b>（数据），不需要知道总体分布；蒙特卡洛模拟的对象是<b>已知分布的随机变量</b>。两者都靠重复，但原料不同。</div>
+  </section>
+
+  <!-- ============ 3.4 ============ -->
+  <section>
+    <h2><span class="sn">3.4</span>MCMC 模拟 <span class="star s2">中频★★</span></h2>
+    <div class="lead">要从一个难抽样的复杂后验分布取样？——造一条马尔可夫链，让它的<b>平稳分布</b>就是目标分布。</div>
+    <ul>
+      <li><b>思想</b>：构造转移核的马尔可夫链 {X<sub>n</sub>}，使其平稳分布 π = 目标分布 f；链跑够久后样本近似来自 f。</li>
+      <li><b>Metropolis-Hastings</b>：从建议分布 q(y|x) 提议新点，按接受率 α=min{1, [f(y)q(x|y)]/[f(x)q(y|x)]} 接受/拒绝，保证<b>细致平衡</b>。</li>
+      <li><b>Gibbs 抽样</b>：多元分布下逐条件分布轮换抽样，接受率恒为 1。</li>
+      <li><b>实操概念</b>：burn-in（预烧期样本丢弃）、混合速度、自相关与 thinning。</li>
+    </ul>
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「同余造均匀，反函数配分布，Box-Muller 生正态，Bootstrap 抽自己，MCMC 走链子」</span>——五个名词一句话装下，概念辨析题直接落笔。</div>
+  </section>
+
+  <!-- ============ 3.5 题库精粹 ============ -->
+  <section>
+    <h2><span class="sn">3.5</span>题库精粹 <span class="src src-ti">题</span><span class="star s3">逐题吸收</span></h2>
+    <div class="lead">取自《A3过关必做1000题》第 13 章「随机模拟」（书页号已标注）——本章考点就这四板斧：逆变换、离散查表、Box-Muller、分布间变换。</div>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>Box-Muller 数值代入</b> u₁=0.6341、u₂=0.5791，用 Box-Muller 生成标准正态随机数 X₁、X₂。</div>
+    <div class="ans-skel"><b>骨架：</b>R=√(−2ln 0.6341)=0.9545；X₁=R·cos(2πu₂)=0.9545×cos(208.5°)=<b>−0.8399</b>；X₂=R·sin(2πu₂)=<b>−0.4536</b>。答案 D。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>X₁=√(−2ln u₁)·cos(2πu₂)，X₂=√(−2ln u₁)·sin(2πu₂)。</p>
+      <p>−2ln 0.6341=0.9112，√=0.9545；2π×0.5791=3.6388 rad=208.5°，cos=−0.8799，sin=−0.4752。</p>
+      <p>X₁=0.9545×(−0.8799)=<b>−0.8399</b>；X₂=0.9545×(−0.4752)=<b>−0.4536</b>。</p>
+      <p class="hl">两件事必对：半径只由 u₁ 决定，角度只由 u₂ 决定；cos/sin 一正一负配对出现。考试给候选答案时先算符号再算数值。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>离散逆变换（负二项）</b> 负二项分布 k=6、p=0.6，取 u₁=0.345、u₂=0.789。用逆变换法求对应随机数。</div>
+    <div class="ans-skel"><b>骨架：</b>查累积分布：P(N≤3)=0.4827、P(N≤7)=0.7536、P(N≤8)=0.8419。u₁=0.345∈(0.316,0.483]→<b>3</b>；u₂=0.789∈(0.754,0.842]→<b>6</b>。答案 B (3,6)。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>离散逆变换：找最小的 n 使 P(N≤n)≥u。</p>
+      <p>u₁=0.345：P(N≤2)=0.3155&lt;0.345≤P(N≤3)=0.4827 → n=<b>3</b>。u₂=0.789：P(N≤5)=0.7536&lt;0.789≤P(N≤6)=0.8419 → n=<b>6</b>。</p>
+      <p>答案 B (3,6)。</p>
+      <p class="hl">口诀：<b>累积概率第一个盖过 u 的 n 就是答案</b>——区间左开右闭，边界值归上层。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>指数分布逆变换</b> 寿命~指数（均值 1000 小时），取 u=0.2487。求模拟寿命。</div>
+    <div class="ans-skel"><b>骨架：</b>x=−1000·ln(0.2487)=1000×1.392=<b>1392 小时</b>。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>F(x)=1−e<sup>−x/1000</sup>=u ⇒ x=−1000·ln(1−u)。</p>
+      <p>题库用 x=−1000·ln(u)（把 u 当作 1−u，同为均匀分布等价）：−ln 0.2487=1.3916 → x≈1392。</p>
+      <p class="hl">1−u 与 u 都是 U[0,1]——两种写法都对，但同一题内要一致；给出具体 u 值时按题目的约定算。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>正态→对数正态链</b> 生成 N(5.0, 2.0²) 随机数得 6.40 与 1.98。求对应对数正态随机数。</div>
+    <div class="ans-skel"><b>骨架：</b>直接取指数：e<sup>6.40</sup>≈<b>601.85</b>、e<sup>1.98</sup>≈<b>7.24</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>若 Y=e<sup>X</sup>、X~N(μ,σ²)，则 Y~对数正态。模拟时先造正态数再取指数即可——<b>不需要</b>重新做 Box-Muller。</p>
+      <p class="hl">链式生成思想：均匀→正态→对数正态（或→其他变换），一条流水线，每一环都可能是考点。</p>
+    </div></details>
+  </section>
+
+  <div class="pager">
+    <a href="ch2.html">← CH.02 生存分析</a>
+    <a href="ch4.html">CH.04 回归分析 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
