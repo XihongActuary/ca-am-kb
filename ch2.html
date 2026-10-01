@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.02 生存分析 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html" class="on">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 02</div>
+    <h1>生存分析 · 与时间打交道的概率</h1>
+    <div class="sub">生存模型理论 / 生存函数与危险率 / 生命表 / Kaplan-Meier 与 Nelson-Aalen</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>《精算模型》肖争艳（2010版B4）第2章</span><span>2 节 · 2 台演算器</span><span>冲刺例题 2 道</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>15%</span></div><div class="bar"><i style="width:15%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch2">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>生存模型理论：基本公式体系</li><li>整值 / 完全剩余寿命与选择—终极表</li><li>生存分析：删失数据与 K-M / Nelson-Aalen</li><li>真题链接（双层答案）</li></ol>
+  </div>
+
+  <div class="src-note">本页来源约定：<span class="src src-jiao">教</span>《精算模型》肖争艳/孙佳美（B4）第2章；<span class="src src-ti">题</span>冲刺课例题或旧A3真题。</div>
+
+  <!-- ============ 2.1 ============ -->
+  <section>
+    <h2><span class="sn">2.1</span>生存模型理论 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">新出生个体的死亡年龄 X≥0 是随机变量，一切围绕 S(x)=P(X&gt;x) 展开。这页公式必须形成「肌肉记忆」。</div>
+
+    <h3>① 基本公式体系</h3>
+    <div class="formula">
+      <div class="fx">S(x)=P(X&gt;x)，S(0)=1，S(+∞)=0　F(x)=1−S(x)　f(x)=F′(x)=−S′(x)</div>
+      <div class="fx">危险率（死亡力）：μ<sub>x</sub> = −S′(x)/S(x) = f(x)/S(x) = −[ln S(x)]′</div>
+      <div class="fx">tP<sub>x</sub> = P(X&gt;x+t | X&gt;x) = S(x+t)/S(x) = e<sup>−∫₀<sup>t</sup> μ(x+s)ds</sup></div>
+      <div class="fx">t|u q<sub>x</sub> = P(x+t &lt; X &lt; x+t+u | X&gt;x) = [S(x+t) − S(x+t+u)] / S(x)</div>
+      <div class="note"><span class="src src-jiao">教</span>B4第2章。<b>三件套关系</b>：S ↔ μ 互推（S=e^{−∫μ}），tP<sub>x</sub> 是条件生存概率，t|u q<sub>x</sub>（延期死亡概率）= tP<sub>x</sub>·<sub>u</sub>q<sub>x+t</sub>。</div>
+    </div>
+
+    <h3>② 剩余寿命</h3>
+    <p>T(x)=X−x 为<b>完全剩余寿命</b>；K(x)=⌊T(x)⌋ 为<b>整值剩余寿命</b>（死亡发生在哪一年内）。<span class="src src-jiao">教</span>B4第2章</p>
+    <div class="formula">
+      <div class="fx">E[T(x)] = e̊<sub>x</sub> = ∫₀<sup>∞</sup> t·μ(x+t)·<sub>t</sub>p<sub>x</sub> dt = ∫₀<sup>∞</sup> <sub>t</sub>p<sub>x</sub> dt</div>
+      <div class="fx">e<sub>x</sub> = Σ<sub>k=1</sub><sup>∞</sup> <sub>k</sub>p<sub>x</sub>　（整值剩余寿命期望 = 生存概率求和）</div>
+      <div class="note">两个期望相差约 0.5（均匀死亡假设下 e̊<sub>x</sub>≈e<sub>x</sub>+0.5）。<b>易错</b>：求和从 k=1 开始，不是 k=0。</div>
+    </div>
+
+    <h3>③ 选择—终极表</h3>
+    <p>投保时的核保信息会「过期」：选择年龄 [x] 后 n 年的死亡率介于「刚选择」与「终极」之间，记号 l<sub>[x]+n</sub>：<span class="src src-jiao">教</span>B4第2章</p>
+    <div class="formula">
+      <div class="fx">l<sub>[x]+n</sub> = l<sub>[x]</sub> + n　（n &lt; t，t 为选择期）　　l<sub>[x]+n</sub> = l<sub>x+n</sub>　（n ≥ t，进入终极）</div>
+      <div class="note"><b>取数规则</b>：查表时先看选择期——n 在选择期内走选择列，超出选择期直接用终极列。</div>
+    </div>
+
+    <div class="exam"><span class="yr hot">冲刺</span><b>例（生存概率拼接）</b> 已知 ₃p₁₀=0.95，₂p₁₁=0.96，∫₁₁¹⁵ μ<sub>x</sub>dx=0.07。求 ₅p₁₀。</div>
+    <div class="ans-skel"><b>骨架：</b>① ₅p₁₀=₃p₁₀·₂p₁₃；② ₂p₁₃=₂p₁₁·e<sup>−∫₁₃¹⁵μ</sup>；③ ∫₁₃¹⁵=0.07−(−ln0.96)=0.0292；④ 结果≈0.9226。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>₅p₁₀ = ₃p₁₀ × ₂p₁₃ = ₃p₁₀ × ₂p₁₁ × e<sup>−∫₁₃¹⁵ μ<sub>x</sub>dx</sup>。</p>
+        <p>由 ₂p₁₁=e<sup>−∫₁₁¹³μ</sup> 得 ∫₁₁¹³μ=−ln0.96=0.0408，故 ∫₁₃¹⁵μ=0.07−0.0408=0.0292。</p>
+        <p>₅p₁₀ = 0.95×0.96×e<sup>−0.0292</sup> = 0.912×0.9712 ≈ <b>0.8857</b>。</p>
+        <p class="hl">点评：这类题的关键是「把积分区间拆开」，危险率积分像路程一样可加。</p>
+      </div>
+    </details>
+
+    <div class="calc" id="calc-tpx">
+      <h4>① 演算器：tP<sub>x</sub> 与延期死亡概率（常数危险率假设）</h4>
+      <div class="row"><label>当前年龄 x</label><input class="calc-in" id="tp-x" value="40"></div>
+      <div class="row"><label>危险率 μ(常数/年)</label><input class="calc-in" id="tp-mu" value="0.004"></div>
+      <div class="row"><label>t（生存年数）</label><input class="calc-in" id="tp-t" value="20"></div>
+      <div class="row"><label>u（延期年数）</label><input class="calc-in" id="tp-u" value="5"></div>
+      <div class="row"><sub>t</sub>p<sub>x</sub> <span class="out calc-out" id="tp-px">—</span></div>
+      <div class="row">t|u q<sub>x</sub> <span class="out calc-out" id="tp-dq">—</span></div>
+      <div class="verdict">常数危险率下 tP<sub>x</sub>=e<sup>−μt</sup>；t|u q<sub>x</sub>=tP<sub>x</sub>(1−e<sup>−μu</sup>)。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-tpx');
+      box.__run=function(){
+        var mu=parseFloat(document.getElementById('tp-mu').value)||0;
+        var t=parseFloat(document.getElementById('tp-t').value)||0;
+        var u=parseFloat(document.getElementById('tp-u').value)||0;
+        var px=Math.exp(-mu*t);
+        var dq=px*(1-Math.exp(-mu*u));
+        document.getElementById('tp-px').textContent=px.toFixed(5);
+        document.getElementById('tp-dq').textContent=dq.toFixed(5);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「生存除一除，危险负对数；积分可拆段，条件要乘链」</span>——S→μ→tP<sub>x</sub> 一条线，区间积分可加，条件概率按链式乘。</div>
+  </section>
+
+  <!-- ============ 2.2 ============ -->
+  <section>
+    <h2><span class="sn">2.2</span>生存分析 <span class="star s2">中频★★</span></h2>
+    <div class="lead">真实数据不会等你观察全员死亡——<b>删失</b>是生存数据的常态，估计生存函数要靠乘积限方法。</div>
+
+    <h3>① 数据类型</h3>
+    <table>
+      <tr><th>类型</th><th>含义</th><th>处理要点</th></tr>
+      <tr><td>完整数据</td><td>观察到确切死亡/失效时刻</td><td>直接用经验分布</td></tr>
+      <tr><td>右删失</td><td>只知「存活超过某时刻」（退保、观察期结束）</td><td>K-M 处理的主体</td></tr>
+      <tr><td>左删失/区间删失</td><td>只知事件发生在某时刻之前/某区间内</td><td>需专门方法，考试以概念辨析为主</td></tr>
+      <tr><td>左截断</td><td>个体进入观察前已死亡则不出现</td><td>条件化处理</td></tr>
+    </table>
+
+    <h3>② Kaplan-Meier 与 Nelson-Aalen</h3>
+    <div class="formula">
+      <div class="fx">KM（乘积限）：Ŝ(t) = Π<sub>tᵢ ≤ t</sub> (1 − dᵢ/nᵢ)　（dᵢ 为 tᵢ 时死亡数，nᵢ 为风险数）</div>
+      <div class="fx">NA：Ĥ(t) = Σ<sub>tᵢ ≤ t</sub> dᵢ/nᵢ，Ŝ(t) ≈ e<sup>−Ĥ(t)</sup></div>
+      <div class="note"><span class="src src-jiao">教</span>B4第2章；R 实战见《基于R的保险损失预测》。两者都用「时点风险集」nᵢ：<b>删失个体在删失时刻之后不再计入风险集</b>；若删失与死亡同时刻，习惯上删失个体仍计入当期风险集。</div>
+    </div>
+    <div class="warn"><b>易错：</b>nᵢ 是「恰好处于风险中的个体数」= 进入未死亡未删失者。删失个体从删失时点起移出；死亡时刻相同者一并计入 dᵢ。</div>
+
+    <h3>③ 生命表</h3>
+    <p>生命表是大样本分组的生存分析：l<sub>x</sub> 存活数、d<sub>x</sub>=l<sub>x</sub>−l<sub>x+1</sub> 死亡数、q<sub>x</sub>=d<sub>x</sub>/l<sub>x</sub>；中心死亡率 m<sub>x</sub>=d<sub>x</sub>/L<sub>x</sub>；完整未来生存人年数 T<sub>x</sub>=ΣL<sub>x+k</sub>。编制原理（了解）：假设均匀分布 UDD、常数危险或 Balducci 假设，把连续模型落到离散年龄组。<span class="src src-jiao">教</span>B4第2章</p>
+
+    <div class="calc" id="calc-km">
+      <h4>② 演算器：Kaplan-Meier 估计</h4>
+      <div class="row"><label>时点1：死亡 d₁ / 风险 n₁</label><input class="calc-in" id="km-d1" value="2"> <input class="calc-in" id="km-n1" value="15"></div>
+      <div class="row"><label>时点2：死亡 d₂ / 风险 n₂</label><input class="calc-in" id="km-d2" value="1"> <input class="calc-in" id="km-n2" value="11"></div>
+      <div class="row"><label>时点3：死亡 d₃ / 风险 n₃</label><input class="calc-in" id="km-d3" value="2"> <input class="calc-in" id="km-n3" value="7"></div>
+      <div class="row">Ŝ(时点3) <span class="out calc-out" id="km-out">—</span></div>
+      <div class="row">NA 累积危险 Ĥ <span class="out calc-out" id="km-h">—</span></div>
+      <div class="verdict">输入 0 表示该时点无死亡。Ŝ=Π(1−dᵢ/nᵢ)；Ĥ=Σdᵢ/nᵢ。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-km');
+      box.__run=function(){
+        var s=1,h=0;
+        for(var i=1;i<=3;i++){
+          var d=parseFloat(document.getElementById('km-d'+i).value)||0;
+          var n=parseFloat(document.getElementById('km-n'+i).value)||0;
+          if(n>0&&d>0){ s*=(1-d/n); h+=d/n; }
+        }
+        document.getElementById('km-out').textContent=s.toFixed(4);
+        document.getElementById('km-h').textContent=h.toFixed(4);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+
+    <div class="prac"><b>实务链接：</b>K-M 曲线是药品临床试验、退保分析（persistency）、再保险定价里最常用的图；精算师的「保单继续率」本质就是带删失的生存估计。</div>
+  </section>
+
+  <!-- ============ 2.3 真题链接 ============ -->
+  <section>
+    <h2><span class="sn">2.3</span>真题链接 <span class="src src-ti">题</span></h2>
+
+    <div class="exam"><span class="yr">2012·A3</span><b>危险率与生存函数互推</b> 已知 S(x)=e<sup>−x²/200</sup>（x≥0）。求 μ<sub>40</sub> 与 ₁₀p₄₀。</div>
+    <div class="ans-skel"><b>骨架：</b>μ<sub>x</sub>=−[lnS]′=x/100；μ₄₀=0.4；₁₀p₄₀=S(50)/S(40)=e<sup>−(2500−1600)/200</sup>=e<sup>−4.5</sup>≈0.0111。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>lnS(x)=−x²/200，求导得 μ<sub>x</sub>=x/100。μ₄₀=0.4。</p>
+        <p>₁₀p₄₀=S(50)/S(40)=e<sup>−50²/200</sup>/e<sup>−40²/200</sup>=e<sup>−(2500−1600)/200</sup>=e<sup>−4.5</sup>≈<b>0.0111</b>。</p>
+        <p class="hl">点评：Weibull 型 S(x)（x² 项）是命题最爱——记住 μ<sub>x</sub>=−(lnS)′ 这一步万能。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr">2016·A3</span><b>K-M 风险集判断</b> 10 人观察，第 2 年死亡 1 人、删失 1 人，第 4 年死亡 1 人。用 K-M 估计 Ŝ(4)。</div>
+    <div class="ans-skel"><b>骨架：</b>时点2风险集 n=10，(1−1/10)=0.9；时点4风险集 n=8（10−1死−1删），(1−1/8)=0.875；Ŝ(4)=0.7875。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>t=2：风险集 10，d=1 → 因子 0.9；随后 1 人在第 2 年末删失。</p>
+        <p>t=4：风险集 10−1−1=8，d=1 → 因子 0.875。</p>
+        <p>Ŝ(4)=0.9×0.875=<b>0.7875</b>。</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 2.4 题库精粹 ============ -->
+  <section>
+    <h2><span class="sn">2.4</span>题库精粹 <span class="src src-ti">题</span><span class="star s3">逐题吸收</span></h2>
+    <div class="lead">逐页取自《A3过关必做1000题》生存分析·生命表·经验模型·参数估计各章（书页号已标注），含答案与解析。</div>
+
+    <div class="exam"><span class="yr">1000题·P54 真题</span><b>三大分数年龄假设对比</b> q<sub>x</sub>=0.12，分别求 UDD、常死力（CF）、Balducci 三种假设下的 ₁/₃q<sub>x+1/2</sub>。</div>
+    <div class="ans-skel"><b>骨架：</b>UDD：⅓q/(1−½q)=0.04/0.94=<b>0.042553</b>；CF：1−(1−q)<sup>1/3</sup>=1−0.88<sup>1/3</sup>=<b>0.061917</b>；Balducci：⅓q/(1−⅔q)=0.04/0.92=<b>0.043478</b>。三个数值全对 → 答案 E。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>UDD（死亡均匀）：ₜq<sub>x+s</sub>=t·q<sub>x</sub>/(1−s·q<sub>x</sub>)，s=1/2、t=1/3 → 0.04/0.94。</p>
+      <p>常死力：生存函数 (1−q)<sup>t</sup> → 1−(0.88)<sup>1/3</sup>。</p>
+      <p>Balducci（双曲线）：ₜq=t·q/(1−(1−t)q)，t=1/3 → 0.04/0.92。</p>
+      <p class="hl">三种假设的 ₁/₃q<sub>x+1/2</sub> 公式是生存分析最高频对比题，把三个分母焊死：0.94 / 无分母 / 0.92。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P19</span><b>多重减因转换</b> 双减因独立终止率 q′ₓ⁽¹⁾=0.2、q′ₓ⁽²⁾=0.4，各原因年内均匀。求 qₓ⁽²⁾（由原因2导致的终止概率）。</div>
+    <div class="ans-skel"><b>骨架：</b>p⁽ᵗ⁾=p′⁽¹⁾p′⁽²⁾=0.48 → q⁽ᵗ⁾=0.52；q⁽²⁾=[ln(1−q′⁽²⁾)/ln(1−q⁽ᵗ⁾)]·q⁽ᵗ⁾=(ln0.6/ln0.48)×0.52=<b>0.3619</b>。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>均匀假设下的标准公式：<b>qₓ⁽ʲ⁾=[ln(1−q′ₓ⁽ʲ⁾)/ln(1−qₓ⁽ᵗ⁾)]·qₓ⁽ᵗ⁾</b>。</p>
+      <p>ln(0.6)=−0.5108，ln(0.48)=−0.7340，比值 0.6959，乘 0.52 得 <b>0.3619</b>。</p>
+      <p class="hl">方向记忆：由「独立率」转「联合率」用 ln 比值缩放；分子 ln(1−q′⁽ʲ⁾)、分母 ln(1−q⁽ᵗ⁾)。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P19</span><b>双减因积分拆分</b> 某双减因模型积分得 ₅qₓ⁽¹⁾=0.156、₅qₓ⁽²⁾=0.115。验证总终止率。</div>
+    <div class="ans-skel"><b>骨架：</b>₅qₓ⁽ᵗ⁾=0.156+0.115=<b>0.271</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>每种原因：₅q⁽ʲ⁾=∫₀⁵ pₓ₊ₜ⁽ᵗ⁾·μₓ₊ₜ⁽ʲ⁾dt，其中总生存概率 p⁽ᵗ⁾=∏ₖp′⁽ᵏ⁾（本题结构 (1−t/30)(1−t/40)）。</p>
+      <p>多重减因可加性：总终止率=各原因终止率之和=<b>0.271</b>。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P6</span><b>多重生命协方差</b> T(x)、T(y) 独立，E[T(x)]=E[T(y)]=4，Cov[T(xy), T(x̄y)]=0.09。求 E[T(xy)]。</div>
+    <div class="ans-skel"><b>骨架：</b>用 e<sub>x̄y</sub>=eₓ+e_y−e<sub>xy</sub> 与独立恒等式列二次方程，解得 e<sub>xy</sub>=<b>3.7</b>。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>独立下：E[T(xy)·T(x̄y)]=eₓ·e_y=16（联合生存与最后生存的未来期望乘积）；而 Cov=E[积]−e<sub>xy</sub>·e<sub>x̄y</sub>=16−e<sub>xy</sub>(8−e<sub>xy</sub>)=0.09。</p>
+      <p>整理：e²<sub>xy</sub>−8e<sub>xy</sub>+15.91=0 → e<sub>xy</sub>=4−√0.09/2×2? 直接求根：e<sub>xy</sub>=(8−√(64−63.64))/2=(8−0.6)/2=3.7。</p>
+      <p class="hl">核心恒等式：<b>e<sub>x̄y</sub>=eₓ+e_y−e<sub>xy</sub></b>——「最后生存=先加起来再减去同时活着」。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P39</span><b>生命表代数式</b> l_z=1000(1−z/120)。求 ₂₀p₃₀ / (₂₀|₅q₂₅)。</div>
+    <div class="ans-skel"><b>骨架：</b>₂₀p₃₀=7/9；₂₀|₅q₂₅=1/19；比值=(7/9)×19=<b>14.778</b>。答案 D。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>₂₀p₃₀=(1−50/120)/(1−30/120)=70/90=7/9；₂₀|₅q₂₅=(l₄₅−l₅₀)/l₂₅=(5/120)/(95/120)=1/19。</p>
+      <p>比值=(7/9)÷(1/19)=<b>133/9≈14.778</b>。生命表题全部化成 l 值之比，别硬背概率公式。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P39</span><b>常死力延期死亡</b> 20≤x≤25 时 μₓ=0.001（常数）。求 ₂|₂q₂₀。</div>
+    <div class="ans-skel"><b>骨架：</b>∫₂⁴ e<sup>−0.001t</sup>×0.001dt=e<sup>−0.002</sup>−e<sup>−0.004</sup>≈<b>0.002</b>。答案 B。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>常死力下 ₜp₂₀=e<sup>−0.001t</sup>：₂|₂q₂₀=e<sup>−0.002</sup>−e<sup>−0.004</sup>=0.998002−0.996008=0.001994≈<b>0.002</b>。</p>
+      <p>区间短、μ 小时 ≈ μ×2=0.002，量级校验秒杀选项。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P214</span><b>乘积估计 vs Nelson-Aalen</b> 4 只小白鼠死亡时间 2,4,5,9。求 Ŝ⁽ᴷᴹ⁾(8)−Ŝ⁽ᴺᴬ⁾(8)。</div>
+    <div class="ans-skel"><b>骨架：</b>KM=(3/4)(2/3)(1/2)=0.25；NA：Λ̂=1/4+1/3+1/2=13/12，Ŝ=e<sup>−13/12</sup>≈0.3385；差≈<b>−0.09</b>。答案 C。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>K-M：Π(1−dᵢ/nᵢ)=0.75×0.6667×0.5=0.25。N-A：Λ̂(8)=13/12，Ŝ<sup>NA</sup>=e<sup>−13/12</sup>=0.3385。</p>
+      <p>差=0.25−0.3385≈<b>−0.09</b>。</p>
+      <p class="hl">不等式记忆：ln(1−x)≤−x ⇒ <b>Ŝ<sup>NA</sup> ≥ Ŝ<sup>KM</sup></b> 恒成立（无删失时），方向题秒答。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P214</span><b>带退出的乘积估计</b> 50 位 60 岁退休职工一年期寿险：第一季度末死 2 人，60⅔ 岁 6 人退出，第三季度末死 3 人。求 q̂₆₀。</div>
+    <div class="ans-skel"><b>骨架：</b>上半段 1−2/50=0.96；下半段风险集 50−2−6=42，1−3/42=13/14；q̂=1−0.96×13/14≈<b>0.109</b>。答案 A。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>按退出时点分段：每段用「段初风险集」，退出者离开风险集。</p>
+      <p>q̂₆₀=1−(1−2/50)(1−3/42)=1−0.96×0.9286≈<b>0.109</b>。</p>
+      <p class="hl">乘积估计的退出处理：先发生的退出先减人数——顺序搞错整题全错。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P214</span><b>乘积估计反解退出数</b> 10 名 100 岁老人：t=2 死 1 人、t=4 有 x 人退出、t=4.5 死 1 人。若 Ŝ(5)=0.75，求 x。</div>
+    <div class="ans-skel"><b>骨架：</b>(9/10)×(8−x)/(9−x)=0.75 → x=<b>3</b>。答案 B。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>t=2：风险集 10，因子 9/10。t=4.5：风险集 10−1−x=9−x，因子 (8−x)/(9−x)。</p>
+      <p>(9/10)(8−x)/(9−x)=3/4 → 6(8−x)=7.5? 变形 (8−x)/(9−x)=5/6 → 48−6x=45−5x → x=<b>3</b>。</p>
+      <p class="hl">反解题套路：把未知数放进风险集列方程——考「理解」不考「记忆」。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P234</span><b>分位数法估两参数</b> F(x)=(x/θ)<sup>γ</sup>/[1+(x/θ)<sup>γ</sup>]，11 个样本，用 40% 与 80% 分位数估计 θ、γ，求 θ̂+γ̂。</div>
+    <div class="ans-skel"><b>骨架：</b>π̂₀.₄=89.2、π̂₀.₈=206（平滑经验分布插值）；联立解得 θ̂=107.801、γ̂=2.141，和=<b>109.94</b>。答案 D。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>分位次 (n+1)p：40%→4.8 位 → 0.2×86+0.8×90=89.2；80%→9.6 位 → 0.4×200+0.6×210=206。</p>
+      <p>令 F(π̂)=p 联立两式：0.4=u/(1+u)、0.8=v/(1+v) → u=2/3、v=4 → (89.2/θ)<sup>γ</sup>=2/3、(206/θ)<sup>γ</sup>=4，相除 (206/89.2)<sup>γ</sup>=6 → γ=ln6/ln2.309≈2.141；θ=206/4<sup>1/γ</sup>≈107.801。</p>
+      <p class="hl">分位数法三步：(n+1)p 位次插值 → F(π̂)=p → 相除消 θ 先解 γ。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P234</span><b>分组数据 MLE（指数）</b> 理赔额：0–7500 有 199 件、7500–15000 有 137 件。求指数 θ 的 MLE。</div>
+    <div class="ans-skel"><b>骨架：</b>l(θ)=199ln(1−e<sup>−7500/θ</sup>)+137ln(e<sup>−7500/θ</sup>−e<sup>−15000/θ</sup>)，求根 → θ̂≈<b>6053</b>。答案 A。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>分组似然：每格贡献 [F(u)−F(l)]^次数。代入指数 CDF 后对 θ 数值求根得 θ̂≈6053。</p>
+      <p class="hl">分组 MLE 三步：写各格概率 → 连乘取对数 → 数值求根；有候选答案时代入比 l(θ)。</p>
+    </div></details>
+
+    <div class="exam"><span class="yr">1000题·P256</span><b>K-S 统计量</b> 样本 0.1,0.2,0.5,1.0,1.3，原假设 f(x)=2(1+x)<sup>−3</sup>。求 Dₙ。</div>
+    <div class="ans-skel"><b>骨架：</b>F*(x)=1−(1+x)<sup>−2</sup>；两个方向取最大 → Dₙ=<b>0.189</b>（x=1.3 处）。答案 B。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail">
+      <p>经验分布：0.2/0.4/0.6/0.8/1.0；理论：0.174/0.306/0.556/0.756/0.811。</p>
+      <p>Dₙ=max{|Fₙ(x)−F*(x)|, |Fₙ(x⁻)−F*(x)|}：x=1.3 处 |1−0.811|=0.189 最大。</p>
+      <p class="hl">漏掉左极限方向 Fₙ(x⁻) 是 K-S 题最常见丢分点。</p>
+    </div></details>
+  </section>
+
+  <!-- ============ 2.5 ============ -->
+  <section id="s25">
+    <h2><span class="sn">2.5</span>生命表编制原理：从经验数据到一张表 <span class="star s2">原理必考★★</span></h2>
+    <div class="lead">考纲原句：「了解<b>生命表编制原理</b>」。编制就是把散落的观察数据加工成一张 qₓ 表的流水线：数据 → 暴露数 → 死亡率估计 → 修匀 → 外推补尾。简答题考「流程与各环节作用」，计算题考「暴露数与中心死亡率」。</div>
+
+    <h3>编制流水线五步（简答模板）</h3>
+    <div class="formula">① <b>数据收集</b>：观察期（如日历年）内的保单/人口记录，记录进入、退出（死亡/退保/期满）时点；<br>
+      ② <b>暴露数计算</b>：风险数 rₓ = 处于 x 岁被观察的「人年数」——精确法按积分 ∫l<sub>x+t</sub>dt，估算法按「期初人数 − 死亡数的一半」（死亡均匀假设下）；<br>
+      ③ <b>死亡率估计</b>：q̂ₓ = 死亡数 dₓ / 暴露数 rₓ（或用 K-M/N-A 修正删失）；<br>
+      ④ <b>修匀</b>：Whittaker–Henderson / 参数曲线（Gompertz 等），在「拟合优度 ↔ 光滑度」间权衡，见 model.html §5；<br>
+      ⑤ <b>补尾与列表</b>：高龄段数据稀薄，用 Gompertz/Makeham 外推至 ω，得到完整表格。</div>
+
+    <h3>中心死亡率 mₓ 与 qₓ 的关系</h3>
+    <div class="formula"><b>中心死亡率</b> mₓ = ∫₀¹ l<sub>x+t</sub>μ<sub>x+t</sub>dt / ∫₀¹ l<sub>x+t</sub>dt = dₓ / Lₓ（Lₓ 为平均生存人年数）<br>
+      UDD 下：qₓ = mₓ / (1 + mₓ/2)；常死力下：qₓ = 1 − e<sup>−mₓ</sup>。考试常给 S(x) 求 mₓ，用定义积分直接算。</div>
+
+    <div class="exam"><span class="yr">1000题·P13</span><b>中心死亡率</b> S(x)=(80−x)/80（0≤x≤80），求 m₂₀。</div>
+    <div class="ans-skel"><b>骨架：</b>分子 = ∫₀⁶ l₂₀₊ₜμ₂₀₊ₜdt（6 年内死亡数），分母 = ∫₀⁶ l₂₀₊ₜdt（平均生存人年）→ 1/57。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>μ₂₀₊ₜ=1/(60−t)，l₂₀₊ₜ=(80−20−t)/80∝(60−t)。分子 ∫₀⁶ (60−t)/(80(60−t))dt=6/80；分母 ∫₀⁶ (60−t)/80 dt=6×(60+54)/(2×80)=342/80。m₂₀=(6/80)/(342/80)=6/342=<b>1/57</b>（答案 C）。关键：分母是「平均生存人年」∫l dt，不是 l₂₀。</p>
+        <p class="hl">mₓ ≥ qₓ 恒成立（分母 Lₓ ≤ lₓ）；UDD 下 mₓ = qₓ/(1−qₓ/2)。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr">1000题·P13</span><b>附加死力（选择效应）</b> 国内 55→56 死亡概率 0.005；定居国外因环境不适附加死力 μₜ=0.03−0.03t（年初 0.03 均匀递减至年末 0）。求定居国外活到 56 岁的概率与「一半国内一半国外」的混合生存概率。</div>
+    <div class="ans-skel"><b>骨架：</b>p₅₅=0.995（国内）；国外 p₅₅=0.995×e<sup>−0.015</sup>≈0.9802；混合 0.5×(0.995+0.9802)=0.9876。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>国外：基础死力 + 附加死力积分 ∫₀¹(0.03−0.03t)dt=0.015 → p₅₅=(1−0.005)×e<sup>−0.015</sup>=0.995×0.9851=0.9802。混合：0.5×(0.995+0.9802)=<b>0.9876</b>（答案 D）。</p>
+        <p class="hl">考点双重：① 附加死力对时间积分（均匀递减取均值 0.015）；② 选择效应是生命表「选择表 vs 终极表」的连续版——承保选择期后死亡率逐渐回归终极水平。</p>
+      </div>
+    </details>
+
+    <div class="tip"><b>选择表 · 终极表 · 综合表（概念三连）</b>：<b>选择表</b>按「投保后经过年数（选择期）」分层，刚承保（freshly underwritten）死亡率最低；<b>终极表</b>是选择效应耗尽后的 x 岁死亡率；<b>综合表</b>不区分选择效应、全人群混合。简答考「为什么保险公司用选择表定价」——刚承保人群经核保筛选，死亡率显著低于终极水平，用综合表会高估风险、定价偏高失竞争力。</div>
+  </section>
+
+  <div class="pager">
+    <a href="ch1.html">← CH.01 风险理论</a>
+    <a href="ch3.html">CH.03 随机模拟 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
