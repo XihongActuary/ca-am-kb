@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考纲总论 · 原理与方法｜精算模型与数据分析 · 科目四</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-id="theory">
+<div class="wrap">
+  <aside class="side">
+    <div class="brand">
+      <div class="b1">精算模型与数据分析</div>
+      <div class="b2">中国精算师 · 科目四</div>
+    </div>
+    <nav>
+      <a href="index.html">首页 · 考试全景</a>
+      <a href="theory.html" class="on">考纲总论 · 原理与方法</a>
+      <a href="about.html">本库说明 · 编法与用法</a>
+      <a href="xihong.html">关于 · 西红精算</a>
+      <div class="grp">六大篇章（按考纲权重）</div>
+      <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+      <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+      <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+      <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+      <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+      <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+      <div class="grp">专章 · 真题 · 模拟</div>
+      <a href="model.html">模型理论 · 估计与选择</a>
+      <a href="map.html">知识图谱 · 框架图</a>
+      <a href="shizhan.html">考场实战 · 机考与Excel</a>
+      <a href="zhenti.html">真题馆（按板块）</a>
+      <a href="moni1.html">模拟卷一</a>
+      <a href="moni2.html">模拟卷二</a>
+      <a href="moni3.html">模拟卷三</a>
+      <div class="grp">资料</div>
+      <a href="references.html">参考资料库 · 教材映射</a>
+    </nav>
+    <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+  </aside>
+
+  <main class="main">
+    <div class="ch-head">
+      <div class="no">总纲</div>
+      <h1>考纲总论 · 原理与方法</h1>
+      <div class="sub">把考纲四句话拆成四个能力模块——每句话都对应「要掌握的原理 → 方法 → 应用」三层</div>
+      <div class="meta"><span class="src src-gang">纲</span>2023 版考纲总要求全文逐句展开 <span class="src src-jiao">教</span>A1/A3 教材 <span class="src src-bu">补</span>精算实务视角</div>
+      <div class="wbar"><i style="width:100%"></i><span>覆盖全科 · 100%</span></div>
+    </div>
+
+    <div class="src-note"><b>这一页为什么存在：</b>考纲开头有一段「总要求」，很多考生直接跳过去背各章细目——但<b>简答题的大题干往往就是从这几句话里长出来的</b>。这一页把总要求逐句拆开：每句话背后是哪块理论、哪些方法、落到保险经营里是什么应用，以及考点挂在哪一章。</div>
+
+    <div class="toc">
+      <b>本页导览</b>
+      <a href="#t1">T1 损失风险与经营风险的定量分析</a>
+      <a href="#t2">T2 生存模型 · 生命表 · 生存函数估计</a>
+      <a href="#t3">T3 随机模拟 · 回归 · 时间序列三件套</a>
+      <a href="#t4">T4 机器学习原理与数据分析能力</a>
+      <a href="#t5">T5 能力 × 方法 × 章节映射总表</a>
+    </div>
+
+    <!-- ============ T1 ============ -->
+    <section id="t1">
+      <h2><span class="sn">T1</span>「掌握精算模型的基本理论和方法，能够对损失风险和经营风险进行定量分析」</h2>
+      <div class="lead">这句话对应<b>风险理论 30%</b>（ch1）。拆三层：<b>原理</b>——概率分布刻画随机性；<b>方法</b>——复合分布与聚合近似；<b>应用</b>——定价、准备金、偿付能力。</div>
+
+      <h3>原理层：随机性怎么进入保险</h3>
+      <div class="formula">保险的两大随机源：<b>频率</b> N（赔几件）与<b>强度</b> X（单件赔多少）→ 总损失 <b>S = X₁+…+X<sub>N</sub></b>（复合分布）。<br>
+        矩公式（一切计算的起点）：E(S)=λE(X)；Var(S)=λE(X²)（复合泊松）——<b>强度的二阶矩直接进方差</b>，这是易错第一名。</div>
+
+      <h3>方法层：三把尺子</h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>场景</th><th>方法</th><th>考点锚点</th></tr>
+        <tr><td>小组合、要精确分布</td><td>卷积 / Panjer 递推</td><td>ch1 §1.3</td></tr>
+        <tr><td>大组合、要近似</td><td>正态近似 / 平移伽马近似</td><td>ch1 §1.4</td></tr>
+        <tr><td>多期经营、问生存</td><td>破产模型与调节系数</td><td>ch1 §1.5</td></tr>
+        <tr><td>要资本与风险度量</td><td>VaR / TVaR（ch1 §1.7）</td><td>偿付能力应用</td></tr>
+      </table></div>
+
+      <h3>应用层：损失风险 vs 经营风险（对照表在 ch1 §1.7）</h3>
+      <p class="hl">一句话分清：<b>损失风险</b>问「赔款会波动多少」；<b>经营风险</b>问「波动的赔款撞上有限的保费和资本，公司还安全吗」。前者是分布问题，后者是资本问题——用 VaR/TVaR 把分布翻译成资本要求，就是「定量分析经营风险」的全部动作。</p>
+      <div class="exam"><span class="yr">简答</span><b>模板</b> 「如何对某产品线进行经营风险定量分析？」按三级火箭答：① 拟合频率/强度分布，得总损失分布；② 算 VaR/TVaR，与「保费+准备金+资本」比较得资本缺口；③ 用再保险/定价附加/资产调整弥合缺口，并做压力测试验证极端情景。</div>
+    </section>
+
+    <!-- ============ T2 ============ -->
+    <section id="t2">
+      <h2><span class="sn">T2</span>「掌握生存模型理论、生命表基础知识及生存函数的估计，了解生命表编制原理」</h2>
+      <div class="lead">对应 <b>生存分析 15%</b>（ch2）+ model.html §5 修匀。考纲用词很有层次：<b>掌握理论 → 掌握基础与估计 → 了解编制</b>，深度递减、 breadth 递增。</div>
+
+      <h3>生存模型理论：三个函数一条链</h3>
+      <div class="formula">S(t)（还能活过 t 的概率）、f(t)（密度）、μ(t)（瞬时死力）互相唯一确定：<br>
+        f(t)=−S′(t)；μ(t)=f(t)/S(t)=−d ln S(t)/dt；S(t)=exp{−∫₀ᵗ μ(s)ds}。<br>
+        还有整数年龄上的表函数：lₓ、dₓ、qₓ、pₓ、mₓ（中心死亡率，ch2 §2.5）、eₓ（完整/ curtate 期望）。</div>
+
+      <h3>生存函数的估计：三族方法</h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>族</th><th>方法</th><th>适用</th><th>要害</th></tr>
+        <tr><td>非参数</td><td>Kaplan–Meier 乘积极限</td><td>小样本、有删失</td><td>Ŝ(t)=Π(1−dᵢ/nᵢ)；风险数剔除此前死亡与删失</td></tr>
+        <tr><td>非参数</td><td>Nelson–Aalen 累积风险</td><td>同上</td><td>Ĥ=Σsᵢ/rᵢ；Ŝ=e^(−Ĥ)；置信区间用对数变换</td></tr>
+        <tr><td>参数</td><td>指数/威布尔/冈珀茨 MLE</td><td>要外推与解释</td><td>删失处似然贡献是 1−F(c)（生存概率）</td></tr>
+      </table></div>
+
+      <h3>生命表基础知识 + 编制原理（ch2 §2.5 有五步流水线详解）</h3>
+      <p>基础：分数年龄假设（UDD/常死力/Balducci，ch2 §2.2）、选择-终极表结构、多重减因与联合生存。编制：数据 → 暴露数 → 估计 → 修匀 → 补尾。<b>「了解」级考点用名词解释准备</b>：如「什么是中心死亡率」「为什么高龄段要外推」。</p>
+      <div class="mnem"><b>记忆口诀：</b><span class="verse">「S 管生存，μ 管瞬时，f 管密度；数据进表先数人年，估完还要磨光滑」</span>——理论链 + 编制流水线各记一句。</div>
+    </section>
+
+    <!-- ============ T3 ============ -->
+    <section id="t3">
+      <h2><span class="sn">T3</span>「掌握随机模拟、回归分析、时间序列的基础原理、方法和应用」</h2>
+      <div class="lead">对应 ch3（10%）+ ch4（15%）+ ch5（10%），合计 35%——比风险理论还多，但单章权重低，<b>考法是「基础原理 + 识别 + 简单计算」</b>，不像风险理论那样深挖。三个板块共用一句方法论：<b>模型设定 → 估计 → 检验 → 应用</b>。</div>
+
+      <div class="tbl-wrap"><table>
+        <tr><th>板块</th><th>基础原理（一句话）</th><th>核心方法</th><th>保险应用</th></tr>
+        <tr><td>随机模拟</td><td>大数定律 + CLT 兜底，误差 O(1/√n)</td><td>逆变换、Box–Muller、复合分布两步法、Bootstrap、MCMC</td><td>复合损失分布、准备金区间、风险度量模拟</td></tr>
+        <tr><td>回归分析</td><td>条件期望的函数化；BLUE（高斯–马尔可夫）</td><td>OLS、假设检验、GLM（指数族+连接函数）、Ridge/Lasso</td><td>定价因子分析、频率/强度 GLM、费用驱动</td></tr>
+        <tr><td>时间序列</td><td>平稳性（Wold 分解）+ ARMA 两大族</td><td>ADF 检验、ACF/PACF 识别、ARIMA、协整与误差修正</td><td>赔付通胀、投资收益、保费增长预测</td></tr>
+      </table></div>
+
+      <div class="tip"><b>「基础原理」怎么考：</b>① 概念题——「为什么模拟误差是 O(1/√n)」「OLS 何时最优」「什么叫平稳」；② 识别题——ACF/PACF 形状配 AR/MA；③ 计算题——逆变换一步、AR(1) 平稳条件 |φ|&lt;1、回归系数解读。每个板块把「原理一句话 + 方法清单 + 一个算例」绑着记，不要孤立背名词。</div>
+    </section>
+
+    <!-- ============ T4 ============ -->
+    <section id="t4">
+      <h2><span class="sn">T4</span>「了解机器学习的基本原理，具备对数据进行分析的能力」</h2>
+      <div class="lead">对应 <b>机器学习 20%</b>（ch6）。「了解」≠不考——冲刺课明确此章以<b>概念辨析</b>为主；「具备数据分析能力」则要求你能写出完整分析流程（ch6 §6.2 有七步骨架）。</div>
+
+      <h3>基本原理：三个关键词</h3>
+      <div class="formula">① <b>统计学习三要素</b>：模型（假设空间）+ 策略（经验/结构风险最小化）+ 算法（求解）；<br>
+        ② <b>偏差–方差权衡</b>：泛化误差 = 偏差² + 方差 + 噪声，复杂度 U 形——「了解原理」考的就是它；<br>
+        ③ <b>泛化</b>：训练误差 ≠ 测试误差，交叉验证是唯一的诚实评估。</div>
+
+      <h3>数据分析能力：保险场景四件套</h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>场景</th><th>任务类型</th><th>候选方法</th></tr>
+        <tr><td>续保率 / 退保预测</td><td>监督 · 分类</td><td>Logistic 回归、决策树、随机森林</td></tr>
+        <tr><td>客户分群与交叉销售</td><td>无监督 · 聚类</td><td>K-means、层次聚类</td></tr>
+        <tr><td>理赔欺诈识别</td><td>监督 · 分类（不平衡）</td><td>GLM 基线 + 集成方法，看 AUC/召回率</td></tr>
+        <tr><td>高维指标压缩</td><td>无监督 · 降维</td><td>PCA（先标准化）</td></tr>
+      </table></div>
+
+      <div class="warn"><b>易错辨析（冲刺课重点）：</b>PCA 之前必须标准化；K-means 的 K 用肘部法/轮廓系数定，不是拍脑袋；「不平衡样本准确率 99%」可能是全预测为负类——要看混淆矩阵；监督 vs 无监督的分界是「有没有标签 y」。</div>
+    </section>
+
+    <!-- ============ T5 ============ -->
+    <section id="t5">
+      <h2><span class="sn">T5</span>能力 × 方法 × 章节映射总表</h2>
+      <div class="tbl-wrap"><table>
+        <tr><th>考纲原句关键词</th><th>能力要求</th><th>核心原理</th><th>主战场</th></tr>
+        <tr><td>基本理论和方法 · 损失/经营风险</td><td>掌握（会算会建）</td><td>复合分布、近似、破产、VaR/TVaR</td><td><a href="ch1.html">ch1</a>（§1.7 专讲经营风险）</td></tr>
+        <tr><td>生存模型 · 生命表 · 估计 · 编制</td><td>掌握 + 了解</td><td>S-f-μ 一条链、K-M/NA、五步编制</td><td><a href="ch2.html">ch2</a>（§2.5 专讲编制）+ <a href="model.html">model</a> §5</td></tr>
+        <tr><td>随机模拟 · 回归 · 时序</td><td>掌握</td><td>LLN/CLT、BLUE、Wold/平稳</td><td><a href="ch3.html">ch3</a> / <a href="ch4.html">ch4</a> / <a href="ch5.html">ch5</a></td></tr>
+        <tr><td>机器学习 · 数据分析</td><td>了解 + 具备能力</td><td>三要素、偏差-方差、七步流程</td><td><a href="ch6.html">ch6</a></td></tr>
+        <tr><td>（贯穿）模型从数据中来</td><td>估计 → 检验 → 选择</td><td>MLE、K-S/χ²、AIC/BIC、信度</td><td><a href="model.html">model</a></td></tr>
+      </table></div>
+
+      <div class="mnem"><b>收束一句：</b><span class="verse">「损失建分布，经营算资本；生存一条链，生命五步成；模拟靠定律，回归靠假设，时序靠平稳；机器学概念，分析走流程」</span>——考纲总要求的全部，浓缩成五行。</div>
+    </section>
+  </main>
+</div>
+<script src="js/kb.js"></script>
+</body>
+</html>
