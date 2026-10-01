@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知识图谱 · 框架图 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-id="map">
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+    <nav>
+      <a href="index.html">首页 · 考试全景</a>
+      <a href="theory.html">考纲总论 · 原理与方法</a>
+      <a href="about.html">本库说明 · 编法与用法</a>
+      <a href="xihong.html">关于 · 西红精算</a>
+      <div class="grp">六大篇章（按考纲权重）</div>
+      <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+      <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+      <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+      <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+      <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+      <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+      <div class="grp">专章 · 真题 · 模拟</div>
+      <a href="model.html" class="on">模型理论 · 估计与选择</a>
+      <a href="map.html">知识图谱 · 框架图</a>
+      <a href="shizhan.html">考场实战 · 机考与Excel</a>
+      <a href="zhenti.html">真题馆（按板块）</a>
+      <a href="moni1.html">模拟卷一</a>
+      <a href="moni2.html">模拟卷二</a>
+      <a href="moni3.html">模拟卷三</a>
+      <div class="grp">资料</div>
+      <a href="references.html">参考资料库 · 教材映射</a>
+    </nav>
+    <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+  </aside>
+  <main class="main">
+    <div class="ch-head">
+      <div class="no">SPECIAL · 全科地图</div>
+      <h1>知识图谱 · 框架图</h1>
+      <div class="sub">考纲框架 / 权重分布 / 模块互链 / 模型生命周期</div>
+      <div class="meta"><span>三张图：框架图 · 生命周期图谱 · 互链图</span><span>覆盖六大板块 100% 分值</span><span>全站 16 页导航</span></div>
+      <div class="wbar"><div class="lab"><span>全科覆盖</span><span>100%</span></div><div class="bar"><i style="width:100%"></i></div></div>
+    </div>
+
+    <button class="done-btn" data-id="map">○ 标记本页已完成</button>
+
+    <div class="toc"><b>本页导览</b>
+      <ol>
+        <li>图一 · 全科框架图：考纲 → 板块 → 页面</li>
+        <li>图二 · 知识图谱：数据 → 模型 → 决策流水线</li>
+        <li>图三 · 模块互链图：这站怎么用</li>
+      </ol>
+    </div>
+
+    <div class="src-note">用法：考前一天只看本页 + 考场实战；平时从框架图定位弱点板块，回对应章节页补。</div>
+
+    <p class="lead">一图看全科：<b>框架图</b>回答「考什么、各占多少、在哪页」；<b>知识图谱</b>回答「模型从哪来、到哪去」——六大板块不是六座孤岛，而是同一条「数据→模型→决策」流水线上的六个工位。</p>
+
+    <section id="g1">
+      <h2><span class="sn">图一</span>全科框架图（考纲 × 页面地图）</h2>
+      <div class="fig">
+      <svg viewBox="0 0 680 560" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+        <!-- 根节点 -->
+        <rect x="190" y="14" width="300" height="52" rx="10" fill="#0C5A66"/>
+        <text x="340" y="36" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">科目四 · 精算模型与数据分析</text>
+        <text x="340" y="55" text-anchor="middle" fill="#cfeef7" font-size="10.5">机考：单选 + 简答 + Excel ｜ 六大板块按权重出题</text>
+        <!-- 根到六个板块的连线 -->
+        <g stroke="#9dc4ce" stroke-width="1.4" fill="none">
+          <path d="M340,66 L340,92 M70,92 L610,92 M70,92 L70,128 M180,92 L180,128 M290,92 L290,128 M400,92 L400,128 M510,92 L510,128 M610,92 L610,128"/>
+        </g>
+        <!-- 六大板块 -->
+        <g font-size="11.5" font-weight="bold" text-anchor="middle">
+          <rect x="20"  y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="70"  y="145" fill="#fff">风险理论</text><text x="70"  y="160" fill="#cfeef7" font-size="10">30% · CH.01</text>
+          <rect x="130" y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="180" y="145" fill="#fff">生存分析</text><text x="180" y="160" fill="#cfeef7" font-size="10">15% · CH.02</text>
+          <rect x="240" y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="290" y="145" fill="#fff">随机模拟</text><text x="290" y="160" fill="#cfeef7" font-size="10">10% · CH.03</text>
+          <rect x="350" y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="400" y="145" fill="#fff">回归分析</text><text x="400" y="160" fill="#cfeef7" font-size="10">15% · CH.04</text>
+          <rect x="460" y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="510" y="145" fill="#fff">时间序列</text><text x="510" y="160" fill="#cfeef7" font-size="10">10% · CH.05</text>
+          <rect x="570" y="128" width="100" height="40" rx="8" fill="#1f7f8c"/><text x="620" y="145" fill="#fff">机器学习</text><text x="620" y="160" fill="#cfeef7" font-size="10">20% · CH.06</text>
+        </g>
+        <!-- 每板块考点关键词 -->
+        <g font-size="10" fill="#4a5a66">
+          <g text-anchor="middle">
+            <text x="70" y="190">损失分布族 (a,b,0)/(a,b,1)</text>
+            <text x="70" y="205">免赔额·限额·通胀</text>
+            <text x="70" y="220">复合变量·正态近似</text>
+            <text x="70" y="235">破产模型·调节系数</text>
+            <text x="180" y="190">生命表·分数年龄假设</text>
+            <text x="180" y="205">K–M / Nelson–Aalen</text>
+            <text x="180" y="220">多重减因·多重生命</text>
+            <text x="180" y="235">修匀（衔接模型理论）</text>
+            <text x="290" y="190">均匀数·逆变换法</text>
+            <text x="290" y="205">Box–Muller·组合法</text>
+            <text x="290" y="220">Bootstrap·MCMC</text>
+            <text x="290" y="235">样本容量·精度</text>
+            <text x="400" y="190">OLS 与经典假设</text>
+            <text x="400" y="205">GLM·连接函数</text>
+            <text x="400" y="220">Ridge/Lasso</text>
+            <text x="400" y="235">诊断与选择</text>
+            <text x="510" y="190">平稳三条件</text>
+            <text x="510" y="205">ARMA 识别</text>
+            <text x="510" y="220">Box–Jenkins 六步</text>
+            <text x="510" y="235">协整与误差修正</text>
+            <text x="620" y="190">概念辨析（冲刺明示）</text>
+            <text x="620" y="205">监督/无监督</text>
+            <text x="620" y="220">偏差–方差·正则</text>
+            <text x="620" y="235">与 GLM 的分界</text>
+          </g>
+        </g>
+        <!-- 分隔线 -->
+        <line x1="20" y1="252" x2="670" y2="252" stroke="#c8dde2" stroke-width="1"/>
+        <!-- 专章带 -->
+        <g text-anchor="middle">
+          <rect x="20" y="268" width="200" height="54" rx="8" fill="#E5F3F5" stroke="#1f7f8c" stroke-width="1.2"/>
+          <text x="120" y="288" fill="#0C5A66" font-size="11.5" font-weight="bold">模型理论 · 估计与选择</text>
+          <text x="120" y="304" fill="#4a5a66" font-size="9.5">经验模型→参数估计→检验→选择</text>
+          <text x="120" y="316" fill="#4a5a66" font-size="9.5">修匀·信度（贯穿 ch1/ch2）</text>
+          <rect x="240" y="268" width="130" height="54" rx="8" fill="#E5F3F5" stroke="#1f7f8c" stroke-width="1.2"/>
+          <text x="305" y="288" fill="#0C5A66" font-size="11.5" font-weight="bold">考场实战</text>
+          <text x="305" y="304" fill="#4a5a66" font-size="9.5">机考三大坑</text>
+          <text x="305" y="316" fill="#4a5a66" font-size="9.5">Excel 函数武器库</text>
+          <rect x="390" y="268" width="120" height="54" rx="8" fill="#E5F3F5" stroke="#1f7f8c" stroke-width="1.2"/>
+          <text x="450" y="288" fill="#0C5A66" font-size="11.5" font-weight="bold">真题馆</text>
+          <text x="450" y="304" fill="#4a5a66" font-size="9.5">按六板块归类</text>
+          <text x="450" y="316" fill="#4a5a66" font-size="9.5">双层答案</text>
+          <rect x="530" y="268" width="140" height="54" rx="8" fill="#E5F3F5" stroke="#1f7f8c" stroke-width="1.2"/>
+          <text x="600" y="288" fill="#0C5A66" font-size="11.5" font-weight="bold">模拟卷 ×3</text>
+          <text x="600" y="304" fill="#4a5a66" font-size="9.5">基础 / 综合 / 拔高</text>
+          <text x="600" y="316" fill="#4a5a66" font-size="9.5">15单选+2简答+1Excel</text>
+        </g>
+        <!-- 底部资料带 -->
+        <g text-anchor="middle">
+          <rect x="20" y="340" width="650" height="34" rx="8" fill="#F2F9FA"/>
+          <text x="345" y="361" fill="#0C5A66" font-size="10.5">教材取舍：肖争艳为主干 · 孟生旺补风险理论 · 冲刺课定重点 · 1000题供刷题 · 西瓜书只对照目录 · 大纲分析给考情</text>
+        </g>
+        <!-- 图例 -->
+        <g font-size="9.5" fill="#6b8090">
+          <rect x="20" y="392" width="650" height="150" rx="8" fill="#FBFDFD" stroke="#dbe8ec"/>
+          <text x="34" y="412" font-weight="bold" fill="#0C5A66">权重速记（满分 100）</text>
+          <g>
+            <rect x="34"  y="424" width="195" height="16" rx="3" fill="#1f7f8c"/><text x="126" y="436" fill="#fff" text-anchor="middle" font-size="9.5">风险理论 30</text>
+            <rect x="234" y="424" width="97"  height="16" rx="3" fill="#3a97a3"/><text x="282" y="436" fill="#fff" text-anchor="middle" font-size="9.5">机器学习 20</text>
+            <rect x="336" y="424" width="73"  height="16" rx="3" fill="#63b0ba"/><text x="372" y="436" fill="#fff" text-anchor="middle" font-size="9.5">生存 15</text>
+            <rect x="414" y="424" width="73"  height="16" rx="3" fill="#63b0ba"/><text x="450" y="436" fill="#fff" text-anchor="middle" font-size="9.5">回归 15</text>
+            <rect x="492" y="424" width="49"  height="16" rx="3" fill="#9dc8cf"/><text x="516" y="436" fill="#0C5A66" text-anchor="middle" font-size="9.5">模拟 10</text>
+            <rect x="546" y="424" width="49"  height="16" rx="3" fill="#9dc8cf"/><text x="570" y="436" fill="#0C5A66" text-anchor="middle" font-size="9.5">时序 10</text>
+          </g>
+          <text x="34" y="464" font-weight="bold" fill="#0C5A66">复习优先级</text>
+          <text x="34" y="482">第一梯队（ch1+ch6，占一半分值）→ 第二梯队（ch2/ch4 估计检验）→ 第三梯队（ch3/ch5 套路题）</text>
+          <text x="34" y="500">专章「模型理论」横向支援 ch1/ch2；「考场实战」在考前一周接管全部页面。</text>
+          <text x="34" y="522" fill="#b53d2e">难点预警：复合方差三件套 · 三大分数年龄假设 · MLE 截断口径 · ARMA 识别 —— 真题重复率最高的四个坑。</text>
+        </g>
+      </svg>
+      </div>
+    </section>
+
+    <section id="g2">
+      <h2><span class="sn">图二</span>知识图谱（模型生命周期 × 六大板块）</h2>
+      <p class="lead">全科的主线只有一条：<b>「数据 → 模型 → 决策」</b>。六大板块各占一个工位，专章「模型理论」是中轴传送带。</p>
+      <div class="fig">
+      <svg viewBox="0 0 680 430" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+        <!-- 主流水线 -->
+        <defs>
+          <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f7f8c"/></marker>
+        </defs>
+        <g stroke="#1f7f8c" stroke-width="1.6" marker-end="url(#arw)">
+          <line x1="104" y1="60" x2="146" y2="60"/>
+          <line x1="228" y1="60" x2="270" y2="60"/>
+          <line x1="352" y1="60" x2="394" y2="60"/>
+          <line x1="476" y1="60" x2="518" y2="60"/>
+        </g>
+        <g font-size="10.5" font-weight="bold" text-anchor="middle">
+          <rect x="16"  y="42" width="88"  height="36" rx="8" fill="#0C5A66"/><text x="60"  y="58" fill="#fff">数据类型</text><text x="60"  y="71" fill="#cfeef7" font-size="8.5">完整/删失/截断</text>
+          <rect x="148" y="42" width="80"  height="36" rx="8" fill="#1f7f8c"/><text x="188" y="58" fill="#fff">经验模型</text><text x="188" y="71" fill="#cfeef7" font-size="8.5">K–M / N–A</text>
+          <rect x="272" y="42" width="80"  height="36" rx="8" fill="#1f7f8c"/><text x="312" y="58" fill="#fff">参数估计</text><text x="312" y="71" fill="#cfeef7" font-size="8.5">矩/MLE/分位数</text>
+          <rect x="396" y="42" width="80"  height="36" rx="8" fill="#1f7f8c"/><text x="436" y="58" fill="#fff">检验选择</text><text x="436" y="71" fill="#cfeef7" font-size="8.5">χ²/K–S/AIC</text>
+          <rect x="520" y="42" width="88"  height="36" rx="8" fill="#0C5A66"/><text x="564" y="58" fill="#fff">精算决策</text><text x="564" y="71" fill="#cfeef7" font-size="8.5">定价/准备金/资本</text>
+        </g>
+        <!-- 六大板块挂靠 -->
+        <g font-size="10" text-anchor="middle">
+          <!-- 风险理论 -->
+          <rect x="16" y="130" width="150" height="120" rx="10" fill="#F2F9FA" stroke="#63b0ba"/>
+          <text x="91" y="150" fill="#0C5A66" font-weight="bold">CH.01 风险理论</text>
+          <text x="91" y="168" fill="#4a5a66">损失分布 = 频率×强度</text>
+          <text x="91" y="183" fill="#4a5a66">复合 S 的精确/近似分布</text>
+          <text x="91" y="198" fill="#4a5a66">破产理论：连续时间盈余</text>
+          <text x="91" y="216" fill="#b53d2e">↳ 需要：MLE 估参数</text>
+          <text x="91" y="231" fill="#b53d2e">↳ 需要：正态/平移伽马近似</text>
+          <!-- 生存 -->
+          <rect x="186" y="130" width="150" height="120" rx="10" fill="#F2F9FA" stroke="#63b0ba"/>
+          <text x="261" y="150" fill="#0C5A66" font-weight="bold">CH.02 生存分析</text>
+          <text x="261" y="168" fill="#4a5a66">生命表与分数年龄</text>
+          <text x="261" y="183" fill="#4a5a66">K–M / N–A 非参数估计</text>
+          <text x="261" y="198" fill="#4a5a66">多重减因/多重生命</text>
+          <text x="261" y="216" fill="#b53d2e">↳ 直挂流水线 2·3 工位</text>
+          <text x="261" y="231" fill="#b53d2e">↳ 修匀属于本板块延伸</text>
+          <!-- 模拟 -->
+          <rect x="356" y="130" width="150" height="120" rx="10" fill="#F2F9FA" stroke="#63b0ba"/>
+          <text x="431" y="150" fill="#0C5A66" font-weight="bold">CH.03 随机模拟</text>
+          <text x="431" y="168" fill="#4a5a66">逆变换 / 组合 / 接受拒绝</text>
+          <text x="431" y="183" fill="#4a5a66">Box–Muller / Bootstrap</text>
+          <text x="431" y="198" fill="#4a5a66">MCMC 与贝叶斯</text>
+          <text x="431" y="216" fill="#b53d2e">↳ 是「估计」的机器实现</text>
+          <text x="431" y="231" fill="#b53d2e">↳ 蒙特卡洛 = 数值检验</text>
+          <!-- 回归+ML -->
+          <rect x="526" y="130" width="140" height="120" rx="10" fill="#F2F9FA" stroke="#63b0ba"/>
+          <text x="596" y="150" fill="#0C5A66" font-weight="bold">CH.04+06 回归×ML</text>
+          <text x="596" y="168" fill="#4a5a66">OLS → GLM → 正则化</text>
+          <text x="596" y="183" fill="#4a5a66">分类/回归/聚类</text>
+          <text x="596" y="198" fill="#4a5a66">偏差–方差权衡</text>
+          <text x="596" y="216" fill="#b53d2e">↳ 挂「检验选择」工位</text>
+          <text x="596" y="231" fill="#b53d2e">↳ 交叉验证=数据复用</text>
+          <!-- 时序 -->
+          <rect x="16" y="274" width="330" height="70" rx="10" fill="#F2F9FA" stroke="#63b0ba"/>
+          <text x="181" y="294" fill="#0C5A66" font-weight="bold">CH.05 时间序列（决策端的动态化）</text>
+          <text x="181" y="312" fill="#4a5a66">ARMA 拟合单序列 → 平稳性检验 → 协整刻画多序列长期均衡</text>
+          <text x="181" y="328" fill="#4a5a66">应用：赔付率/利率情景预测，供 ALM 与定价假设使用</text>
+          <!-- 信度 -->
+          <rect x="366" y="274" width="300" height="70" rx="10" fill="#FBF6EC" stroke="#bb8a1f"/>
+          <text x="516" y="294" fill="#8a6516" font-weight="bold">信度理论（决策端的数据融合）</text>
+          <text x="516" y="312" fill="#4a5a66">个体经验 × 总体先验 = Z·x̄ + (1−Z)·μ</text>
+          <text x="516" y="328" fill="#4a5a66">小样本定价的最优加权——数据不够时的止损阀</text>
+          <!-- 生命周期闭环 -->
+          <g stroke="#9dc4ce" stroke-width="1.2" stroke-dasharray="4 3" fill="none">
+            <path d="M564,78 C564,100 470,112 436,112 M436,112 L436,128"/>
+            <path d="M312,78 L261,100 M261,100 L261,128"/>
+          </g>
+          <text x="345" y="380" text-anchor="middle" fill="#6b8090" font-size="9.5">虚线 = 依赖关系：风险理论要靠估计选近似的分布；生存分析本身就在流水线 2、3 号工位上；</text>
+          <text x="345" y="398" text-anchor="middle" fill="#6b8090" font-size="9.5">模拟是估计的数值化；回归与 ML 是「检验选择」思想在多变量上的展开；信度是数据不足时的止损阀。</text>
+        </g>
+      </svg>
+      </div>
+    </section>
+
+    <section id="g3">
+      <h2><span class="sn">图三</span>模块互链图（这站怎么用）</h2>
+      <div class="fig">
+      <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+        <g font-size="10.5" text-anchor="middle">
+          <rect x="250" y="16" width="180" height="40" rx="9" fill="#0C5A66"/>
+          <text x="340" y="33" fill="#fff" font-weight="bold">首页 · 考试全景</text>
+          <text x="340" y="47" fill="#cfeef7" font-size="9">先看这里定全局策略</text>
+          <g stroke="#9dc4ce" stroke-width="1.3" fill="none">
+            <path d="M250,36 L120,36 L120,72"/>
+            <path d="M340,56 L340,72"/>
+            <path d="M430,36 L560,36 L560,72"/>
+          </g>
+          <g stroke="#9dc4ce" stroke-width="1.3" fill="none">
+            <path d="M120,112 L120,140 L250,156"/>
+            <path d="M340,112 L340,140"/>
+            <path d="M560,112 L560,140 L430,156"/>
+          </g>
+          <rect x="40" y="72" width="160" height="40" rx="9" fill="#1f7f8c"/>
+          <text x="120" y="89" fill="#fff" font-weight="bold">六章正文（含演算器）</text>
+          <text x="120" y="103" fill="#cfeef7" font-size="9">概念 → 公式 → 真题 → 警示</text>
+          <rect x="260" y="72" width="160" height="40" rx="9" fill="#1f7f8c"/>
+          <text x="340" y="89" fill="#fff" font-weight="bold">模型理论 · 知识图谱</text>
+          <text x="340" y="103" fill="#cfeef7" font-size="9">横向串联 + 全科地图</text>
+          <rect x="480" y="72" width="160" height="40" rx="9" fill="#1f7f8c"/>
+          <text x="560" y="89" fill="#fff" font-weight="bold">考场实战 · Excel</text>
+          <text x="560" y="103" fill="#cfeef7" font-size="9">机考技巧与模板</text>
+          <rect x="110" y="150" width="110" height="40" rx="9" fill="#3a97a3"/>
+          <text x="165" y="167" fill="#fff" font-weight="bold">真题馆</text>
+          <text x="165" y="181" fill="#e3f4f7" font-size="9">按板块 · 双层答案</text>
+          <rect x="285" y="150" width="110" height="40" rx="9" fill="#3a97a3"/>
+          <text x="340" y="167" fill="#fff" font-weight="bold">模拟卷 ×3</text>
+          <text x="340" y="181" fill="#e3f4f7" font-size="9">限时整卷演练</text>
+          <rect x="460" y="150" width="110" height="40" rx="9" fill="#3a97a3"/>
+          <text x="515" y="167" fill="#fff" font-weight="bold">参考资料库</text>
+          <text x="515" y="181" fill="#e3f4f7" font-size="9">教材映射与取舍</text>
+          <text x="340" y="222" fill="#6b8090" font-size="10">用法：正文页学考点 → 真题馆验证 → 模拟卷整卷 → 考前只翻实战与图谱。</text>
+        </g>
+      </svg>
+      </div>
+      <div class="mnem"><b>一句话记住全科</b>：风险理论定「损失长什么样」，生存分析定「人活多久」，回归与时序定「什么在影响它」，机器学习定「还能挖出什么」，模拟定「算不动时怎么办」，模型理论把它们缝起来——<b>估计、检验、选择，缺一环模型就是空中楼阁</b>。</div>
+    </section>
+
+    <div class="pager">
+      <a href="model.html">← 模型理论</a>
+      <a href="shizhan.html">考场实战 →</a>
+    </div>
+  </main>
+<script src="js/kb.js"></script>
+</body>
+</html>
