@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>真题馆 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html" class="on">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">PAST PAPERS</div>
+    <h1>真题馆 · 按板块归类的历年真题</h1>
+    <div class="sub">旧 A3《精算模型》真题（2011–2017）为主 · 冲刺课例题为辅 · 全部双层答案</div>
+    <div class="meta"><span>17 道真题</span><span>六大板块全覆盖</span><span>骨架答案先行</span></div>
+  </div>
+
+  <button class="done-btn" data-id="zhenti">○ 标记本页已完成</button>
+
+  <div class="src-note">旧 A3《精算模型》卷与新科目四的风险理论/生存分析部分题型高度一致；机器学习、回归惩罚项等新内容以真题改编与冲刺课例题补充。先背「骨架答案」，再展开详尽版对照。</div>
+  <button class="js-toggle-answers">展开全部答案</button>
+
+  <!-- ====== 风险理论 ====== -->
+  <section>
+    <h2><span class="sn">一</span>风险理论 <span class="star s3">权重30%</span></h2>
+
+    <div class="exam"><span class="yr">2011·A3</span><b>泊松增量</b> N(t) 是强度 λ=2 的泊松过程，求 P{N(3)−N(1) ≤ 1}。</div>
+    <div class="ans-skel"><b>骨架：</b>增量长度 2 → Poisson(4)；P=e<sup>−4</sup>(1+4)=5e<sup>−4</sup>≈0.0916。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>N(3)−N(1)∼Poisson(2×2=4)。P{≤1}=P(0)+P(1)=e<sup>−4</sup>(1+4)=5×0.01832≈<b>0.0916</b>。</p></div></details>
+
+    <div class="exam"><span class="yr">2012·A3</span><b>非齐次泊松</b> 强度 λ(t)=t（t≥0），求 P{N(2)=1}。</div>
+    <div class="ans-skel"><b>骨架：</b>m(2)=∫₀²t dt=2；P=2e<sup>−2</sup>≈0.2707。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>m(2)=t²/2|=2。P{N(2)=1}=e<sup>−2</sup>·2≈<b>0.2707</b>。</p></div></details>
+
+    <div class="exam"><span class="yr">2014·A3</span><b>三状态马氏链</b> 转移矩阵 P 中 P₁₁=0.5,P₁₂=0.5,P₂₁=0.2,P₂₂=0.8（两状态）。初始在状态 1，求两步后回到状态 1 的概率与极限分布。</div>
+    <div class="ans-skel"><b>骨架：</b>P¹¹⁽²⁾=0.5²+0.5×0.2=0.35；π₁=0.2/(0.5+0.2)=2/7≈0.2857。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>两步：P₁₁<sup>(2)</sup>=P₁₁²+P₁₂P₂₁=0.25+0.10=0.35。极限：π₁=0.5π₁+0.2π₂ ⇒ 0.5π₁=0.2(1−π₁) ⇒ π₁=0.2/0.7=<b>2/7</b>≈0.2857。两步概率 0.35 高于极限 0.2857，正在振荡收敛。</p></div></details>
+
+    <div class="exam"><span class="yr">2015·A3</span><b>次数分布反推</b> 理赔次数 N 满足 E(N)=2，Var(N)=4。判断分布类型并求参数。</div>
+    <div class="ans-skel"><b>骨架：</b>方差&gt;均值 → 负二项；rβ=2，rβ(1+β)=4 → β=1，r=2。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>泊松方差=均值，二项方差&lt;均值，负二项方差&gt;均值 → 负二项 NB(r,β)。rβ=2、rβ(1+β)=4 ⇒ 1+β=2 ⇒ <b>β=1, r=2</b>。P₀=(1+β)<sup>−r</sup>=1/4。</p></div></details>
+
+    <div class="exam"><span class="yr">2017·A3</span><b>盈余过程破产判断</b> u=900，c=100/年，首笔理赔 5000 在 T∼U[0,50] 时刻发生。求破产概率（只考虑该笔理赔）。</div>
+    <div class="ans-skel"><b>骨架：</b>900+100T&lt;5000 ⇒ T&gt;41；P=(50−41)/50=0.18。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>U(T)=900+100T−5000&lt;0 ⇔ T&gt;41。T∼U[0,50] ⇒ P(T&gt;41)=9/50=<b>0.18</b>。</p></div></details>
+
+    <div class="exam"><span class="yr">2005·A3</span><b>MGF 反推分布</b> M<sub>U</sub>(t)=(1−2t)<sup>−9</sup>，求 Var(U)。</div>
+    <div class="ans-skel"><b>骨架：</b>识别 Γ(9,2)：Var=9×2²=<b>36</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>(1−βt)<sup>−α</sup> 是 Γ(α,β) 的 MGF → U~Γ(9,2)，E=18、Var=αβ²=<b>36</b>（答案 D）。硬求导：E(U)=18，E(U²)=360，Var=36。详见 <a href="ch1.html">CH.01 题库精粹</a>。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P149</span><b>泊松细分（稀释）</b> 月理赔事件~泊松(10)，每次理赔 5% 概率超 2 万元。求半年内至少 2 次超 2 万的概率。</div>
+    <div class="ans-skel"><b>骨架：</b>细分仍泊松：半年~Poisson(3)；P(N≥2)=<b>1−4e<sup>−3</sup></b>≈0.8009。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>泊松按独立概率 v 筛选后仍是泊松，参数 λv=0.5/月；半年 3。P(N≥2)=1−e<sup>−3</sup>(1+3)=<b>1−4e<sup>−3</sup></b>（答案 B）。详见 CH.01。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P162</span><b>正态 vs 平移伽马</b> λ=12 复合泊松、单笔 U[0,1]，比较两法求 P(S&lt;10) 的差异。</div>
+    <div class="ans-skel"><b>骨架：</b>正态 Φ(2)=0.97725；平移伽马 (x₀,α,β)=(−14/3, 256/9, 8/3)→0.9682；差≈<b>0.009</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>E(S)=λp₁=6、Var=λp₂=4、三阶中心矩=λp₃=3。平移伽马三参数：x₀=μ−2σ⁴/γ³、α=4σ⁶/γ⁶、β=2σ²/γ³（σ²=Var，γ³=三阶中心矩）。正态忽略正偏度→右尾高估（答案 E）。完整推导见 CH.01 题库精粹。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P76</span><b>通胀×免赔额杠杆</b> P(X=1000k)=1/6（k=1..6），免赔 1500→通胀 5% 后免赔 1600。求理赔额期望增长率。</div>
+    <div class="ans-skel"><b>骨架：</b>2010 年期望赔付 2500 → 2011 年 2600；增长率 <b>4%</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>E(X)=3500、E(X∧1500)=1416.67 → E⁽²⁰¹⁰⁾(Y)=2500；通胀后等效免赔比较得 2600。增长率=100/2500=<b>4%</b>（答案 B）——免赔额吸收了部分通胀。详见 CH.01。</p></div></details>
+  </section>
+
+  <!-- ====== 生存分析 ====== -->
+  <section>
+    <h2><span class="sn">二</span>生存分析 <span class="star s3">权重15%</span></h2>
+
+    <div class="exam"><span class="yr">2011·A3</span><b>De Moivre 生命表</b> S(x)=1−x/100（0≤x≤100）。求 μ<sub>40</sub> 与 ₅p₄₀。</div>
+    <div class="ans-skel"><b>骨架：</b>μ<sub>x</sub>=1/(100−x) → μ₄₀=1/60；₅p₄₀=S(45)/S(40)=(55/100)/(60/100)=11/12≈0.9167。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>F=1−S=x/100，f=1/100，μ<sub>x</sub>=f/S=1/(100−x)，μ₄₀=1/60≈0.0167。₅p₄₀=S(45)/S(40)=0.55/0.60=<b>11/12</b>≈0.9167。</p></div></details>
+
+    <div class="exam"><span class="yr">2013·A3</span><b>危险率积分可加</b> 已知 ₂pₓ=0.98，₃p<sub>x+2</sub>=0.95。求 ₅p<sub>x</sub>。</div>
+    <div class="ans-skel"><b>骨架：</b>₅p<sub>x</sub>=₂p<sub>x</sub>×₃p<sub>x+2</sub>=0.98×0.95=0.931。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>链式法则：₅p<sub>x</sub>=₂p<sub>x</sub>·₃p<sub>x+2</sub>=<b>0.931</b>。本质是 e<sup>−∫₀⁵μ</sup>=e<sup>−∫₀²μ</sup>·e<sup>−∫₂⁵μ</sup>，积分可加。</p></div></details>
+
+    <div class="exam"><span class="yr">2016·A3</span><b>K-M 估计</b> 8 人观察：死亡发生于 t=2（风险数8）、t=5（风险数5，期间删失2人）、t=7（风险数3）。求 Ŝ(7)。</div>
+    <div class="ans-skel"><b>骨架：</b>(1−1/8)(1−1/5)(1−1/3)=0.875×0.8×0.6667≈0.4667。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>Ŝ(7)=Π(1−dᵢ/nᵢ)=(7/8)(4/5)(2/3)=56/120≈<b>0.4667</b>。注意 t=5 的风险数已剔除此前死亡与删失者。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P54</span><b>三大分数年龄假设</b> qₓ=0.12，求 UDD / 常死力 / Balducci 下的 ₁/₃q<sub>x+1/2</sub>。</div>
+    <div class="ans-skel"><b>骨架：</b>0.042553 / 0.061917 / 0.043478——三个都对。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>UDD：⅓q/(1−½q)；CF：1−(1−q)<sup>1/3</sup>；Balducci：⅓q/(1−⅔q)。答案 E（全对）。分母 0.94 / 无 / 0.92——高频对比题，详见 CH.02 题库精粹。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P19</span><b>多重减因转换</b> q′⁽¹⁾=0.2、q′⁽²⁾=0.4（均匀），求 q⁽²⁾。</div>
+    <div class="ans-skel"><b>骨架：</b>q⁽ᵗ⁾=0.52；q⁽²⁾=(ln0.6/ln0.48)×0.52=<b>0.3619</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>均匀假设转换公式 q⁽ʲ⁾=[ln(1−q′⁽ʲ⁾)/ln(1−q⁽ᵗ⁾)]·q⁽ᵗ⁾（答案 C）。详见 CH.02。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P6</span><b>多重生命协方差</b> T(x)、T(y) 独立，E 各为 4，Cov[T(xy),T(x̄y)]=0.09。求 E[T(xy)]。</div>
+    <div class="ans-skel"><b>骨架：</b>16−e<sub>xy</sub>(8−e<sub>xy</sub>)=0.09 → e<sub>xy</sub>=<b>3.7</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>核心恒等式 e<sub>x̄y</sub>=eₓ+e_y−e<sub>xy</sub>，独立下 E[T(xy)T(x̄y)]=eₓe_y=16，解二次方程（答案 C）。详见 CH.02。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P214</span><b>K-M vs Nelson-Aalen</b> 4 只小白鼠死亡时间 2,4,5,9。求 Ŝ⁽ᴷᴹ⁾(8)−Ŝ⁽ᴺᴬ⁾(8)。</div>
+    <div class="ans-skel"><b>骨架：</b>0.25−e<sup>−13/12</sup>=0.25−0.3385≈<b>−0.09</b>。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>KM=(3/4)(2/3)(1/2)=0.25；NA：Λ̂=1/4+1/3+1/2=13/12 → Ŝ=e<sup>−13/12</sup>=0.3385。恒有 Ŝ<sup>NA</sup>≥Ŝ<sup>KM</sup>（ln(1−x)≤−x），方向题秒答（答案 C）。详见 CH.02。</p></div></details>
+  </section>
+
+  <!-- ====== 随机模拟 ====== -->
+  <section>
+    <h2><span class="sn">三</span>随机模拟 <span class="star s2">权重10%</span></h2>
+
+    <div class="exam"><span class="yr">2012·A3</span><b>反函数法</b> X 服从 λ=0.5 的指数分布，取 u=0.8，用反函数法求 x。</div>
+    <div class="ans-skel"><b>骨架：</b>x=−ln(1−u)/λ=−ln0.2/0.5≈3.2189。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>F(x)=1−e<sup>−λx</sup>=u ⇒ x=−ln(1−u)/λ=−ln(0.2)/0.5=1.6094/0.5≈<b>3.219</b>。用 −ln(u)/λ 亦可（同为均匀）。</p></div></details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>样本容量（真题改编）</b> 用模拟估计 E(X)，置信水平不变、误差容忍减半，模拟次数如何变化？</div>
+    <div class="ans-skel"><b>骨架：</b>n∝(zσ/ε)²，ε 减半 → n 变为 4 倍。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>由 n≥(z<sub>α/2</sub>σ/ε)²，其他不变时 n 与 ε² 成反比：ε 减半 ⇒ n 放大 4 倍。根号代价：精度线性提升，代价平方增长。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>Box-Muller 数值代入</b> u₁=0.6341、u₂=0.5791，求生成的标准正态随机数。</div>
+    <div class="ans-skel"><b>骨架：</b>R=√(−2ln u₁)=0.9545；X₁=−0.8399、X₂=−0.4536。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>X₁=R·cos(2πu₂)、X₂=R·sin(2πu₂)；2πu₂=208.5°，cos=−0.8799、sin=−0.4752 → X₁=<b>−0.8399</b>、X₂=<b>−0.4536</b>（答案 D）。半径只由 u₁ 决定。详见 CH.03 题库精粹。</p></div></details>
+
+    <div class="exam"><span class="yr">1000题·P319</span><b>离散逆变换（负二项）</b> 负二项 k=6、p=0.6，u₁=0.345、u₂=0.789。求对应随机数。</div>
+    <div class="ans-skel"><b>骨架：</b>累积表首个 ≥u 的 n：u₁→3、u₂→6，答案 (3,6)。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>P(N≤2)=0.3155&lt;0.345≤P(N≤3)=0.4827 → n=3；P(N≤5)=0.7536&lt;0.789≤P(N≤6)=0.8419 → n=6（答案 B）。口诀：累积概率第一个盖过 u 的 n。</p></div></details>
+  </section>
+
+  <!-- ====== 回归分析 ====== -->
+  <section>
+    <h2><span class="sn">四</span>回归分析 <span class="star s3">权重15%</span></h2>
+
+    <div class="exam"><span class="yr">2015·A3</span><b>决定系数</b> 一元回归中 n=20，SST=500，SSE=180。求 R² 与 r，并检验解释力（F 统计量）。</div>
+    <div class="ans-skel"><b>骨架：</b>R²=1−180/500=0.64；r=0.8；F=(320/1)/(180/18)=32 &gt; F₀.₀₅(1,18)≈4.4，显著。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>R²=SSR/SST=(500−180)/500=<b>0.64</b>，r=√0.64=0.8。F=(SSR/1)/(SSE/(n−2))=320/10=32，远超临界值 4.41，回归高度显著。一元情形 t=√F≈5.66。</p></div></details>
+
+    <div class="exam"><span class="yr hot">改编</span><b>泊松回归预测</b> log μ = 0.5 + 0.3x（车险出险次数模型）。x=2（两年车龄因子）时年均出险次数？</div>
+    <div class="ans-skel"><b>骨架：</b>μ=e<sup>0.5+0.6</sup>=e<sup>1.1</sup>≈3.00。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>泊松回归连接函数 g=log：μ=e<sup>0.5+0.3×2</sup>=e<sup>1.1</sup>≈<b>3.00</b>。系数 0.3 的含义：x 每增 1，均值乘 e<sup>0.3</sup>≈1.35（乘法效应）。</p></div></details>
+  </section>
+
+  <!-- ====== 时间序列 ====== -->
+  <section>
+    <h2><span class="sn">五</span>时间序列 <span class="star s3">权重10%</span></h2>
+
+    <div class="exam"><span class="yr">2014·A3</span><b>ACF/PACF 识别</b> 某序列 ACF 在滞后 2 阶后截尾，PACF 拖尾。最合适的模型？</div>
+    <div class="ans-skel"><b>骨架：</b>ACF q 阶截尾 + PACF 拖尾 → MA(2)。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>识别规则：ACF 截尾阶数=q → MA(q)；PACF 截尾阶数=p → AR(p)。此处 <b>MA(2)</b>；若两者皆拖尾则 ARMA(p,q)。</p></div></details>
+
+    <div class="exam"><span class="yr">2017·A3</span><b>AR(2) 稳定性</b> X<sub>t</sub>=0.8X<sub>t−1</sub>+0.3X<sub>t−2</sub>+ε<sub>t</sub> 是否平稳？</div>
+    <div class="ans-skel"><b>骨架：</b>φ₂+φ₁=1.1&gt;1 → 不稳定（特征根在单位圆外）。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>条件：|φ₂|&lt;1 ✔（0.3）；φ₂+φ₁=1.1 ✘（须&lt;1）。特征方程 λ²−0.8λ−0.3=0 的根为 (0.8±√1.84)/2 ≈ 1.078, −0.278，|λ₁|&gt;1 → <b>非平稳</b>。</p></div></details>
+  </section>
+
+  <!-- ====== 机器学习 ====== -->
+  <section>
+    <h2><span class="sn">六</span>机器学习 <span class="star s3">权重20%</span></h2>
+
+    <div class="exam"><span class="yr">2016·A3</span><b>信息增益计算</b> 数据集 16 个样本（8 正 8 负），按属性 A 分裂后两个子集各 8 个样本且全为纯类。求信息增益。</div>
+    <div class="ans-skel"><b>骨架：</b>H(D)=1 bit；H(D|A)=0；增益=1。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>H(D)=−0.5log₂0.5−0.5log₂0.5=1。分裂后子集纯：H(D|A)=½×0+½×0=0。Gain(A)=1−0=<b>1 bit</b>（完美分裂）。若用基尼：1−(0.5²+0.5²)=0.5 → 分裂后 0，下降 0.5。</p></div></details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>监督 vs 无监督（多选辨析）</b> 下列属于无监督学习的有：A) K-means 客户分群；B) 逻辑回归续保预测；C) PCA 指标压缩；D) 决策树核保评级。</div>
+    <div class="ans-skel"><b>骨架：</b>A、C（无标签；B、D 有标签属监督学习）。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>判断标准：是否使用带标签的 (x,y)。A 聚类、C 降维只用 x → <b>无监督</b>；B 分类、D 分类树 → 监督。强化学习是第三类（延迟奖励驱动），与两者并列。</p></div></details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>指标选择（情景题）</b> 欺诈识别中欺诈率仅 1%，模型把所有保单判为「非欺诈」的准确率高达 99%。该模型好吗？应看什么指标？</div>
+    <div class="ans-skel"><b>骨架：</b>不好——准确率被多数类淹没；应看召回率/精确率/F1/AUC。</div>
+    <details class="answer"><summary>展开详尽解答</summary><div class="body ans-detail"><p>不平衡数据下准确率失真（全判多数类即得 99%）。该模型召回率=0（一个欺诈都没抓到）。应关注：<b>召回率</b>（欺诈抓回比例）、<b>精确率</b>（报警可信度）、<b>F1</b> 或 <b>AUC</b>；代价敏感学习/重采样也是标准对策。</p></div></details>
+  </section>
+
+  <div class="pager">
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">← 考场实战</a>
+    <a href="moni1.html">模拟卷一 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
