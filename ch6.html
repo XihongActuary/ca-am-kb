@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH.06 机器学习 · 精算模型与数据分析知识库</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><b>精算模型与数据分析</b><span>中国精算师 科目四 · 备考知识库</span></div>
+  <nav>
+    <a href="index.html">首页 · 考试全景</a>
+    <a href="theory.html">考纲总论 · 原理与方法</a>
+    <a href="about.html">本库说明 · 编法与用法</a>
+    <a href="xihong.html">关于 · 西红精算</a>
+    <div class="grp">六大篇章（按考纲权重）</div>
+    <a href="ch1.html">CH.01 风险理论<span class="w">30%</span></a>
+    <a href="ch2.html">CH.02 生存分析<span class="w">15%</span></a>
+    <a href="ch3.html">CH.03 随机模拟<span class="w">10%</span></a>
+    <a href="ch4.html">CH.04 回归分析<span class="w">15%</span></a>
+    <a href="ch5.html">CH.05 时间序列<span class="w">10%</span></a>
+    <a href="ch6.html" class="on">CH.06 机器学习<span class="w">20%</span></a>
+    <div class="grp">专章 · 真题 · 模拟</div>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 · 机考与Excel</a>
+    <a href="zhenti.html">真题馆（按板块）</a>
+    <a href="moni1.html">模拟卷一</a>
+    <a href="moni2.html">模拟卷二</a>
+    <a href="moni3.html">模拟卷三</a>
+    <div class="grp">资料</div>
+    <a href="references.html">参考资料库 · 教材映射</a>
+  </nav>
+  <div class="prog-mini">学习进度 <b>0 / 15</b></div>
+</aside>
+
+<main class="main">
+  <div class="ch-head">
+    <div class="no">CHAPTER 06</div>
+    <h1>机器学习 · 让数据自己开口</h1>
+    <div class="sub">方法分类 / 模型的评估和选择 / 决策树 / 聚类分析 / 数据降维</div>
+    <div class="meta"><span>来源：<span class="src src-jiao">教</span>周志华《机器学习》（西瓜书）——<b>对照目录看</b></span><span>5 节 · 2 台演算器</span></div>
+    <div class="wbar"><div class="lab"><span>本篇章考纲占比</span><span>20%</span></div><div class="bar"><i style="width:20%"></i></div></div>
+  </div>
+
+  <button class="done-btn" data-id="ch6">○ 标记本页已完成</button>
+
+  <div class="toc"><b>本章导览</b>
+    <ol><li>机器学习方法分类</li><li>模型的评估和选择：偏差-方差 · 交叉验证 · AUC</li><li>决策树：熵 · 基尼 · 剪枝</li><li>聚类分析：K-means · 层次 · DBSCAN</li><li>数据降维：PCA</li><li>概念辨析真题（双层答案）</li></ol>
+  </div>
+
+  <div class="src-note">冲刺课明确：<span class="src src-gui">纲</span>机器学习「<b>重点是基本概念的辨析</b>」；<span class="src src-jiao">教</span>西瓜书官方建议章节不准，应对照全书目录复习相应概念。</div>
+
+  <!-- ============ 6.1 ============ -->
+  <section>
+    <h2><span class="sn">6.1</span>机器学习方法分类 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">按「有没有标签、要什么输出」分类——这是辨析题第一考法。</div>
+    <table>
+      <tr><th>类别</th><th>数据特征</th><th>典型任务</th><th>代表算法</th></tr>
+      <tr><td>监督学习</td><td>有标签 (x, y)</td><td>回归（y 连续）/ 分类（y 离散）</td><td>线性回归、GLM、决策树、SVM、神经网络</td></tr>
+      <tr><td>无监督学习</td><td>无标签，只有 x</td><td>聚类、降维、关联规则</td><td>K-means、层次聚类、PCA</td></tr>
+      <tr><td>强化学习</td><td>智能体与环境交互、延迟奖励</td><td>序贯决策</td><td>Q-learning、策略梯度</td></tr>
+      <tr><td>半监督学习</td><td>少量标签＋大量无标签</td><td>利用未标注数据提升泛化</td><td>自训练、协同训练</td></tr>
+    </table>
+    <div class="tip"><b>辨析速判：</b>「预测保费」回归（监督）、「客户分群」聚类（无监督）、「机器人走迷宫试错」强化、「把 100 维指标压成 5 个综合指标」降维（无监督）。</div>
+  </section>
+
+  <!-- ============ 6.2 ============ -->
+  <section>
+    <h2><span class="sn">6.2</span>模型的评估和选择 <span class="star s3">高频★★★</span></h2>
+    <div class="lead">考试焦点：过拟合、偏差-方差、交叉验证、分类指标。</div>
+
+    <h3>统计学习三要素与基本原理（简答常考）</h3>
+    <div class="formula"><b>统计学习 = 模型 + 策略 + 算法</b>：<br>
+      ① <b>模型</b>：假设空间——要学的函数长什么样（线性？树？神经网络？）；<br>
+      ② <b>策略</b>：用什么标准选好模型——<b>经验风险最小化</b>（训练误差最小，容易过拟合）vs <b>结构风险最小化</b>（经验风险 + 正则项 Ω(f)，如 Ridge/Lasso，防过拟合）；<br>
+      ③ <b>算法</b>：求解方法——梯度下降、EM、最小二乘解析解等。<br>
+      监督学习形式化：从训练集 {(xᵢ,yᵢ)} 学 f: X→Y，使新样本上损失 L(y,f(x)) 的期望（泛化误差）最小。</div>
+
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「模型定形状，策略定好坏，算法定快慢」</span>——简答题先写这三句框架，再展开具体方法，结构分拿满。</div>
+
+    <div class="tip"><b>数据分析完整流程（考「具备数据分析能力」的简答骨架）</b>：① 明确业务问题与建模目标 → ② 数据收集与<b>清洗</b>（缺失值：删除/均值/模型插补；异常值：3σ/箱线图识别后判断保留或修正）→ ③ <b>特征工程</b>（标准化、分箱、哑变量、交互项、降维）→ ④ 划分训练/验证/测试集（6:2:2 或 K 折）→ ⑤ 建模与调参 → ⑥ 评估（回归看 RMSE/MAE/R²；分类看混淆矩阵/AUC）→ ⑦ 解读与部署（可解释性：系数、特征重要性）。保险语境：定价模型、续保率预测、理赔欺诈识别、客户分群。</div>
+
+    <h3>① 过拟合与偏差-方差权衡</h3>
+    <div class="formula">
+      <div class="fx">期望泛化误差 = 偏差² + 方差 + 噪声</div>
+      <div class="note"><b>偏差</b>：模型假设太简单，拟合能力不足（欠拟合）；<b>方差</b>：对训练数据扰动敏感，训练集表现好测试集差（<b>过拟合</b>）。模型复杂度↑ ⇒ 偏差↓方差↑。对策：过拟合→更多数据、正则化（L1/L2）、剪枝、交叉验证选模型；欠拟合→提复杂度、加特征。</div>
+    </div>
+
+    <h3>② 交叉验证</h3>
+    <div class="formula">
+      <div class="fx">K 折交叉验证：数据分 K 份，轮流取 1 份做验证集，K 次误差平均</div>
+      <div class="note">K=5 或 10 常用；留一法（LOO）K=n 精确但昂贵。<b>用途</b>：超参数（如 λ、树的深度、K-means 的 k）选择与模型比较。</div>
+    </div>
+
+    <h3>③ 分类指标（混淆矩阵）</h3>
+    <div class="formula">
+      <div class="fx">准确率 = (TP+TN)/总　精确率 P = TP/(TP+FP)　召回率 R = TP/(TP+FN)　F1 = 2PR/(P+R)</div>
+      <div class="fx">ROC 曲线：横轴 FPR=FP/(FP+TN)，纵轴 TPR=TP/(TP+FN)；AUC = 曲线下面积</div>
+      <div class="note"><b>辨析</b>：精确率「预测为正的里面有多少真的是正」，召回率「真的正里面抓回了多少」。类别不平衡时看 AUC/F1 而非准确率。AUC=0.5 等同随机猜，1 为完美。</div>
+    </div>
+    <div class="prac"><b>实务链接：</b>理赔欺诈识别、续保倾向预测正是用「精确率/召回率」报告——抓欺诈宁可错杀（高召回），营销名单宁缺毋滥（高精确）。</div>
+
+    <div class="calc" id="calc-cm">
+      <h4>① 演算器：混淆矩阵全指标</h4>
+      <div class="row"><label>TP（真阳性）</label><input class="calc-in" id="cm-tp" value="40"></div>
+      <div class="row"><label>FP（假阳性）</label><input class="calc-in" id="cm-fp" value="10"></div>
+      <div class="row"><label>FN（假阴性）</label><input class="calc-in" id="cm-fn" value="20"></div>
+      <div class="row"><label>TN（真阴性）</label><input class="calc-in" id="cm-tn" value="130"></div>
+      <div class="row">准确率 / 精确率 <span class="out calc-out" id="cm-pr">—</span></div>
+      <div class="row">召回率 / F1 <span class="out calc-out" id="cm-rf">—</span></div>
+      <div class="verdict">默认样例：TP=40, FP=10, FN=20, TN=130。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-cm');
+      box.__run=function(){
+        var g=function(id){return parseFloat(document.getElementById(id).value)||0};
+        var tp=g('cm-tp'),fp=g('cm-fp'),fn=g('cm-fn'),tn=g('cm-tn');
+        var acc=(tp+tn)/(tp+fp+fn+tn||1e-9);
+        var pre=tp/(tp+fp||1e-9), rec=tp/(tp+fn||1e-9);
+        var f1=2*pre*rec/(pre+rec||1e-9);
+        document.getElementById('cm-pr').textContent=(acc*100).toFixed(1)+'% / '+pre.toFixed(3);
+        document.getElementById('cm-rf').textContent=rec.toFixed(3)+' / '+f1.toFixed(3);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 6.3 ============ -->
+  <section>
+    <h2><span class="sn">6.3</span>决策树 <span class="star s2">中频★★</span></h2>
+    <div class="lead">一棵树 = 一连串 if-else。怎么选切分变量、怎么防止长疯，是全部考点。</div>
+
+    <h3>① 三种划分准则</h3>
+    <div class="formula">
+      <div class="fx">信息熵：H(D) = −Σ<sub>k</sub> p<sub>k</sub>·log₂ p<sub>k</sub>　　信息增益 = H(D) − H(D|A)　（ID3）</div>
+      <div class="fx">增益率（C4.5，矫正取值多的属性）；基尼指数：Gini(D) = 1 − Σ<sub>k</sub> p<sub>k</sub>²　（CART）</div>
+      <div class="note">熵越大越混乱；基尼越小越纯。CART 可做<b>回归树</b>（用平方误差最小化切分）。</div>
+    </div>
+    <table>
+      <tr><th>算法</th><th>划分准则</th><th>树类型</th><th>备注</th></tr>
+      <tr><td>ID3</td><td>信息增益</td><td>多叉、离散</td><td>偏好取值多的属性</td></tr>
+      <tr><td>C4.5</td><td>增益率</td><td>多叉、可连续</td><td>矫正 ID3 偏好</td></tr>
+      <tr><td>CART</td><td>基尼指数 / 平方误差</td><td>严格二叉</td><td>分类＋回归通用</td></tr>
+    </table>
+
+    <h3>② 剪枝与集成</h3>
+    <ul>
+      <li><b>预剪枝</b>：生长中提前停止（限深度/最少样本数）；<b>后剪枝</b>：长完再自底向上回缩（代价复杂度剪枝）。</li>
+      <li><b>集成</b>：Bagging/随机森林（并行降方差），Boosting（GBDT/XGBoost，串行降偏差）——「树家族」是概念题高频。</li>
+    </ul>
+
+    <div class="calc" id="calc-entropy">
+      <h4>② 演算器：熵与基尼指数</h4>
+      <div class="row"><label>正类比例 p</label><input class="calc-in" id="en-p" value="0.5"></div>
+      <div class="row">熵 H（bit）<span class="out calc-out" id="en-h">—</span></div>
+      <div class="row">基尼 Gini <span class="out calc-out" id="en-g">—</span></div>
+      <div class="verdict">p=0.5 时熵=1（最混乱）；p→0 或 1 时熵→0（最纯）。</div>
+      <button class="calc-run">计算</button>
+    </div>
+    <script>
+    (function(){
+      var box=document.getElementById('calc-entropy');
+      box.__run=function(){
+        var p=Math.min(1,Math.max(0,parseFloat(document.getElementById('en-p').value)||0));
+        var q=1-p, H=0, G=0;
+        if(p>0&&p<1) H=-(p*Math.log2(p)+q*Math.log2(q));
+        G=1-(p*p+q*q);
+        document.getElementById('en-h').textContent=H.toFixed(4);
+        document.getElementById('en-g').textContent=G.toFixed(4);
+      };
+      box.__run();
+      box.querySelectorAll('.calc-in').forEach(function(el){el.addEventListener('input',box.__run)});
+      box.querySelector('.calc-run').addEventListener('click',box.__run);
+    })();
+    </script>
+  </section>
+
+  <!-- ============ 6.4 ============ -->
+  <section>
+    <h2><span class="sn">6.4</span>聚类分析 <span class="star s2">中频★★</span></h2>
+    <div class="lead">无标签数据找「物以类聚」——考试考三种方法的机制与区别。</div>
+    <table>
+      <tr><th>方法</th><th>机制</th><th>关键超参数</th><th>优缺点</th></tr>
+      <tr><td>K-means</td><td>随机选 k 个中心 → 按最近中心分派 → 重算均值中心 → 迭代至收敛</td><td>k（肘部法/轮廓系数选）</td><td>快；对初值与离群点敏感，只适合凸形簇</td></tr>
+      <tr><td>层次聚类</td><td>凝聚（自底向上合并）/ 分裂（自顶向下拆分），按簇间距离（最短/最长/平均/Ward）</td><td>距离度量、切树高度</td><td>得树状图无需预设 k；计算量大</td></tr>
+      <tr><td>DBSCAN</td><td>密度可达：核心点（ε 邻域内 ≥ MinPts）扩张成簇</td><td>ε、MinPts</td><td>能找任意形状簇、识别离群点；对 ε 敏感</td></tr>
+    </table>
+    <div class="warn"><b>辨析：</b>K-means 的目标是最小化簇内平方误差（类似「分类的 SSE」）；它要求事先给定 k；结果受初始中心影响——实务上多次随机初始化取最优。</div>
+  </section>
+
+  <!-- ============ 6.5 ============ -->
+  <section>
+    <h2><span class="sn">6.5</span>数据降维 <span class="star s2">中频★★</span></h2>
+    <div class="lead">PCA 主成分分析：把相关的高维变量投影成<b>互不相关</b>的低维成分，让方差损失最小。</div>
+    <div class="formula">
+      <div class="fx">步骤：① 中心化（必要时标准化）→ ② 求协方差矩阵 → ③ 特征值分解 λ₁≥λ₂≥… → ④ 特征向量为载荷，主成分方差=λᵢ → ⑤ 取累计贡献率达标（如 85%）的前 m 个</div>
+      <div class="note"><b>性质</b>：各主成分互不相关；第 k 主成分是「方差第 k 大且与前面成分正交」的方向；λᵢ/Σλ 为贡献率。<b>代价</b>：成分是原变量的线性组合，解释性下降（西瓜书：降维是对「维数灾难」的应对）。</div>
+    </div>
+    <div class="mnem"><b>记忆口诀：</b><span class="verse">「监督要标签，聚类降维不要；偏差欠拟合，方差过拟合；熵选 ID3，基尼归 CART；K 均值先给 k，PCA 方差说话」</span>——概念辨析题的「万能口诀条」。</div>
+  </section>
+
+  <!-- ============ 6.6 ============ -->
+  <section>
+    <h2><span class="sn">6.6</span>概念辨析真题 <span class="src src-ti">题</span></h2>
+
+    <div class="exam"><span class="yr hot">概念</span><b>偏差-方差分解（简答模板）</b>：什么是过拟合？为什么模型越复杂训练误差越小但泛化误差可能越大？</div>
+    <div class="ans-skel"><b>骨架：</b>① 过拟合=训练误差低、测试误差高；② 分解式：偏差²+方差+噪声；③ 复杂度↑→偏差↓方差↑；④ U 形曲线：泛化误差先降后升；⑤ 对策：正则化/剪枝/交叉验证/更多数据。</div>
+    <details class="answer"><summary>展开详尽答案</summary>
+      <div class="body ans-detail">
+        <p>泛化误差可分解为三部分：E(f;D)=bias²(x)+var(x)+ε²。偏差刻画「算法本身的拟合能力」，方差刻画「数据扰动对模型的影响」，噪声是下界。模型复杂度增加时偏差单调下降、方差单调上升，泛化误差呈 U 形——最低点即最优复杂度。过拟合发生在方差主导的区域：模型把训练样本的噪声也学进去了。</p>
+        <p class="hl">对策清单（背 5 条）：更多数据、正则化（L1/L2）、决策树剪枝、K 折交叉验证选模型、集成学习（bagging 降方差、boosting 降偏差）。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>K-means 步骤排序题</b>：① 重算簇中心 ② 选 k 个初始中心 ③ 按最近中心把样本分派 ④ 重复②③直至中心不再变化。正确顺序？目标函数是什么？</div>
+    <div class="ans-skel"><b>骨架：</b>顺序 ②→③→①→④；目标 = 最小化簇内平方误差 ΣΣ‖x−μᵢ‖²。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>正确顺序：②（初始化）→ ③（分派）→ ①（更新中心）→ ④（迭代收敛）。K-means 必收敛到局部最优（每次迭代目标单调不增），但初值敏感，需多次重启。</p>
+        <p class="hl">延伸：k 的选择用肘部法（SSE 下降拐点）或轮廓系数；离群点会拖偏均值中心，可先做 DBSCAN 清洗或改用 K-medoids。</p>
+      </div>
+    </details>
+
+    <div class="exam"><span class="yr hot">概念</span><b>PCA 判断题组</b>：① 主成分之间互不相关；② 第 1 主成分方向是方差最大的方向；③ 降维一定提高下游分类精度；④ PCA 对变量的量纲敏感。</div>
+    <div class="ans-skel"><b>骨架：</b>① ✔ ② ✔ ③ ✘（信息损失可能伤精度）④ ✔（应先标准化）。</div>
+    <details class="answer"><summary>展开详尽解答</summary>
+      <div class="body ans-detail">
+        <p>①②是 PCA 的定义性质。③错误：降维丢弃了部分方差信息，可能损失判别信息——「无监督降维不保证对有监督任务有利」。④正确：量纲大的变量会主导协方差矩阵，标准化是标准前置步骤。</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="pager">
+    <a href="ch5.html">← CH.05 时间序列</a>
+    <a href="model.html">模型理论 · 估计与选择</a>
+    <a href="map.html">知识图谱 · 框架图</a>
+    <a href="shizhan.html">考场实战 →</a>
+  </div>
+</main>
+<script src="js/kb.js"></script>
+</body>
+</html>
